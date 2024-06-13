@@ -12,6 +12,7 @@ files:
 asar: false
 win:
   executableName: ym-video
+  target: zip
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

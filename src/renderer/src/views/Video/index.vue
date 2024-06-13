@@ -158,8 +158,12 @@ onMounted(() => {
           event.stopImmediatePropagation();
 
             if(event.key == "ArrowRight"){
-            el.playbackRate = 3
-          }
+              el.playbackRate = 3
+            }
+
+            if(event.key == "ArrowLeft"){
+              el.currentTime -= 5
+            }
         }, true);
 
         window.addEventListener('keyup', (event) => {
