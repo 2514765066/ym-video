@@ -7,16 +7,19 @@ import { writeFile, readFile } from "fs/promises";
 const api = {
   //最小化
   minimize() {
+    // @ts-ignore
     ipcRenderer.send<EventNames>("minimize");
   },
 
   //最大化还原
   maximize() {
+    // @ts-ignore
     ipcRenderer.send<EventNames>("maximize");
   },
 
   //关闭
   close() {
+    // @ts-ignore
     ipcRenderer.send<EventNames>("close");
   },
 

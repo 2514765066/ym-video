@@ -4,16 +4,19 @@ import { EventNames } from "../type";
 
 onMounted(() => {
   const win = createWindow("manage", {
+    // x: 2000,
+    // y: -100,
+    // devTool: true,
     frame: false,
-    x: 2000,
-    y: -100,
     width: 1200,
     height: 800,
-    devTool: true,
 
     render: {
       dev: {
         url: `${process.env["ELECTRON_RENDERER_URL"]}`,
+      },
+      dep: {
+        path: join(__dirname, "../renderer/index.html"),
       },
     },
 

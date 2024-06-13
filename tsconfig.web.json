@@ -7,7 +7,8 @@
     "src/preload/*.d.ts",
     "src/type/*",
     "src/renderer/*.d.ts",
-    "index.ts"
+    "index.ts",
+    "src/preload/video.ts"
   ],
   "compilerOptions": {
     "composite": true,

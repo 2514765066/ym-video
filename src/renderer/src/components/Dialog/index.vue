@@ -1,6 +1,10 @@
 <template>
   <el-dialog v-model="visible" :title="currentLabel" draggable width="600">
-    <component :is="currentComponent" @close="visible = false"></component>
+    <component
+      :is="currentComponent"
+      @close="visible = false"
+      v-if="visible"
+    ></component>
   </el-dialog>
 </template>
 
