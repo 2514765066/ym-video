@@ -10,16 +10,6 @@ export default defineConfig({
   },
   preload: {
     plugins: [externalizeDepsPlugin()],
-    build: {
-      rollupOptions: {
-        input: ["src/preload/index.ts", "src/preload/video.ts"],
-        output: {
-          entryFileNames: "[name].js",
-          chunkFileNames: "[name].js",
-          assetFileNames: "[name].[ext]",
-        },
-      },
-    },
   },
   renderer: {
     resolve: {

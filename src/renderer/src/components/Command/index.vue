@@ -12,7 +12,7 @@
             @click="handleHide(onClick)"
           >
             <span class="c-ccc">{{ name }}</span>
-            <span class="c-999 fs-12">{{ url }}</span>
+            <span class="c-999 fs-12 ellipsis">{{ url }}</span>
 
             <el-tooltip content="编辑" placement="bottom">
               <button
@@ -136,6 +136,7 @@ section {
 
       &:hover {
         background-color: #2a2d2e;
+
         > button {
           display: flex;
         }
@@ -143,8 +144,9 @@ section {
 
       > button {
         display: none;
-        width: 24px;
-        height: 24px;
+        $size: 24px;
+        width: $size;
+        height: $size;
         border-radius: 5px;
         transition: 0.15s;
 
@@ -153,8 +155,9 @@ section {
         }
 
         > img {
-          width: 14px;
-          height: 14px;
+          $size: 14px;
+          width: $size;
+          height: $size;
         }
       }
     }

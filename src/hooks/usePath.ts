@@ -1,6 +1,6 @@
 import { join } from "path";
 
-export const db = join(__dirname, "../../db.json");
+export const db = join(__dirname, "../../resources/db.json");
 
 export const videoCss = join(__dirname, "../../resources/video.css");
 

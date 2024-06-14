@@ -18,10 +18,10 @@ function timeStringToSeconds(timeString) {
  * 拿到Video元素
  * @returns {Promise<HTMLVideoElement}
  */
-function getVideo() {
+function getElement(selectors) {
   return new Promise(resolve => {
     const timer = setInterval(() => {
-      const video = document.querySelector("video");
+      const video = document.querySelector(selectors);
 
       if (video) {
         clearInterval(timer);
@@ -32,7 +32,7 @@ function getVideo() {
 }
 
 //创建倍速提示
-function createPlayrate() {
+async function createPlayrate() {
   const tempDiv = document.createElement("div");
 
   tempDiv.innerHTML = ` 
@@ -70,14 +70,16 @@ function createPlayrate() {
 
   const parsedElement = tempDiv.firstElementChild;
 
-  document.body.appendChild(parsedElement);
+  const el = await getElement(".art-video-player");
+
+  el.appendChild(parsedElement);
 
   return parsedElement;
 }
 
 async function main() {
-  const video = await getVideo();
-  const playrate = createPlayrate();
+  const video = await getElement("video");
+  const playrate = await createPlayrate();
 
   //跳过片头
   video.currentTime = timeStringToSeconds("jumpStart");

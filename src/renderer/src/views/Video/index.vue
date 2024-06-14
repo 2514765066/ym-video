@@ -11,17 +11,33 @@
 
 <script setup lang="ts">
 import { useListStore } from "@/stores/useListStore";
-// import { timeStringToSeconds } from "@/hooks/useTimeToSecond";
 
 type El = HTMLElement & {
+  src: string;
   insertCSS: (code: string) => void;
   executeJavaScript: (code: string) => Promise<any>;
 };
 
 const { selectedVideo, selectedName } = storeToRefs(useListStore());
 
+const observer = new MutationObserver(mutationsList => {
+  for (const mutation of mutationsList) {
+    const el = mutation.target as El;
+
+    if (el.dataset.name == selectedName.value) {
+      const url = el.src.split("https://jx.xmflv.com/?url=")[1];
+      selectedVideo.value!.url = url;
+    }
+  }
+});
+
 onMounted(() => {
   const webview = document.querySelector("webview") as El;
+
+  observer.observe(webview, {
+    attributes: true,
+    attributeFilter: ["src", "data-name"],
+  });
 
   webview.addEventListener("did-finish-load", async () => {
     //获取css
@@ -46,52 +62,5 @@ section {
   margin: 0 0.5rem 0.5rem;
   background-color: #131313;
   border-radius: 0.5rem;
-
-  // .playrate {
-  //   top: 20px;
-  //   left: 50%;
-  //   transform: translateX(-50%);
-  //   display: none;
-  //   padding: 0.5rem 0.8rem;
-  //   border-radius: 5px;
-  //   background-color: rgba(33, 33, 33, 0.9);
-  //   gap: 0.5rem;
-  //   z-index: 998;
-  //   font-size: 14px;
-  //   align-items: center;
-  //   position: fixed;
-
-  //   svg {
-  //     width: 30px;
-  //     > g {
-  //       opacity: 0.2;
-  //       animation: o 1s infinite;
-  //     }
-
-  //     > g:nth-child(1) {
-  //       animation-delay: 0.4s;
-  //     }
-
-  //     > g:nth-child(2) {
-  //       animation-delay: 0.2s;
-  //     }
-
-  //     > g:nth-child(3) {
-  //       animation-delay: 0s;
-  //     }
-  //   }
-
-  //   @keyframes o {
-  //     0% {
-  //       opacity: 0.2;
-  //     }
-  //     50% {
-  //       opacity: 0.8;
-  //     }
-  //     100% {
-  //       opacity: 0.2;
-  //     }
-  //   }
-  // }
 }
 </style>

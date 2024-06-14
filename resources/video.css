@@ -12,14 +12,14 @@
 }
 
 .playrate {
-  top: 20px;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.5rem 0.8rem;
-  border-radius: 5px;
+  padding: 0.5rem 0.8rem !important;
+  border-radius: 0.5rem;
   background-color: rgba(33, 33, 33, 0.9);
   gap: 0.5rem;
-  z-index: 998;
+  z-index: 1000;
   font-size: 14px;
   display: none;
   align-items: center;
