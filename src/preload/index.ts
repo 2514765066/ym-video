@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
-import { db } from "../hooks/usePath";
+import { db, videoCss, videoJs } from "../hooks/usePath";
 import { writeFile, readFile } from "fs/promises";
 
 const api = {
@@ -32,6 +32,18 @@ const api = {
   //写入
   async update(data: Array<any>) {
     await writeFile(db, JSON.stringify(data, null, 2));
+  },
+
+  //获取video的css样式
+  async getVideoCss() {
+    const res = await readFile(videoCss);
+    return res.toString();
+  },
+
+  //获取video的js
+  async getVideoJs() {
+    const res = await readFile(videoJs);
+    return res.toString();
   },
 };
 
