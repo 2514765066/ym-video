@@ -3,7 +3,9 @@ const eventNames = [
   "error:show",
   "success:show",
   "select:video:show",
-  "dialog:show",
+  "create:show",
+  "set:show",
+  "edit:show",
 ] as const;
 
 // 定义事件到函数类型的映射
@@ -11,7 +13,9 @@ interface EventMap {
   "error:show": (message: string) => void;
   "success:show": (message: string) => void;
   "select:video:show": () => void;
-  "dialog:show": (type: "edit" | "push") => void;
+  "create:show": () => void;
+  "set:show": () => void;
+  "edit:show": () => void;
 }
 
 type EventNames = keyof EventMap;

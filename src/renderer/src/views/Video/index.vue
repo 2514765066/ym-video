@@ -11,18 +11,16 @@
 
 <script setup lang="ts">
 import { useListStore } from "@/stores/useListStore";
-
-type El = HTMLElement & {
-  src: string;
-  insertCSS: (code: string) => void;
-  executeJavaScript: (code: string) => Promise<any>;
-};
+import { useSetStore } from "@/stores/useSetStore";
+import { timeStringToSeconds } from "@/hooks/useTime";
+import { WebView } from "@type";
 
 const { selectedVideo, selectedName } = storeToRefs(useListStore());
+const set = useSetStore();
 
 const observer = new MutationObserver(mutationsList => {
   for (const mutation of mutationsList) {
-    const el = mutation.target as El;
+    const el = mutation.target as WebView;
 
     if (el.dataset.name == selectedName.value) {
       const url = el.src.split("https://jx.xmflv.com/?url=")[1];
@@ -32,27 +30,40 @@ const observer = new MutationObserver(mutationsList => {
 });
 
 onMounted(() => {
-  const webview = document.querySelector("webview") as El;
+  //获取元素
+  const webview = document.querySelector("webview") as WebView;
 
+  //监视属性
   observer.observe(webview, {
     attributes: true,
     attributeFilter: ["src", "data-name"],
   });
 
+  //添加css和js
   webview.addEventListener("did-finish-load", async () => {
+    if (!selectedVideo.value) return;
+
     //获取css
     const css = await api.getVideoCss();
     webview.insertCSS(css);
 
     //获取js
-    if (selectedVideo.value) {
-      let js = await api.getVideoJs();
+    let js = await api.getVideoJs();
 
-      js = js.replaceAll("jumpStart", selectedVideo.value.jumpStart);
-      js = js.replaceAll("jumpEnd", selectedVideo.value.jumpEnd);
+    const replacements = {
+      "$jumpStart": timeStringToSeconds(selectedVideo.value.jumpStart),
+      "$jumpEnd": timeStringToSeconds(selectedVideo.value.jumpEnd),
+      "$speed": set.data.speed,
+      "$forward": set.data.forward,
+      "$backward": set.data.backward,
+    };
 
-      webview.executeJavaScript(js);
-    }
+    js = Object.entries(replacements).reduce(
+      (acc, [key, value]) => acc.replaceAll(key, `${value}`),
+      js
+    );
+
+    webview.executeJavaScript(js);
   });
 });
 </script>

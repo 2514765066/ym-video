@@ -25,11 +25,18 @@ export const useListStore = defineStore("list", () => {
     },
   });
 
+  //已经存在的名称
+  const hasNames = computed(() => {
+    return data.value
+      .map(item => item.name)
+      .filter(item => item != editName.value);
+  });
+
   //监视更新值
   watch(
     data,
     val => {
-      api.update(JSON.parse(JSON.stringify(val)));
+      api.updateDb(JSON.parse(JSON.stringify(val)));
     },
     {
       deep: true,
@@ -41,8 +48,8 @@ export const useListStore = defineStore("list", () => {
     data.value.push({
       name,
       url,
-      jumpStart: "",
-      jumpEnd: "",
+      jumpStart: "00:00:00",
+      jumpEnd: "00:00:00",
     });
   }
 
@@ -55,7 +62,7 @@ export const useListStore = defineStore("list", () => {
 
   //初始化
   async function init() {
-    data.value = await api.get();
+    data.value = await api.getDb();
   }
 
   init();
@@ -66,6 +73,7 @@ export const useListStore = defineStore("list", () => {
     selectedVideo,
     editName,
     editVideo,
+    hasNames,
     push,
     remove,
   };

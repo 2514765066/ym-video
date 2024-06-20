@@ -1,20 +1,4 @@
 /**
- * 时间变成秒
- * @param {string | undefined} timeString
- * @returns
- */
-function timeStringToSeconds(timeString) {
-  if (!timeString) return 0;
-
-  const timeParts = timeString.split(":");
-  const hours = parseInt(timeParts[0], 10);
-  const minutes = parseInt(timeParts[1], 10);
-  const seconds = parseInt(timeParts[2], 10);
-
-  return hours * 3600 + minutes * 60 + seconds;
-}
-
-/**
  * 拿到Video元素
  * @returns {Promise<HTMLVideoElement}
  */
@@ -82,11 +66,11 @@ async function main() {
   const playrate = await createPlayrate();
 
   //跳过片头
-  video.currentTime = timeStringToSeconds("jumpStart");
+  video.currentTime = $jumpStart;
 
   //跳过片尾
   function timeupdate() {
-    if (video.duration - video.currentTime <= timeStringToSeconds("jumpEnd")) {
+    if (video.duration - video.currentTime <= $jumpEnd) {
       video.currentTime = video.duration;
       video.removeEventListener("timeupdate", timeupdate);
     }
@@ -100,13 +84,21 @@ async function main() {
     e => {
       e.stopImmediatePropagation();
 
-      if (e.key == "ArrowRight") {
+      if (e.key == "$speed") {
         video.playbackRate = 3;
         playrate.style.display = "flex";
       }
 
-      if (e.key == "ArrowLeft") {
+      if (e.key == "$backward") {
         video.currentTime -= 5;
+      }
+
+      if (e.key == "$forward") {
+        video.currentTime += 5;
+      }
+
+      if (e.key == " ") {
+        video.paused ? video.play() : video.pause();
       }
     },
     true

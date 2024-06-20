@@ -11,8 +11,8 @@ const model = defineModel<boolean>();
 <style scoped lang="scss">
 .mask {
   width: 100vw;
-  height: calc(100vh - 38px);
-  top: 38px;
+  height: 100vh;
+  top: 0;
   left: 0;
   z-index: 999;
 }

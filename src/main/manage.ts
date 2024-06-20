@@ -8,7 +8,6 @@ onMounted(() => {
     y: -100,
     devTool: true,
     frame: false,
-
     render: {
       dev: {
         url: `${process.env["ELECTRON_RENDERER_URL"]}`,
@@ -24,6 +23,9 @@ onMounted(() => {
       sandbox: false,
     },
   });
+
+  win.setMinimumSize(1200, 900);
+  win.setSize(1200, 900);
 
   win.on("maximize", () => {
     win.webContents.send<EventNames>("is:maximize", true);

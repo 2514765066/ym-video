@@ -16,7 +16,7 @@
 
             <el-tooltip content="编辑" placement="bottom">
               <button
-                class="ml"
+                class="ml f-s-0"
                 @click.stop="handleEdit(name)"
                 v-show="edit != false"
               >
@@ -25,7 +25,11 @@
             </el-tooltip>
 
             <el-tooltip content="删除" placement="bottom">
-              <button @click.stop="handleRemove(name)" v-show="edit != false">
+              <button
+                class="f-s-0"
+                @click.stop="handleRemove(name)"
+                v-show="edit != false"
+              >
                 <img src="@/assets/remove.svg" />
               </button>
             </el-tooltip>
@@ -64,7 +68,7 @@ const data = computed(() => {
         name: "添加视频",
         edit: false,
         onClick() {
-          eventEmitter.emit("dialog:show", "push");
+          eventEmitter.emit("create:show");
         },
       },
     ],
@@ -102,7 +106,8 @@ function handleHide(func: Function | undefined) {
 
 function handleEdit(name: string) {
   list.editName = name;
-  eventEmitter.emit("dialog:show", "edit");
+  eventEmitter.emit("edit:show");
+  // eventEmitter.emit("dialog:show", "edit");
   visible.value = false;
 }
 
@@ -129,6 +134,13 @@ section {
   z-index: 1000;
 
   ul {
+    max-height: 500px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
     li {
       border-radius: 0.25rem;
       transition: 0.15s;

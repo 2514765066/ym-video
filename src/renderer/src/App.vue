@@ -2,14 +2,18 @@
   <TitleBar></TitleBar>
   <Video></Video>
 
-  <Dialog></Dialog>
+  <Create></Create>
   <Command></Command>
+  <Set></Set>
+  <Edit></Edit>
 </template>
 
 <script setup lang="ts">
+import Edit from "@/components/Edit/index.vue";
+import Set from "@/components/Set/index.vue";
 import Video from "@/views/Video/index.vue";
 import TitleBar from "@/views/TitleBar/index.vue";
-import Dialog from "@/components/Dialog/index.vue";
+import Create from "@/components/Create/index.vue";
 import Command from "@/components/Command/index.vue";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ElMessage } from "element-plus";
@@ -32,6 +36,9 @@ eventEmitter.on("success:show", (message: string) => {
 </script>
 
 <style lang="scss">
+* {
+  -webkit-app-region: no-drag;
+}
 #app {
   width: 100vw;
   height: 100vh;
