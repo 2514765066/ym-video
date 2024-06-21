@@ -18,6 +18,10 @@ function getElement(selectors) {
 
 //创建倍速提示
 async function createPlayrate() {
+  const isExit = document.querySelector(".playrate");
+
+  if (isExit) return isExit;
+
   const tempDiv = document.createElement("div");
 
   tempDiv.innerHTML = ` 
@@ -71,17 +75,19 @@ async function main() {
   video.playbackRate = defaultRate;
 
   //跳过片头
-  video.currentTime = $jumpStart;
+  if (video.currentTime <= $jumpStart) {
+    video.currentTime = $jumpStart;
+  }
 
   //跳过片尾
   function timeupdate() {
     if (video.duration - video.currentTime <= $jumpEnd) {
       video.currentTime = video.duration;
-      video.removeEventListener("timeupdate", timeupdate);
+      video.removeEventListener("timeupdate", timeupdate, true);
     }
   }
 
-  video.addEventListener("timeupdate", timeupdate);
+  video.addEventListener("timeupdate", timeupdate, true);
 
   //给方向键加事件
   let holdTimeout;

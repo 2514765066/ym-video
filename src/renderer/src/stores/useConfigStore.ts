@@ -1,10 +1,11 @@
 import { Set } from "@type";
+import { useListStore } from "./useListStore";
 
-export const useSetStore = defineStore("set", () => {
+export const useConfigStore = defineStore("config", () => {
+  const list = useListStore();
+
   const data = ref<Set>({
-    speed: "",
-    forward: "",
-    backward: "",
+    history: "",
   });
 
   //版本
@@ -24,6 +25,7 @@ export const useSetStore = defineStore("set", () => {
   //初始化
   async function init() {
     data.value = await api.getConfig();
+    list.selectedID = data.value.history;
   }
 
   init();

@@ -25,9 +25,9 @@
 import eventEmitter from "@/hooks/eventEmitter";
 import KeyStroke from "./KeyStroke.vue";
 import { ElDrawer } from "element-plus";
-import { useSetStore } from "@/stores/useSetStore";
+import { useConfigStore } from "@/stores/useConfigStore";
 
-const { data, version } = storeToRefs(useSetStore());
+const { data, version } = storeToRefs(useConfigStore());
 
 const visible = ref(false);
 

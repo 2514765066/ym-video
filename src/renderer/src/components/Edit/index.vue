@@ -28,8 +28,9 @@
         <el-input-number
           style="width: 100%"
           v-model="form.defaultRate"
-          :min="1"
-          :max="3"
+          :min="0.5"
+          :max="2"
+          :step="0.25"
         />
       </el-form-item>
 
@@ -74,8 +75,9 @@ import type { FormRules, FormInstance } from "element-plus";
 import { useListStore } from "@/stores/useListStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ListItem, RemoveOptional } from "@type";
+import { load } from "@/hooks/useVideo";
 
-const { editVideo, editID } = storeToRefs(useListStore());
+const { editVideo } = storeToRefs(useListStore());
 
 //el-form实例
 const ruleFormRef = ref<FormInstance>();
@@ -93,11 +95,6 @@ const visible = ref(false);
 //form数据
 const form = ref({ ...editVideo.value! });
 
-//监视数据改变重新获取值
-watch(editID, () => {
-  form.value = { ...editVideo.value };
-});
-
 //表单验证
 function submitForm() {
   if (!ruleFormRef.value) return;
@@ -107,12 +104,15 @@ function submitForm() {
 
     editVideo.value = { ...form.value };
     visible.value = false;
+    const { importJs } = load();
+    importJs();
     eventEmitter.emit("success:show", "保存成功");
   });
 }
 
 eventEmitter.on("edit:show", () => {
   visible.value = true;
+  form.value = { ...editVideo.value };
 });
 </script>
 

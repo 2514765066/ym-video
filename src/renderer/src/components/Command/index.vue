@@ -5,39 +5,16 @@
 
       <ul class="h g-1">
         <div v-for="(group, index) of comData" :key="index">
-          <li
-            class="click v-n-c px-1r g-1"
-            v-for="{ name, onClick, url, edit, id } of group"
-            :key="name"
-            @click="handleClick(onClick)"
-          >
-            <span class="c-ccc">{{ name }}</span>
-            <span class="c-999 fs-12 ellipsis">{{ url }}</span>
-
-            <el-tooltip content="编辑" placement="bottom">
-              <button
-                class="ml f-s-0"
-                @click.stop="handleEdit(id)"
-                v-show="edit != false"
-              >
-                <img src="@/assets/edit.svg" />
-              </button>
-            </el-tooltip>
-
-            <el-tooltip content="删除" placement="bottom">
-              <button
-                class="f-s-0"
-                @click.stop="handleRemove(id)"
-                v-show="edit != false"
-              >
-                <img src="@/assets/remove.svg" />
-              </button>
-            </el-tooltip>
-          </li>
+          <Item
+            v-for="item of group"
+            :key="item.id"
+            :data="item"
+            @close="visible = false"
+          ></Item>
         </div>
 
         <aside class="v-n-c px-1r g-1 c-ccc" v-if="comData.length === 0">
-          <span>没有匹配的结果</span>
+          没有匹配的结果
         </aside>
       </ul>
     </section>
@@ -45,19 +22,18 @@
 </template>
 
 <script setup lang="ts">
-import { ElInput, ElTooltip } from "element-plus";
+import { ElInput } from "element-plus";
+import Item from "./Item.vue";
 import Mask from "@/components/Mask/index.vue";
 import { computed, ref } from "vue";
 import eventEmitter from "@/hooks/eventEmitter";
+import { CommandItem } from "@type";
 import { useListStore } from "@/stores/useListStore";
-import { ListItem } from "@type";
 
 const list = useListStore();
 
-type Data = ListItem & {
-  search?: boolean;
-  edit?: boolean;
-};
+//输入的关键词
+const search = ref("");
 
 //源数据
 const data = computed(() => {
@@ -78,14 +54,8 @@ const data = computed(() => {
 
       return item;
     }),
-  ] as Data[][];
+  ] as CommandItem[][];
 });
-
-//是否可见
-const visible = ref(false);
-
-//输入的关键词
-const search = ref("");
 
 //显示的项目
 const comData = computed(() => {
@@ -99,26 +69,8 @@ const comData = computed(() => {
     .filter(arr => arr.length !== 0);
 });
 
-//点击
-function handleClick(func: Function | undefined) {
-  if (!func) return;
-
-  func();
-  visible.value = false;
-}
-
-//编辑
-function handleEdit(id: string) {
-  list.editID = id;
-  eventEmitter.emit("edit:show");
-  visible.value = false;
-}
-
-//移除
-function handleRemove(name: string) {
-  list.remove(name);
-  eventEmitter.emit("success:show", "移除成功");
-}
+//是否可见
+const visible = ref(false);
 
 eventEmitter.on("select:video:show", () => {
   visible.value = true;
@@ -143,39 +95,6 @@ section {
 
     &::-webkit-scrollbar {
       width: 0;
-    }
-
-    li {
-      border-radius: 0.25rem;
-      transition: 0.15s;
-      min-height: 28px;
-
-      &:hover {
-        background-color: #2a2d2e;
-
-        > button {
-          display: flex;
-        }
-      }
-
-      > button {
-        display: none;
-        $size: 24px;
-        width: $size;
-        height: $size;
-        border-radius: 5px;
-        transition: 0.15s;
-
-        &:hover {
-          background-color: #393c3d;
-        }
-
-        > img {
-          $size: 14px;
-          width: $size;
-          height: $size;
-        }
-      }
     }
 
     > aside {

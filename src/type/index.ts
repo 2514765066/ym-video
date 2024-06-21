@@ -16,7 +16,12 @@ export interface ListItem {
 
 export type List = ListItem[];
 
-export type Set = Record<"speed" | "forward" | "backward", string>;
+export type CommandItem = ListItem & {
+  search?: boolean;
+  edit?: boolean;
+};
+
+export type Set = Record<"history", string>;
 
 export type WebView = WebviewTag;
 

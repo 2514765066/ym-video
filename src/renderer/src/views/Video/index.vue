@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { useListStore } from "@/stores/useListStore";
-import { timeStringToSeconds } from "@/hooks/useTime";
+import { load } from "@/hooks/useVideo";
 import { WebView } from "@type";
 
 const { selectedVideo, selectedID } = storeToRefs(useListStore());
@@ -31,9 +31,10 @@ onMounted(() => {
   //获取元素
   const webview = document.querySelector("webview") as WebView;
 
-  webview.addEventListener("dom-ready", () => {
-    webview.openDevTools();
-  });
+  //开发者工具
+  // webview.addEventListener("dom-ready", () => {
+  //   webview.openDevTools();
+  // });
 
   //监视属性
   observer.observe(webview, {
@@ -42,28 +43,13 @@ onMounted(() => {
   });
 
   //添加css和js
-  webview.addEventListener("did-finish-load", async () => {
+  webview.addEventListener("did-finish-load", () => {
     if (!selectedVideo.value) return;
 
-    //获取css
-    const css = await api.getVideoCss();
-    webview.insertCSS(css);
+    const { importCss, importJs } = load();
 
-    //获取js
-    let js = await api.getVideoJs();
-
-    const replacements = {
-      "$jumpStart": timeStringToSeconds(selectedVideo.value.jumpStart),
-      "$jumpEnd": timeStringToSeconds(selectedVideo.value.jumpEnd),
-      "$defaultRate": selectedVideo.value.defaultRate,
-    };
-
-    js = Object.entries(replacements).reduce(
-      (acc, [key, value]) => acc.replaceAll(key, `${value}`),
-      js
-    );
-
-    webview.executeJavaScript(js);
+    importCss();
+    importJs();
   });
 });
 </script>
