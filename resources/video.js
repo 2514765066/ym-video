@@ -1,6 +1,7 @@
 /**
  * 拿到Video元素
- * @returns {Promise<HTMLVideoElement}
+ * @param {string} selectors
+ * @returns {Promise< HTMLVideoElement >}
  */
 function getElement(selectors) {
   return new Promise(resolve => {
@@ -65,6 +66,10 @@ async function main() {
   const video = await getElement("video");
   const playrate = await createPlayrate();
 
+  //默认播放速率
+  const defaultRate = $defaultRate;
+  video.playbackRate = defaultRate;
+
   //跳过片头
   video.currentTime = $jumpStart;
 
@@ -79,26 +84,24 @@ async function main() {
   video.addEventListener("timeupdate", timeupdate);
 
   //给方向键加事件
+  let holdTimeout;
+  let isHolding = false;
+
   window.addEventListener(
     "keydown",
     e => {
       e.stopImmediatePropagation();
 
-      if (e.key == "$speed") {
-        video.playbackRate = 3;
-        playrate.style.display = "flex";
-      }
+      switch (e.key) {
+        case "ArrowRight":
+          if (isHolding == true) return;
 
-      if (e.key == "$backward") {
-        video.currentTime -= 5;
-      }
-
-      if (e.key == "$forward") {
-        video.currentTime += 5;
-      }
-
-      if (e.key == " ") {
-        video.paused ? video.play() : video.pause();
+          holdTimeout = setTimeout(() => {
+            isHolding = true;
+            video.playbackRate = 3;
+            playrate.style.display = "flex";
+          }, 300);
+          return;
       }
     },
     true
@@ -109,9 +112,31 @@ async function main() {
     e => {
       e.stopImmediatePropagation();
 
-      if (e.key == "ArrowRight") {
-        video.playbackRate = 1;
-        playrate.style.display = "none";
+      switch (e.key) {
+        case "ArrowRight":
+          clearTimeout(holdTimeout);
+
+          if (isHolding) {
+            video.playbackRate = 1;
+            isHolding = false;
+            playrate.style.display = "none";
+            return;
+          }
+
+          XMlayEr.void.forward = 5;
+          return;
+        case "ArrowLeft":
+          XMlayEr.void.backward = 5;
+          return;
+        case " ":
+          XMlayEr.void.toggle();
+          return;
+        case "ArrowUp":
+          XMlayEr.void.volume += 0.1;
+          return;
+        case "ArrowDown":
+          XMlayEr.void.volume -= 0.1;
+          return;
       }
     },
     true

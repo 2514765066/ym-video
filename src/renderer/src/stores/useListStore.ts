@@ -1,35 +1,29 @@
 import { List, ListItem } from "@type";
+import { nanoid } from "nanoid";
 
 export const useListStore = defineStore("list", () => {
   const data = ref<List>([]);
 
-  //当前选中名称
-  const selectedName = ref("");
+  //当前选中id
+  const selectedID = ref("");
 
   //当前选中video
   const selectedVideo = computed(() => {
-    return data.value.find(item => item.name == selectedName.value);
+    return data.value.find(item => item.id == selectedID.value);
   });
 
-  //当前编辑名称
-  const editName = ref("");
+  //当前编辑id
+  const editID = ref("");
 
   //当前编辑video
   const editVideo = computed({
     get() {
-      return data.value.find(item => item.name == editName.value) as ListItem;
+      return data.value.find(item => item.id == editID.value) as ListItem;
     },
     set(val: ListItem) {
-      const index = data.value.findIndex(item => item.name == editName.value);
+      const index = data.value.findIndex(item => item.id == editID.value);
       data.value[index] = val;
     },
-  });
-
-  //已经存在的名称
-  const hasNames = computed(() => {
-    return data.value
-      .map(item => item.name)
-      .filter(item => item != editName.value);
   });
 
   //监视更新值
@@ -44,18 +38,20 @@ export const useListStore = defineStore("list", () => {
   );
 
   //添加
-  function push({ name, url }: { name: string; url: string }) {
+  function create({ name, url }: { name: string; url: string }) {
     data.value.push({
       name,
       url,
       jumpStart: "00:00:00",
       jumpEnd: "00:00:00",
+      defaultRate: 1,
+      id: nanoid(),
     });
   }
 
   //移除
-  function remove(name: string) {
-    const index = data.value.findIndex(item => item.name == name);
+  function remove(id: string) {
+    const index = data.value.findIndex(item => item.id == id);
 
     data.value.splice(index, 1);
   }
@@ -69,12 +65,11 @@ export const useListStore = defineStore("list", () => {
 
   return {
     data,
-    selectedName,
+    selectedID,
+    editID,
     selectedVideo,
-    editName,
     editVideo,
-    hasNames,
-    push,
+    create,
     remove,
   };
 });

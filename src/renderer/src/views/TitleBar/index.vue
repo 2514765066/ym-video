@@ -3,7 +3,7 @@
     <img src="@/assets/icon.png" width="20px" />
 
     <button class="fs-12 p-a c-ccc" @click="selectVideoShow">
-      {{ list.selectedName || "未选择视频" }}
+      {{ selectedVideo?.name || "未选择视频" }}
     </button>
 
     <aside class="ml v-n-c h-100">
@@ -16,7 +16,7 @@
       </div>
 
       <div class="v-c-c click h-100" @click="maximize">
-        <img src="@/assets/restore.svg" v-if="ismax" />
+        <img src="@/assets/restore.svg" v-if="isFullScreen" />
         <img src="@/assets/maximize.svg" v-else />
       </div>
 
@@ -30,10 +30,9 @@
 <script setup lang="ts">
 import eventEmitter from "@/hooks/eventEmitter";
 import { useListStore } from "@/stores/useListStore";
+import { close, maximize, minimize, isFullScreen } from "@/hooks/useControls";
 
-const list = useListStore();
-
-const ismax = ref(false);
+const { selectedVideo } = storeToRefs(useListStore());
 
 function setShow() {
   eventEmitter.emit("set:show");
@@ -42,29 +41,12 @@ function setShow() {
 function selectVideoShow() {
   eventEmitter.emit("select:video:show");
 }
-
-function close() {
-  api.close();
-}
-
-function maximize() {
-  api.maximize();
-}
-
-function minimize() {
-  api.minimize();
-}
-
-electron.ipcRenderer.on("is:maximize", (_, res: boolean) => {
-  ismax.value = res;
-});
 </script>
 
 <style scoped lang="scss">
 section {
-  padding-left: 0.5rem;
   $hoverBg: #373737;
-
+  padding-left: 0.5rem;
   height: 38px;
   -webkit-app-region: drag;
 

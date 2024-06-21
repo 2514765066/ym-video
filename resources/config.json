@@ -1,5 +1,6 @@
 {
   "speed": "ArrowRight",
-  "forward": "ArrowUp",
-  "backward": "ArrowDown"
+  "forward": "ArrowRight",
+  "backward": "ArrowRight",
+  "history": ""
 }

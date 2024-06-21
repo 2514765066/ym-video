@@ -9,7 +9,9 @@ export interface ListItem {
   url: string;
   jumpStart: string;
   jumpEnd: string;
+  defaultRate: number;
   onClick?: Function;
+  id: string;
 }
 
 export type List = ListItem[];

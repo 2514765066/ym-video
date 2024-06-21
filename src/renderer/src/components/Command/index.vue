@@ -7,9 +7,9 @@
         <div v-for="(group, index) of comData" :key="index">
           <li
             class="click v-n-c px-1r g-1"
-            v-for="{ name, onClick, url, edit } of group"
+            v-for="{ name, onClick, url, edit, id } of group"
             :key="name"
-            @click="handleHide(onClick)"
+            @click="handleClick(onClick)"
           >
             <span class="c-ccc">{{ name }}</span>
             <span class="c-999 fs-12 ellipsis">{{ url }}</span>
@@ -17,7 +17,7 @@
             <el-tooltip content="编辑" placement="bottom">
               <button
                 class="ml f-s-0"
-                @click.stop="handleEdit(name)"
+                @click.stop="handleEdit(id)"
                 v-show="edit != false"
               >
                 <img src="@/assets/edit.svg" />
@@ -27,7 +27,7 @@
             <el-tooltip content="删除" placement="bottom">
               <button
                 class="f-s-0"
-                @click.stop="handleRemove(name)"
+                @click.stop="handleRemove(id)"
                 v-show="edit != false"
               >
                 <img src="@/assets/remove.svg" />
@@ -50,17 +50,16 @@ import Mask from "@/components/Mask/index.vue";
 import { computed, ref } from "vue";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useListStore } from "@/stores/useListStore";
+import { ListItem } from "@type";
 
 const list = useListStore();
 
-type Data = {
-  name: string;
-  url?: string;
-  onClick?: Function;
+type Data = ListItem & {
   search?: boolean;
   edit?: boolean;
 };
 
+//源数据
 const data = computed(() => {
   return [
     [
@@ -74,7 +73,7 @@ const data = computed(() => {
     ],
     list.data.map(item => {
       item.onClick = () => {
-        list.selectedName = item.name;
+        list.selectedID = item.id;
       };
 
       return item;
@@ -82,10 +81,13 @@ const data = computed(() => {
   ] as Data[][];
 });
 
+//是否可见
 const visible = ref(false);
 
+//输入的关键词
 const search = ref("");
 
+//显示的项目
 const comData = computed(() => {
   return data.value
     .map(arr =>
@@ -97,20 +99,22 @@ const comData = computed(() => {
     .filter(arr => arr.length !== 0);
 });
 
-function handleHide(func: Function | undefined) {
+//点击
+function handleClick(func: Function | undefined) {
   if (!func) return;
 
   func();
   visible.value = false;
 }
 
-function handleEdit(name: string) {
-  list.editName = name;
+//编辑
+function handleEdit(id: string) {
+  list.editID = id;
   eventEmitter.emit("edit:show");
-  // eventEmitter.emit("dialog:show", "edit");
   visible.value = false;
 }
 
+//移除
 function handleRemove(name: string) {
   list.remove(name);
   eventEmitter.emit("success:show", "移除成功");

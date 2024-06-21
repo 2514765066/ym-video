@@ -24,6 +24,15 @@
         ></el-input>
       </el-form-item>
 
+      <el-form-item label="默认倍速" prop="defaultRate">
+        <el-input-number
+          style="width: 100%"
+          v-model="form.defaultRate"
+          :min="1"
+          :max="3"
+        />
+      </el-form-item>
+
       <el-form-item label="跳过片头的时间" prop="jumpStart">
         <el-time-picker
           style="width: 100%"
@@ -59,34 +68,23 @@ import {
   ElDrawer,
   ElForm,
   ElFormItem,
+  ElInputNumber,
 } from "element-plus";
 import type { FormRules, FormInstance } from "element-plus";
 import { useListStore } from "@/stores/useListStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ListItem, RemoveOptional } from "@type";
 
-const { editVideo, hasNames, editName } = storeToRefs(useListStore());
+const { editVideo, editID } = storeToRefs(useListStore());
 
 //el-form实例
 const ruleFormRef = ref<FormInstance>();
 
 //表单验证规则
 const rules = reactive<FormRules<RemoveOptional<ListItem>>>({
-  name: [
-    { required: true, message: "名称不能为空", trigger: "blur" },
-    {
-      validator(_, value, callback) {
-        if (hasNames.value.includes(value)) {
-          callback(new Error("该名称已存在"));
-          return;
-        }
-
-        callback();
-      },
-      trigger: "blur",
-    },
-  ],
+  name: { required: true, message: "名称不能为空", trigger: "blur" },
   url: { required: true, message: "网址不能为空", trigger: "blur" },
+  defaultRate: { required: true, message: "倍速不能为空", trigger: "blur" },
 });
 
 //显示隐藏
@@ -96,7 +94,7 @@ const visible = ref(false);
 const form = ref({ ...editVideo.value! });
 
 //监视数据改变重新获取值
-watch(editName, () => {
+watch(editID, () => {
   form.value = { ...editVideo.value };
 });
 

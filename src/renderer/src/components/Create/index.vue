@@ -33,7 +33,6 @@ import { useListStore } from "@/stores/useListStore";
 import type { FormRules, FormInstance } from "element-plus";
 import { ListItem, RemoveOptional } from "@type";
 
-const { hasNames } = storeToRefs(useListStore());
 const list = useListStore();
 
 //el-form实例
@@ -41,20 +40,7 @@ const ruleFormRef = ref<FormInstance>();
 
 //表单验证规则
 const rules = reactive<FormRules<RemoveOptional<ListItem>>>({
-  name: [
-    { required: true, message: "名称不能为空", trigger: "blur" },
-    {
-      validator(_, value, callback) {
-        if (hasNames.value.includes(value)) {
-          callback(new Error("该名称已存在"));
-          return;
-        }
-
-        callback();
-      },
-      trigger: "blur",
-    },
-  ],
+  name: { required: true, message: "名称不能为空", trigger: "blur" },
   url: { required: true, message: "网址不能为空", trigger: "blur" },
 });
 
@@ -70,7 +56,7 @@ const submitForm = () => {
     if (!valid) return;
 
     //添加
-    list.push({ ...form.value });
+    list.create({ ...form.value });
     useDefault();
     visible.value = false;
     eventEmitter.emit("success:show", "添加成功");

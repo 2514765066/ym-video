@@ -2,8 +2,8 @@
   <section class="f-1 o-h">
     <webview
       class="wh-100"
-      v-show="selectedName"
-      :data-name="selectedName"
+      v-show="selectedID"
+      :data-name="selectedID"
       :src="`https://jx.xmflv.com/?url=${selectedVideo?.url}`"
     ></webview>
   </section>
@@ -11,18 +11,16 @@
 
 <script setup lang="ts">
 import { useListStore } from "@/stores/useListStore";
-import { useSetStore } from "@/stores/useSetStore";
 import { timeStringToSeconds } from "@/hooks/useTime";
 import { WebView } from "@type";
 
-const { selectedVideo, selectedName } = storeToRefs(useListStore());
-const set = useSetStore();
+const { selectedVideo, selectedID } = storeToRefs(useListStore());
 
 const observer = new MutationObserver(mutationsList => {
   for (const mutation of mutationsList) {
     const el = mutation.target as WebView;
 
-    if (el.dataset.name == selectedName.value) {
+    if (el.dataset.name == selectedID.value) {
       const url = el.src.split("https://jx.xmflv.com/?url=")[1];
       selectedVideo.value!.url = url;
     }
@@ -32,6 +30,10 @@ const observer = new MutationObserver(mutationsList => {
 onMounted(() => {
   //获取元素
   const webview = document.querySelector("webview") as WebView;
+
+  webview.addEventListener("dom-ready", () => {
+    webview.openDevTools();
+  });
 
   //监视属性
   observer.observe(webview, {
@@ -53,9 +55,7 @@ onMounted(() => {
     const replacements = {
       "$jumpStart": timeStringToSeconds(selectedVideo.value.jumpStart),
       "$jumpEnd": timeStringToSeconds(selectedVideo.value.jumpEnd),
-      "$speed": set.data.speed,
-      "$forward": set.data.forward,
-      "$backward": set.data.backward,
+      "$defaultRate": selectedVideo.value.defaultRate,
     };
 
     js = Object.entries(replacements).reduce(

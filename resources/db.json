@@ -1,26 +1,18 @@
 [
   {
     "name": "庆余年",
-    "url": "https://www.iqiyi.com/v_19ruvd7hl0.html",
-    "jumpStart": "00:01:33",
-    "jumpEnd": "00:02:40"
+    "url": "https://www.iqiyi.com/v_19rwg6ioxg.html",
+    "jumpStart": "00:00:00",
+    "jumpEnd": "00:00:00",
+    "defaultRate": 1,
+    "id": "b_52Jr_7Ri4AsHm2HSjWs"
   },
   {
     "name": "西游记",
-    "url": "https://www.iqiyi.com/v_19rrjaajp0.html?s3=pca_115_number_enlarge&s4=0&vfrmblk=pca_115_number_enlarge&vfrm=3&s2=3&vfrmrst=0",
-    "jumpStart": null,
-    "jumpEnd": null
-  },
-  {
-    "name": "1",
-    "url": "1",
-    "jumpStart": null,
-    "jumpEnd": null
-  },
-  {
-    "name": "123",
-    "url": "1",
+    "url": "https://www.iqiyi.com/v_19rrjaak1o.html",
     "jumpStart": "00:00:00",
-    "jumpEnd": "00:00:00"
+    "jumpEnd": "00:00:00",
+    "defaultRate": 1,
+    "id": "6JpGqAzhk13CmfpxVF7hc"
   }
 ]
