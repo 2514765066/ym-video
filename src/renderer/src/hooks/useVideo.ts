@@ -25,7 +25,6 @@ export const load = () => {
       $jumpStart: timeStringToSeconds(selectedVideo.value!.jumpStart),
       $jumpEnd: timeStringToSeconds(selectedVideo.value!.jumpEnd),
       $defaultRate: selectedVideo.value!.defaultRate,
-      $danmuShow: data.value!.danmuShow,
       $danmuHeight: data.value!.danmuHeight,
     };
 

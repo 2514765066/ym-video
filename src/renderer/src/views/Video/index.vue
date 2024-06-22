@@ -32,9 +32,9 @@ onMounted(() => {
   const webview = document.querySelector("webview") as WebView;
 
   //开发者工具
-  webview.addEventListener("dom-ready", () => {
-    webview.openDevTools();
-  });
+  // webview.addEventListener("dom-ready", () => {
+  //   webview.openDevTools();
+  // });
 
   //监视属性
   observer.observe(webview, {
