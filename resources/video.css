@@ -1,8 +1,16 @@
 #adv_wrap_hh,
 .broadside,
 .art-control-pip,
-.art-control-setting {
+.art-control-setting,
+.art-contextmenu-version,
+.art-contextmenu-info,
+.art-contextmenu-close,
+.dm-box-left {
   display: none !important;
+}
+
+.art-contextmenus {
+  border-radius: 0.5rem !important;
 }
 
 #loading,

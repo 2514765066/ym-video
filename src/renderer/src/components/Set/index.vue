@@ -1,33 +1,38 @@
 <template>
   <el-drawer v-model="visible" direction="ltr" title="设置" size="350px">
-    <section class="h g-1r h-100">
-      <div class="v-n-c g-1r">
-        <span>3倍速播放：</span>
-        <KeyStroke v-model="data.speed"></KeyStroke>
-      </div>
+    <el-form :model="data">
+      <el-form-item label="弹幕高度:">
+        <el-select v-model="data!.danmuHeight">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+    </el-form>
 
-      <div class="v-n-c g-1r">
-        <span>前进5秒钟：</span>
-        <KeyStroke v-model="data.forward"></KeyStroke>
-      </div>
-
-      <div class="v-n-c g-1r">
-        <span>后退5秒钟：</span>
-        <KeyStroke v-model="data.backward"></KeyStroke>
-      </div>
-
-      <aside class="mt c-ccc fs-14">v{{ version }}</aside>
-    </section>
+    <template #footer>
+      <span class="c-ccc fs-14">v{{ version }}</span>
+    </template>
   </el-drawer>
 </template>
 
 <script setup lang="ts">
 import eventEmitter from "@/hooks/eventEmitter";
-import KeyStroke from "./KeyStroke.vue";
-import { ElDrawer } from "element-plus";
+import { ElDrawer, ElForm, ElFormItem, ElSelect, ElOption } from "element-plus";
 import { useConfigStore } from "@/stores/useConfigStore";
 
 const { data, version } = storeToRefs(useConfigStore());
+
+//下拉菜单
+const options = new Array(100 / 5).fill(undefined).map((_, index) => {
+  return {
+    label: `${(index + 1) * 5}%`,
+    value: ((index + 1) * 5) / 100,
+  };
+});
 
 const visible = ref(false);
 

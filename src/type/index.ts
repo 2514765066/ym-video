@@ -21,7 +21,10 @@ export type CommandItem = ListItem & {
   edit?: boolean;
 };
 
-export type Set = Record<"history", string>;
+export type Config = {
+  history: string;
+  danmuHeight: number;
+};
 
 export type WebView = WebviewTag;
 

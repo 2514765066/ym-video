@@ -46,7 +46,7 @@ function handleClick(func: Function | undefined) {
   if (!func) return;
 
   func();
-  config.data.history = props.data.id;
+  config.data!.history = props.data.id;
 
   emit("close");
 }

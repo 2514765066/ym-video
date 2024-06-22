@@ -1,30 +1,31 @@
-/**
- * 拿到Video元素
- * @param {string} selectors
- * @returns {Promise< HTMLVideoElement >}
- */
-function getElement(selectors) {
-  return new Promise(resolve => {
-    const timer = setInterval(() => {
-      const video = document.querySelector(selectors);
+(async () => {
+  /**
+   * 拿到元素
+   * @param {string} selectors
+   * @returns {Promise<HTMLVideoElement>}
+   */
+  function getElement(selectors) {
+    return new Promise(resolve => {
+      const timer = setInterval(() => {
+        const video = document.querySelector(selectors);
 
-      if (video) {
-        clearInterval(timer);
-        resolve(video);
-      }
-    }, 200);
-  });
-}
+        if (video) {
+          clearInterval(timer);
+          resolve(video);
+        }
+      }, 200);
+    });
+  }
 
-//创建倍速提示
-async function createPlayrate() {
-  const isExit = document.querySelector(".playrate");
+  //创建倍速提示元素
+  async function createPlayrate() {
+    const isExit = document.querySelector(".playrate");
 
-  if (isExit) return isExit;
+    if (isExit) return isExit;
 
-  const tempDiv = document.createElement("div");
+    const tempDiv = document.createElement("div");
 
-  tempDiv.innerHTML = ` 
+    tempDiv.innerHTML = `
    <div class="playrate">
         <svg viewBox="0 0 111 66">
             <g transform="matrix(1,0,0,1,94.5,32.5)">
@@ -35,7 +36,7 @@ async function createPlayrate() {
                 ></path>
               </g>
             </g>
-      
+
             <g transform="matrix(1,0,0,1,55.5,32.5)">
               <g transform="matrix(0,3,-3,0,0,0)">
                 <path
@@ -44,7 +45,7 @@ async function createPlayrate() {
                 ></path>
               </g>
             </g>
-      
+
             <g transform="matrix(1,0,0,1,16.5,32.5)">
               <g transform="matrix(0,3,-3,0,0,0)">
                 <path
@@ -57,96 +58,121 @@ async function createPlayrate() {
         <span>3倍速播放中</span>
      </div>`;
 
-  const parsedElement = tempDiv.firstElementChild;
+    const parsedElement = tempDiv.firstElementChild;
 
-  const el = await getElement(".art-video-player");
+    const el = await getElement(".art-video-player");
 
-  el.appendChild(parsedElement);
+    el.appendChild(parsedElement);
 
-  return parsedElement;
-}
+    return parsedElement;
+  }
 
-async function main() {
   const video = await getElement("video");
   const playrate = await createPlayrate();
 
-  //默认播放速率
-  const defaultRate = $defaultRate;
-  video.playbackRate = defaultRate;
-
   //跳过片头
-  if (video.currentTime <= $jumpStart) {
-    video.currentTime = $jumpStart;
-  }
-
-  //跳过片尾
-  function timeupdate() {
-    if (video.duration - video.currentTime <= $jumpEnd) {
-      video.currentTime = video.duration;
-      video.removeEventListener("timeupdate", timeupdate, true);
+  function jumpStart() {
+    if (video.currentTime <= $jumpStart) {
+      video.currentTime = $jumpStart;
     }
   }
 
-  video.addEventListener("timeupdate", timeupdate, true);
-
-  //给方向键加事件
-  let holdTimeout;
-  let isHolding = false;
-
-  window.addEventListener(
-    "keydown",
-    e => {
-      e.stopImmediatePropagation();
-
-      switch (e.key) {
-        case "ArrowRight":
-          if (isHolding == true) return;
-
-          holdTimeout = setTimeout(() => {
-            isHolding = true;
-            video.playbackRate = 3;
-            playrate.style.display = "flex";
-          }, 300);
-          return;
+  //跳过片尾
+  function jumpEnd() {
+    const timeupdate = () => {
+      if (video.duration - video.currentTime <= $jumpEnd) {
+        video.currentTime = video.duration;
+        video.removeEventListener("timeupdate", timeupdate, true);
       }
-    },
-    true
-  );
+    };
 
-  window.addEventListener(
-    "keyup",
-    e => {
-      e.stopImmediatePropagation();
+    video.addEventListener("timeupdate", timeupdate, true);
+  }
 
-      switch (e.key) {
-        case "ArrowRight":
-          clearTimeout(holdTimeout);
+  //重写方向键事件
+  function overrideArrowKeyEvent() {
+    let holdTimeout;
+    let isHolding = false;
 
-          if (isHolding) {
-            video.playbackRate = 1;
-            isHolding = false;
-            playrate.style.display = "none";
+    window.addEventListener(
+      "keydown",
+      e => {
+        e.stopImmediatePropagation();
+
+        switch (e.key) {
+          case "ArrowRight":
+            if (isHolding == true) return;
+
+            holdTimeout = setTimeout(() => {
+              isHolding = true;
+              video.playbackRate = 3;
+              playrate.style.display = "flex";
+            }, 300);
             return;
-          }
+        }
+      },
+      true
+    );
 
-          XMlayEr.void.forward = 5;
-          return;
-        case "ArrowLeft":
-          XMlayEr.void.backward = 5;
-          return;
-        case " ":
-          XMlayEr.void.toggle();
-          return;
-        case "ArrowUp":
-          XMlayEr.void.volume += 0.1;
-          return;
-        case "ArrowDown":
-          XMlayEr.void.volume -= 0.1;
-          return;
-      }
-    },
-    true
-  );
-}
+    window.addEventListener(
+      "keyup",
+      e => {
+        e.stopImmediatePropagation();
 
-main();
+        switch (e.key) {
+          case "ArrowRight":
+            clearTimeout(holdTimeout);
+
+            if (isHolding) {
+              isHolding = false;
+              video.playbackRate = $defaultRate;
+              playrate.style.display = "none";
+              return;
+            }
+
+            XMlayEr.void.forward = 5;
+            return;
+          case "ArrowLeft":
+            XMlayEr.void.backward = 5;
+            return;
+          case " ":
+            XMlayEr.void.toggle();
+            return;
+          case "ArrowUp":
+            XMlayEr.void.volume += 0.1;
+            return;
+          case "ArrowDown":
+            XMlayEr.void.volume -= 0.1;
+            return;
+        }
+      },
+      true
+    );
+  }
+
+  //取消右键菜单
+  function removeContextMenu() {
+    window.addEventListener(
+      "contextmenu",
+      e => {
+        e.stopImmediatePropagation();
+      },
+      true
+    );
+  }
+
+  //设置弹幕
+  function setDanMu() {
+    XMlayEr.danMu.showing = true;
+    XMlayEr.danMu.container.style.height =
+      28 * (((window.innerHeight - 100) * $danmuHeight) / 28).toFixed() + "px";
+  }
+
+  //初始化默认倍速
+  video.playbackRate = $defaultRate;
+  jumpStart();
+  jumpEnd();
+  overrideArrowKeyEvent();
+  removeContextMenu();
+  setDanMu();
+})();

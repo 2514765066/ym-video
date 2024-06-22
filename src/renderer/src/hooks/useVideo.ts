@@ -1,9 +1,11 @@
 import { WebView } from "@type";
 import { useListStore } from "@/stores/useListStore";
+import { useConfigStore } from "@/stores/useConfigStore";
 import pinia from "@/stores";
 import { timeStringToSeconds } from "@/hooks/useTime";
 
 const { selectedVideo } = storeToRefs(useListStore(pinia));
+const { data } = storeToRefs(useConfigStore(pinia));
 
 export const load = () => {
   //获取元素
@@ -23,6 +25,8 @@ export const load = () => {
       $jumpStart: timeStringToSeconds(selectedVideo.value!.jumpStart),
       $jumpEnd: timeStringToSeconds(selectedVideo.value!.jumpEnd),
       $defaultRate: selectedVideo.value!.defaultRate,
+      $danmuShow: data.value!.danmuShow,
+      $danmuHeight: data.value!.danmuHeight,
     };
 
     js = Object.entries(replacements).reduce(
