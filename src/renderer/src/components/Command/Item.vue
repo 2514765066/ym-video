@@ -3,9 +3,19 @@
     <span class="c-ccc">{{ data.name }}</span>
     <span class="c-999 fs-12 ellipsis">{{ data.url }}</span>
 
-    <el-tooltip content="编辑" placement="bottom">
+    <el-tooltip content="用浏览器打开" placement="bottom">
       <button
         class="ml f-s-0"
+        @click.stop="handleOpen(data.url)"
+        v-show="data.edit != false"
+      >
+        <img src="@/assets/browser.svg" />
+      </button>
+    </el-tooltip>
+
+    <el-tooltip content="编辑" placement="bottom">
+      <button
+        class="f-s-0"
         @click.stop="handleEdit(data.id)"
         v-show="data.edit != false"
       >
@@ -49,6 +59,11 @@ function handleClick(func: Function | undefined) {
   config.data!.history = props.data.id;
 
   emit("close");
+}
+
+//用浏览器打开
+function handleOpen(url: string) {
+  api.openUrl(url);
 }
 
 //编辑

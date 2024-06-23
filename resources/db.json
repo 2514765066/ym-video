@@ -1,6 +1,6 @@
 [
   {
-    "name": "庆余年",
+    "name": "庆余年2",
     "url": "https://www.iqiyi.com/v_19rwg6q0yg.html",
     "jumpStart": "00:01:33",
     "jumpEnd": "00:30:00",
@@ -14,5 +14,13 @@
     "jumpEnd": "00:00:00",
     "defaultRate": 1,
     "id": "6JpGqAzhk13CmfpxVF7hc"
+  },
+  {
+    "name": "庆余年1",
+    "url": "https://v.qq.com/x/cover/rjae621myqca41h/e003358h201.html",
+    "jumpStart": "00:00:00",
+    "jumpEnd": "00:00:00",
+    "defaultRate": 1,
+    "id": "vCri8tqCGU4380DzfTF27"
   }
 ]

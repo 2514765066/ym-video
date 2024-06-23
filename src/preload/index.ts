@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer, shell } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
 import { config, db, videoCss, videoJs } from "../hooks/usePath";
@@ -55,6 +55,11 @@ const api = {
   async getVideoJs() {
     const res = await readFile(videoJs);
     return res.toString();
+  },
+
+  //打开网址
+  openUrl(url: string) {
+    shell.openExternal(url);
   },
 };
 

@@ -4,6 +4,7 @@ const eventNames = [
   "success:show",
   "select:video:show",
   "create:show",
+  "help:show",
   "set:show",
   "edit:show",
 ] as const;
@@ -14,6 +15,7 @@ interface EventMap {
   "success:show": (message: string) => void;
   "select:video:show": () => void;
   "create:show": () => void;
+  "help:show": () => void;
   "set:show": () => void;
   "edit:show": () => void;
 }

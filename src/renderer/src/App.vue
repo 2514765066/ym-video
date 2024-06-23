@@ -5,12 +5,14 @@
   <Create></Create>
   <Command></Command>
   <Set></Set>
+  <Help></Help>
   <Edit></Edit>
 </template>
 
 <script setup lang="ts">
 import Edit from "@/components/Edit/index.vue";
 import Set from "@/components/Set/index.vue";
+import Help from "@/components/Help/index.vue";
 import Video from "@/views/Video/index.vue";
 import TitleBar from "@/views/TitleBar/index.vue";
 import Create from "@/components/Create/index.vue";

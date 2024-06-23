@@ -27,10 +27,10 @@ import { useConfigStore } from "@/stores/useConfigStore";
 const { data, version } = storeToRefs(useConfigStore());
 
 //下拉菜单
-const options = new Array(100 / 5).fill(undefined).map((_, index) => {
+const options = new Array(100 / 5 + 1).fill(undefined).map((_, index) => {
   return {
-    label: `${(index + 1) * 5}%`,
-    value: ((index + 1) * 5) / 100,
+    label: `${index * 5}%`,
+    value: (index * 5) / 100,
   };
 });
 

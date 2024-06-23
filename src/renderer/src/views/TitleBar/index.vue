@@ -6,11 +6,17 @@
       {{ selectedVideo?.name || "未选择视频" }}
     </button>
 
-    <aside class="ml v-n-c h-100">
+    <aside class="ml v-n-c h-100 g-1">
+      <div class="v-c-c click h-100" @click="helpShow">
+        <img src="@/assets/help.svg" />
+      </div>
+
       <div class="v-c-c click h-100" @click="setShow">
         <img src="@/assets/set.svg" />
       </div>
+    </aside>
 
+    <aside class="v-n-c h-100">
       <div class="h-100 v-c-c click" @click="minimize">
         <img src="@/assets/minimize.svg" />
       </div>
@@ -33,6 +39,10 @@ import { useListStore } from "@/stores/useListStore";
 import { close, maximize, minimize, isFullScreen } from "@/hooks/useControls";
 
 const { selectedVideo } = storeToRefs(useListStore());
+
+function helpShow() {
+  eventEmitter.emit("help:show");
+}
 
 function setShow() {
   eventEmitter.emit("set:show");
@@ -82,8 +92,10 @@ section {
         height: 14px;
       }
     }
+  }
 
-    > div:first-child {
+  > aside:nth-last-child(2) {
+    > div {
       width: 30px;
       height: 30px;
       > img {
@@ -91,7 +103,9 @@ section {
         height: 18px;
       }
     }
+  }
 
+  > aside:nth-last-child(1) {
     > div:last-child {
       &:hover {
         background-color: #c42b1c;
