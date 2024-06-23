@@ -1,20 +1,23 @@
 <template>
   <section class="v-n-c">
     <img src="@/assets/icon.png" width="20px" />
+    <span class="c-ccc ml-2 fs-18">ym-video</span>
 
-    <button class="fs-12 p-a c-ccc" @click="selectVideoShow">
+    <div class="fs-12 p-a c-ccc click v-c-c" @click="selectVideoShow">
       {{ selectedVideo?.name || "未选择视频" }}
-    </button>
+    </div>
 
-    <aside class="ml v-n-c h-100 g-1">
-      <div class="v-c-c click h-100" @click="helpShow">
+    <el-tooltip content="查看支持视频网站" placement="bottom">
+      <button class="h-100 ml mr-1" @click="helpShow">
         <img src="@/assets/help.svg" />
-      </div>
+      </button>
+    </el-tooltip>
 
-      <div class="v-c-c click h-100" @click="setShow">
+    <el-tooltip content="设置" placement="bottom">
+      <button class="h-100" @click="setShow">
         <img src="@/assets/set.svg" />
-      </div>
-    </aside>
+      </button>
+    </el-tooltip>
 
     <aside class="v-n-c h-100">
       <div class="h-100 v-c-c click" @click="minimize">
@@ -34,6 +37,7 @@
 </template>
 
 <script setup lang="ts">
+import { ElTooltip } from "element-plus";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useListStore } from "@/stores/useListStore";
 import { close, maximize, minimize, isFullScreen } from "@/hooks/useControls";
@@ -60,7 +64,11 @@ section {
   height: 38px;
   -webkit-app-region: drag;
 
-  > button {
+  > span {
+    font-family: logo;
+  }
+
+  > div {
     width: 600px;
     height: 26px;
     border: 1px solid #454545;
@@ -74,6 +82,22 @@ section {
     &:hover {
       background-color: #313131;
       border-color: #5b5b5b;
+    }
+  }
+
+  > button {
+    width: 30px;
+    height: 30px;
+    border-radius: 0.5rem;
+    transition: 0.15s;
+
+    > img {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background-color: $hoverBg;
     }
   }
 
@@ -92,20 +116,7 @@ section {
         height: 14px;
       }
     }
-  }
 
-  > aside:nth-last-child(2) {
-    > div {
-      width: 30px;
-      height: 30px;
-      > img {
-        width: 18px;
-        height: 18px;
-      }
-    }
-  }
-
-  > aside:nth-last-child(1) {
     > div:last-child {
       &:hover {
         background-color: #c42b1c;

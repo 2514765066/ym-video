@@ -12,7 +12,7 @@
         @click="handleOpen(url)"
         class="fs-20"
       >
-        <img :src="src" alt="" class="w-100" v-if="src" />
+        <img :src="handleSrc(src)" class="w-100" v-if="src" />
         <span v-else>{{ name }}</span>
       </button>
     </section>
@@ -27,22 +27,22 @@ const data = [
   {
     name: "优酷视频",
     url: "https://youku.com/",
-    src: "/src/assets/logo/yk.png",
+    src: "yk",
   },
   {
     name: "爱奇艺",
     url: "https://www.iqiyi.com/",
-    src: "/src/assets/logo/iqy.png",
+    src: "iqy",
   },
   {
     name: "腾讯视频",
     url: "https://v.qq.com/",
-    src: "/src/assets/logo/txsp.png",
+    src: "txsp",
   },
   {
     name: "哔哩哔哩",
     url: "https://www.bilibili.com/",
-    src: "/src/assets/logo/bilibili.png",
+    src: "bilibili",
   },
   {
     name: "芒果tv",
@@ -51,12 +51,12 @@ const data = [
   {
     name: "乐视视频",
     url: "https://www.le.com/",
-    src: "/src/assets/logo/ls.png",
+    src: "ls",
   },
   {
     name: "暴风影音",
     url: "http://www.baofeng.com/",
-    src: "/src/assets/logo/bfyy.png",
+    src: "bfyy",
   },
   {
     name: "风行网",
@@ -69,37 +69,37 @@ const data = [
   {
     name: "AcFun",
     url: "https://www.acfun.cn/",
-    src: "/src/assets/logo/acfun.png",
+    src: "acfun",
   },
   {
     name: "PP视频",
     url: "https://www.pptv.com/",
-    src: "/src/assets/logo/ppsp.png",
+    src: "ppsp",
   },
   {
     name: "1905",
     url: "http://promotion.m1905.com/",
-    src: "/src/assets/logo/1905.png",
+    src: "1905",
   },
   {
     name: "央视网",
     url: "https://tv.cctv.com/",
-    src: "/src/assets/logo/cctv.png",
+    src: "cctv",
   },
   {
     name: "华数tv",
     url: "https://www.wasu.cn/",
-    src: "/src/assets/logo/hstv.png",
+    src: "hstv",
   },
   {
     name: "时光网",
     url: "http://www.mtime.com/",
-    src: "/src/assets/logo/mtime.png",
+    src: "mtime",
   },
   {
     name: "天天看看",
     url: "http://kankan.com/",
-    src: "/src/assets/logo/kankan.png",
+    src: "kankan",
   },
   {
     name: "新浪视频",
@@ -110,6 +110,12 @@ const data = [
     url: "https://tudou.com/",
   },
 ];
+
+function handleSrc(src?: string) {
+  if (!src) return "";
+
+  return new URL(`../../assets/logo/${src}.png`, import.meta.url);
+}
 
 const visible = ref(false);
 

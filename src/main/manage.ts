@@ -4,9 +4,9 @@ import { EventNames } from "../type";
 
 onMounted(() => {
   const win = createWindow("manage", {
-    x: 2000,
-    y: -100,
-    devTool: true,
+    // x: 2000,
+    // y: -100,
+    // devTool: true,
     frame: false,
     render: {
       dev: {

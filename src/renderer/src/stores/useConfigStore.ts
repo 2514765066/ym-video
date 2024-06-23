@@ -15,7 +15,10 @@ export const useConfigStore = defineStore("config", () => {
     data,
     val => {
       api.updateConfig(JSON.parse(JSON.stringify(val)));
-      load().importJs();
+
+      if (list.selectedVideo) {
+        load().importJs();
+      }
     },
     {
       deep: true,

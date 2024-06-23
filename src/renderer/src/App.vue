@@ -41,6 +41,7 @@ eventEmitter.on("success:show", (message: string) => {
 * {
   -webkit-app-region: no-drag;
 }
+
 #app {
   width: 100vw;
   height: 100vh;
@@ -51,6 +52,11 @@ eventEmitter.on("success:show", (message: string) => {
   * {
     user-select: none;
   }
+}
+
+@font-face {
+  font-family: "logo";
+  src: url("./assets/logo.ttf");
 }
 
 .el-dialog {

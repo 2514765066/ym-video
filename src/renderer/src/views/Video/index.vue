@@ -22,7 +22,10 @@ const observer = new MutationObserver(mutationsList => {
 
     if (el.dataset.name == selectedID.value) {
       const url = el.src.split("https://jx.xmflv.com/?url=")[1];
-      selectedVideo.value!.url = url;
+
+      if (url && selectedVideo.value) {
+        selectedVideo.value.url = url;
+      }
     }
   }
 });
