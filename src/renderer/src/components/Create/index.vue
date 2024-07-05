@@ -1,6 +1,11 @@
 <template>
   <el-dialog v-model="visible" title="添加视频" draggable width="600">
-    <el-form ref="ruleFormRef" :model="form" :rules="rules">
+    <el-form
+      ref="ruleFormRef"
+      :model="form"
+      :rules="rules"
+      @submit.prevent="submitForm"
+    >
       <el-form-item prop="name">
         <el-input
           placeholder="名称"
@@ -44,7 +49,10 @@ const rules = reactive<FormRules<RemoveOptional<ListItem>>>({
   url: { required: true, message: "网址不能为空", trigger: "blur" },
 });
 
-const form = ref();
+const form = ref({
+  name: "",
+  url: "",
+});
 
 const visible = ref(false);
 
@@ -57,21 +65,17 @@ const submitForm = () => {
 
     //添加
     list.create({ ...form.value });
-    useDefault();
+
+    //格式化
+    form.value = {
+      name: "",
+      url: "",
+    };
+
     visible.value = false;
     eventEmitter.emit("success:show", "添加成功");
   });
 };
-
-//格式化默认值
-function useDefault() {
-  form.value = {
-    name: "",
-    url: "",
-  };
-}
-
-useDefault();
 
 eventEmitter.on("create:show", () => {
   visible.value = true;
