@@ -11,7 +11,7 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asar: false
 win:
-  executableName: ${name}
+  executableName: ym-video
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -22,4 +22,4 @@ npmRebuild: false
 publish:
   provider: github
   owner: 2514765066,
-  repo: ${name}
+  repo: ym-video
