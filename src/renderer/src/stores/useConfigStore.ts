@@ -23,7 +23,13 @@ export const useConfigStore = defineStore("config", () => {
 
   //初始化
   const init = async () => {
-    data.value = await api.getConfig();
+    const res = await api.getConfig();
+
+    if (res == null) {
+      return;
+    }
+
+    data.value = res;
 
     if (data.value.history) {
       videoStore.selectedID = data.value.history;

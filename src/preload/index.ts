@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
 import { config, db } from "../hooks/usePath";
-import { writeFile, readFile } from "fs/promises";
+import { readJson, writeJson } from "../hooks/useFs";
 
 const api = {
   //最小化
@@ -25,24 +25,34 @@ const api = {
 
   //获取db
   async getDb() {
-    const res = await readFile(db);
+    const res = await readJson(db);
+
+    if (res == null) {
+      return [];
+    }
+
     return JSON.parse(res.toString());
   },
 
   //写入db
   async updateDb(data: Array<any>) {
-    await writeFile(db, JSON.stringify(data, null, 2));
+    await writeJson(db, data);
   },
 
   //获取config
   async getConfig() {
-    const res = await readFile(config);
+    const res = await readJson(config);
+
+    if (res == null) {
+      return null;
+    }
+
     return JSON.parse(res.toString());
   },
 
   //写入config
-  async updateConfig(data: Array<any>) {
-    await writeFile(config, JSON.stringify(data, null, 2));
+  async updateConfig(data: any) {
+    await writeJson(config, data);
   },
 };
 
