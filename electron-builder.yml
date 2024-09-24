@@ -11,15 +11,15 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asar: false
 win:
-  executableName: ym-video
-  target: zip
+  executableName: ${name}
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  oneClick: false
 npmRebuild: false
 publish:
   provider: github
   owner: 2514765066,
-  repo: ym-video
+  repo: ${name}
