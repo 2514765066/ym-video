@@ -1,22 +1,20 @@
 <template>
-  <TitleBar></TitleBar>
-  <Video></Video>
+  <TitleBar />
 
-  <Create></Create>
-  <Command></Command>
-  <Set></Set>
-  <Help></Help>
-  <Edit></Edit>
+  <section class="app f-1 o-h v-c-c">
+    <RouterView />
+  </section>
+
+  <VideoSiteView />
+  <CommandMenu />
+  <Edit />
 </template>
 
 <script setup lang="ts">
-import Edit from "@/components/Edit/index.vue";
-import Set from "@/components/Set/index.vue";
-import Help from "@/components/Help/index.vue";
-import Video from "@/views/Video/index.vue";
-import TitleBar from "@/views/TitleBar/index.vue";
-import Create from "@/components/Create/index.vue";
-import Command from "@/components/Command/index.vue";
+import Edit from "@/components/Edit.vue";
+import VideoSiteView from "@/views/VideoSiteView.vue";
+import TitleBar from "@/views/TitleBarView.vue";
+import CommandMenu from "@/components/CommandMenu/Index.vue";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ElMessage } from "element-plus";
 
@@ -38,14 +36,10 @@ eventEmitter.on("success:show", (message: string) => {
 </script>
 
 <style lang="scss">
-* {
-  -webkit-app-region: no-drag;
-}
-
 #app {
   width: 100vw;
   height: 100vh;
-  background-color: #232323;
+  background-color: #1f1f1f;
   display: flex;
   flex-direction: column;
 
@@ -54,28 +48,10 @@ eventEmitter.on("success:show", (message: string) => {
   }
 }
 
-@font-face {
-  font-family: "logo";
-  src: url("./assets/logo.ttf");
-}
-
-.el-dialog {
-  border-radius: 0.5rem !important;
-}
-
-.el-message-box {
-  border-radius: 0.5rem !important;
-}
-
-.c-ccc {
-  color: #ccc;
-}
-
-.px-1r {
-  padding: 0 1rem;
-}
-
-.el-time-panel__footer {
-  display: none;
+.app {
+  margin: 0 0.5rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #131313;
+  border: 1px solid #393839;
 }
 </style>

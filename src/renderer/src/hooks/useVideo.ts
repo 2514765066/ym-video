@@ -1,43 +1,67 @@
 import { WebView } from "@type";
-import { useListStore } from "@/stores/useListStore";
-import { useConfigStore } from "@/stores/useConfigStore";
-import pinia from "@/stores";
+import { useVideoStore } from "@/stores/useVideoStore";
 import { timeStringToSeconds } from "@/hooks/useTime";
 
-const { selectedVideo } = storeToRefs(useListStore(pinia));
-const { data } = storeToRefs(useConfigStore(pinia));
+import initCSSRaw from "@/assets/video/index.css?raw";
+import initJSRaw from "@/assets/video/index.js?raw";
+import getCurrentTimeJSRaw from "@/assets/video/getCurrentTime.js?raw";
+import jumedJSRaw from "@/assets/video/jumed.js?raw";
 
-export const load = () => {
-  //获取元素
-  const webview = document.querySelector("webview") as WebView;
+export const useVideo = () => {
+  const { selectedVideo } = storeToRefs(useVideoStore());
 
   //导入css
-  async function importCss() {
-    const css = await api.getVideoCss();
-    webview.insertCSS(css);
-  }
+  const initCSS = () => {
+    const webview = document.querySelector("#video") as WebView;
+
+    webview.insertCSS(initCSSRaw);
+  };
 
   //导入js
-  async function importJs() {
-    let js = await api.getVideoJs();
+  const initJS = () => {
+    const webview = document.querySelector("#video") as WebView;
 
-    const replacements = {
-      $jumpStart: timeStringToSeconds(selectedVideo.value!.jumpStart),
-      $jumpEnd: timeStringToSeconds(selectedVideo.value!.jumpEnd),
-      $defaultRate: selectedVideo.value!.defaultRate,
-      $danmuHeight: data.value!.danmuHeight,
-    };
+    webview.executeJavaScript(initJSRaw);
 
-    js = Object.entries(replacements).reduce(
-      (acc, [key, value]) => acc.replaceAll(key, `${value}`),
-      js
+    jumedJS();
+  };
+
+  //跳过片头和片尾
+  const jumedJS = () => {
+    const webview = document.querySelector("#video") as WebView;
+
+    webview.executeJavaScript(
+      jumedJSRaw
+        .replaceAll(
+          "$jumpStart",
+          timeStringToSeconds(selectedVideo.value?.jumpStart)
+        )
+        .replaceAll(
+          " $jumpEnd",
+          timeStringToSeconds(selectedVideo.value?.jumpEnd)
+        )
     );
+  };
 
-    webview.executeJavaScript(js);
-  }
+  //获取当前播放时间和视频总时长
+  const getCurrentTime = async () => {
+    const webview = document.querySelector("#video") as WebView;
+
+    return await webview.executeJavaScript(getCurrentTimeJSRaw);
+  };
+
+  //刷新页面
+  const reload = () => {
+    const webview = document.querySelector("#video") as WebView;
+
+    webview.reload();
+  };
 
   return {
-    importJs,
-    importCss,
+    initJS,
+    initCSS,
+    jumedJS,
+    getCurrentTime,
+    reload,
   };
 };

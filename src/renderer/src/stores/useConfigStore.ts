@@ -1,24 +1,20 @@
-import { Config } from "@type";
-import { useListStore } from "./useListStore";
-import { load } from "@/hooks/useVideo";
+import { useVideoStore } from "./useVideoStore";
 
 export const useConfigStore = defineStore("config", () => {
-  const list = useListStore();
+  const videoStore = useVideoStore();
 
-  const data = ref<Config>();
+  const data = ref({
+    history: "",
+  });
 
   //版本
-  const version = ref(__APP_VERSION__);
+  const version = ref(`v${__APP_VERSION__}`);
 
   //监视更新值
   watch(
     data,
     val => {
       api.updateConfig(JSON.parse(JSON.stringify(val)));
-
-      if (list.selectedVideo) {
-        load().importJs();
-      }
     },
     {
       deep: true,
@@ -26,10 +22,13 @@ export const useConfigStore = defineStore("config", () => {
   );
 
   //初始化
-  async function init() {
-    data.value = (await api.getConfig()) as Config;
-    list.selectedID = data.value.history;
-  }
+  const init = async () => {
+    data.value = await api.getConfig();
+
+    if (data.value.history) {
+      videoStore.selectedID = data.value.history;
+    }
+  };
 
   init();
 

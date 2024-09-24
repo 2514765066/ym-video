@@ -1,0 +1,52 @@
+* {
+  -webkit-app-region: no-drag;
+}
+
+.el-dialog {
+  border-radius: 0.5rem !important;
+}
+
+.el-message-box {
+  border-radius: 0.5rem !important;
+}
+
+.c-ccc {
+  color: #ccc;
+}
+
+.px-1r {
+  padding: 0 1rem;
+}
+
+.el-time-panel__footer {
+  display: none;
+}
+
+.Drawer {
+  .el-drawer__header {
+    height: 38px;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .el-drawer__body {
+    padding: 0 !important;
+  }
+}
+
+@font-face {
+  font-family: "logo";
+  src: url("./fonts/logo.ttf");
+}
+
+.loading {
+  animation: rotate 1s steps(12, jump-end) infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

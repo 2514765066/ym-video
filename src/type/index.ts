@@ -1,30 +1,25 @@
 import { WebviewTag } from "electron";
 
-const eventNames = ["minimize", "close", "maximize", "is:maximize"] as const;
+const eventNames = [
+  "minimize",
+  "close",
+  "maximize",
+  "is:maximize",
+  "denyNewWindow",
+] as const;
 
 export type EventNames = (typeof eventNames)[number];
 
-export interface ListItem {
+export type ListItem = {
   name: string;
+  id: string;
   url: string;
   jumpStart: string;
   jumpEnd: string;
-  defaultRate: number;
   onClick?: Function;
-  id: string;
-}
+};
 
 export type List = ListItem[];
-
-export type CommandItem = ListItem & {
-  search?: boolean;
-  edit?: boolean;
-};
-
-export type Config = {
-  history: string;
-  danmuHeight: number;
-};
 
 export type WebView = WebviewTag;
 

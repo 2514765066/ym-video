@@ -1,7 +1,7 @@
-import { contextBridge, ipcRenderer, shell } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
-import { config, db, videoCss, videoJs } from "../hooks/usePath";
+import { config, db } from "../hooks/usePath";
 import { writeFile, readFile } from "fs/promises";
 
 const api = {
@@ -43,23 +43,6 @@ const api = {
   //写入config
   async updateConfig(data: Array<any>) {
     await writeFile(config, JSON.stringify(data, null, 2));
-  },
-
-  //获取video的css样式
-  async getVideoCss() {
-    const res = await readFile(videoCss);
-    return res.toString();
-  },
-
-  //获取video的js
-  async getVideoJs() {
-    const res = await readFile(videoJs);
-    return res.toString();
-  },
-
-  //打开网址
-  openUrl(url: string) {
-    shell.openExternal(url);
   },
 };
 
