@@ -25,9 +25,7 @@ export const useConfigStore = defineStore("config", () => {
   const init = async () => {
     const res = await api.getConfig();
 
-    if (res == null) {
-      return;
-    }
+    if (!res) return;
 
     data.value = res;
 

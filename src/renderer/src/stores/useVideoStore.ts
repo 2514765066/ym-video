@@ -64,7 +64,11 @@ export const useVideoStore = defineStore("list", () => {
 
   //初始化
   const init = async () => {
-    data.value = await api.getDb();
+    const res = await api.getDb();
+
+    if (!res) return;
+
+    data.value = res;
   };
 
   init();

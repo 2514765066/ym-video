@@ -27,11 +27,7 @@ const api = {
   async getDb() {
     const res = await readJson(db);
 
-    if (res == null) {
-      return [];
-    }
-
-    return JSON.parse(res.toString());
+    return res;
   },
 
   //写入db
@@ -43,11 +39,7 @@ const api = {
   async getConfig() {
     const res = await readJson(config);
 
-    if (res == null) {
-      return null;
-    }
-
-    return JSON.parse(res.toString());
+    return res;
   },
 
   //写入config
