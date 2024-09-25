@@ -99,8 +99,9 @@ const handleOpen = () => {
 //处理添加
 const handleAdd = () => {
   const name = el.value!.getTitle();
+  const url = el.value!.src;
 
-  add(name, selectedVideoSite.value.url);
+  add(name, url);
 
   // router.push("/video");
 
