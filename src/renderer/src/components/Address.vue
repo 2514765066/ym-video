@@ -1,13 +1,17 @@
 <template>
   <section class="p-a fs-12 c-ccc o-h px-1r v-c-c">
-    <span class="ellipsis">{{ src }}</span>
+    <span class="ellipsis">{{ url }}</span>
   </section>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  src: string;
-}>();
+import { useVideoSiteStore } from "@/stores/useVideoSiteStore";
+
+const { selectedVideoSite } = storeToRefs(useVideoSiteStore());
+
+const url = computed(() => {
+  return selectedVideoSite.value.history.last();
+});
 </script>
 
 <style scoped lang="scss">

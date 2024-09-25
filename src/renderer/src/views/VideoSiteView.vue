@@ -44,7 +44,7 @@
           </el-button>
         </el-tooltip>
 
-        <Address :src="selectedVideoSite.url" />
+        <Address />
 
         <el-tooltip content="关闭">
           <el-button text @click="close" style="margin-left: auto">
@@ -109,7 +109,9 @@ const handleAdd = () => {
 
 //处理后退
 const handleBack = () => {
-  el.value!.goBack();
+  const url = selectedVideoSite.value.history.pop();
+
+  el.value!.src = url;
 };
 
 //处理关闭
@@ -123,8 +125,7 @@ const observer = new MutationObserver(mutationsList => {
     const el = mutation.target as WebView;
 
     if (isUpdateSrc.value) {
-      src.value = el.src;
-      selectedVideoSite.value.url = el.src;
+      selectedVideoSite.value.history.push(el.src);
     }
   }
 });
