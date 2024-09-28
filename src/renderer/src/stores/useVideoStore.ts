@@ -20,7 +20,11 @@ export const useVideoStore = defineStore("list", () => {
   watch(
     data,
     val => {
-      api.updateDb(JSON.parse(JSON.stringify(val)));
+      electron.ipcRenderer.invoke(
+        "writeConfig",
+        "db",
+        JSON.parse(JSON.stringify(val))
+      );
     },
     {
       deep: true,
@@ -64,11 +68,15 @@ export const useVideoStore = defineStore("list", () => {
 
   //初始化
   const init = async () => {
-    const res = await api.getDb();
+    const res = await electron.ipcRenderer.invoke("readConfig", "db");
 
     if (!res) return;
 
     data.value = res;
+
+    if (configStore.data.history) {
+      selectedID.value = configStore.data.history;
+    }
   };
 
   init();

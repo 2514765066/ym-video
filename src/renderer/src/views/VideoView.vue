@@ -4,7 +4,7 @@
     class="wh-100"
     v-show="selectedVideo"
     :data-name="selectedID"
-    :src="`https://jx.xmflv.com/?url=${selectedVideo?.url}`"
+    :src="src"
   ></webview>
 
   <div class="g-2 v-c-c fw-w" v-show="!selectedVideo">
@@ -14,7 +14,7 @@
       class="fs-20"
       @click="handleClick(index)"
     >
-      <img class="w-100" :src="handleSrc(name)" />
+      <img class="w-100" :src="videoSiteLogo(name)" />
     </button>
   </div>
 </template>
@@ -25,15 +25,23 @@ import { useVideoStore } from "@/stores/useVideoStore";
 import { useVideo } from "@/hooks/useVideo";
 import { WebView } from "@type";
 import eventEmitter from "@/hooks/eventEmitter";
+import { videoSiteLogo } from "@/hooks/usePath";
 
 const { initCSS, initJS } = useVideo();
 const { data, selectIndex } = storeToRefs(useVideoSiteStore());
 const { selectedVideo, selectedID } = storeToRefs(useVideoStore());
 
-const handleSrc = (name: string) => {
-  return new URL(`../assets/videoSiteLogo/${name}.png`, import.meta.url);
-};
+//网页地址
+const src = ref("");
 
+//监控selectedVideo改变值
+watch(selectedVideo, () => {
+  nextTick(() => {
+    src.value = `https://jx.xmflv.com/?url=${selectedVideo.value?.url || ""}`;
+  });
+});
+
+//进入各大网站
 const handleClick = (index: number) => {
   selectIndex.value = index;
 
@@ -41,15 +49,13 @@ const handleClick = (index: number) => {
 };
 
 const observer = new MutationObserver(mutationsList => {
-  for (const mutation of mutationsList) {
-    const el = mutation.target as WebView;
+  const el = mutationsList[0].target as WebView;
 
-    if (el.dataset.name == selectedID.value) {
-      const url = el.src.split("https://jx.xmflv.com/?url=")[1];
+  if (el.dataset.name == selectedID.value) {
+    const url = el.src.split("https://jx.xmflv.com/?url=")[1];
 
-      if (url && selectedVideo.value) {
-        selectedVideo.value.url = url;
-      }
+    if (url && selectedVideo.value) {
+      selectedVideo.value.url = url;
     }
   }
 });
@@ -66,9 +72,6 @@ onMounted(() => {
 
   //添加css和js
   webview.addEventListener("did-finish-load", () => {
-    // webview.openDevTools();
-    if (!selectedVideo.value) return;
-
     initCSS();
     initJS();
   });

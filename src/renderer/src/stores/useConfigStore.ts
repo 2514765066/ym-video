@@ -1,8 +1,4 @@
-import { useVideoStore } from "./useVideoStore";
-
 export const useConfigStore = defineStore("config", () => {
-  const videoStore = useVideoStore();
-
   const data = ref({
     history: "",
   });
@@ -14,7 +10,11 @@ export const useConfigStore = defineStore("config", () => {
   watch(
     data,
     val => {
-      api.updateConfig(JSON.parse(JSON.stringify(val)));
+      electron.ipcRenderer.invoke(
+        "writeConfig",
+        "config",
+        JSON.parse(JSON.stringify(val))
+      );
     },
     {
       deep: true,
@@ -23,15 +23,11 @@ export const useConfigStore = defineStore("config", () => {
 
   //初始化
   const init = async () => {
-    const res = await api.getConfig();
+    const res = await electron.ipcRenderer.invoke("readConfig", "config");
 
     if (!res) return;
 
     data.value = res;
-
-    if (data.value.history) {
-      videoStore.selectedID = data.value.history;
-    }
   };
 
   init();

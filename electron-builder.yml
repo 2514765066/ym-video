@@ -1,12 +1,12 @@
 appId: ym-video
 productName: ym-video
+npmRebuild: false
 directories:
   buildResources: build
 files:
   - "!**/.vscode/*"
   - "!src/*"
   - "!electron.vite.config.{js,ts,mjs,cjs}"
-  - "!resources/*"
   - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
@@ -20,8 +20,8 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
-npmRebuild: false
 publish:
   provider: github
-  owner: 2514765066,
+  owner: 2514765066
   repo: ym-video
+  releaseType: release

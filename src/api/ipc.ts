@@ -1,6 +1,7 @@
-import { ipcMain } from "./useIpcMain";
+import { ipcMain } from "./ipcMain";
 import { windows } from "ym-electron.js";
 import { webContents } from "electron";
+import { readJson, writeJson } from "../api/fs";
 
 //最小化
 ipcMain.on("minimize", () => {
@@ -29,4 +30,15 @@ ipcMain.handle("denyNewWindow", (_, id) => {
 
     return { action: "deny" };
   });
+});
+
+//读取配置
+ipcMain.handle("readConfig", async (_, name: string) => {
+  return await readJson(name);
+});
+
+//写入配置
+ipcMain.handle("writeConfig", async (_, name: string, data: any) => {
+  await writeJson(name, data);
+  return true;
 });

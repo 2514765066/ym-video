@@ -4,7 +4,7 @@
     "electron.vite.config.*",
     "src/main/**/*",
     "src/preload/**/*",
-    "src/hooks/**/*",
+    "src/api/**/*",
     "src/type/**/*",
     "src/preload/video.ts"
   ],

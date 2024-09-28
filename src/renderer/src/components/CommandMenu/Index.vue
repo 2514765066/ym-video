@@ -56,7 +56,6 @@ const funcData = [
     name: "添加视频",
     onClick() {
       selectedID.value = "";
-      // router.push("/videosite");
     },
   },
 ];

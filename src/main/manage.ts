@@ -6,7 +6,7 @@ onMounted(() => {
   const win = createWindow("manage", {
     // x: 3000,
     // y: -100,
-    devTool: true,
+    // devTool: true,
     frame: false,
     render: {
       dev: {

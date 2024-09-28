@@ -1,8 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
-import { config, db } from "../hooks/usePath";
-import { readJson, writeJson } from "../hooks/useFs";
 
 const api = {
   //最小化
@@ -23,29 +21,15 @@ const api = {
     ipcRenderer.send<EventNames>("close");
   },
 
-  //获取db
-  async getDb() {
-    const res = await readJson(db);
+  // //获取db
+  // async readConfig(name: string) {
+  //   return await readJson(name);
+  // },
 
-    return res;
-  },
-
-  //写入db
-  async updateDb(data: Array<any>) {
-    await writeJson(db, data);
-  },
-
-  //获取config
-  async getConfig() {
-    const res = await readJson(config);
-
-    return res;
-  },
-
-  //写入config
-  async updateConfig(data: any) {
-    await writeJson(config, data);
-  },
+  // //写入db
+  // async writeConfig(name: string, data: any) {
+  //   await writeJson(name, data);
+  // },
 };
 
 export type Api = typeof api;

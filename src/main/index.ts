@@ -1,2 +1,3 @@
-import "../hooks/ipc";
+import "../api/ipc";
+import "../api/updater";
 import "./manage";

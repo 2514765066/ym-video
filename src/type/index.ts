@@ -6,6 +6,17 @@ const eventNames = [
   "maximize",
   "is:maximize",
   "denyNewWindow",
+
+  "readConfig",
+  "writeConfig",
+
+  "update-available",
+  "update-error",
+  "download-progress",
+  "autoUpdate",
+  "manualUpdate",
+
+  "msg",
 ] as const;
 
 export type EventNames = (typeof eventNames)[number];
@@ -23,10 +34,6 @@ export type List = ListItem[];
 
 export type WebView = WebviewTag;
 
-export type RequiredKeys<T> = {
-  [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
-}[keyof T];
-
-export type RemoveOptional<T> = {
-  [K in RequiredKeys<T>]: T[K];
+export type ConfigData = {
+  history: string;
 };

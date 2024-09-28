@@ -12,11 +12,14 @@
 
 <script setup lang="ts">
 import Edit from "@/components/Edit.vue";
-import VideoSiteView from "@/views/VideoSiteView.vue";
+import VideoSiteView from "@/views/VideoSiteView/Index.vue";
 import TitleBar from "@/views/TitleBarView.vue";
 import CommandMenu from "@/components/CommandMenu/Index.vue";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ElMessage } from "element-plus";
+import { useUpdate } from "@/hooks/useUpdate";
+
+useUpdate();
 
 eventEmitter.on("error:show", (message: string) => {
   ElMessage({
@@ -32,6 +35,10 @@ eventEmitter.on("success:show", (message: string) => {
     type: "success",
     grouping: true,
   });
+});
+
+electron.ipcRenderer.on("msg", (_, msg) => {
+  console.log(msg);
 });
 </script>
 
