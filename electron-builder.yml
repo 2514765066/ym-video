@@ -13,6 +13,7 @@ files:
 asar: false
 win:
   executableName: ym-video
+  icon: "src/renderer/src/assets/icon.png"
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
