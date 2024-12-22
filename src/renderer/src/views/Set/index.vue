@@ -74,10 +74,7 @@ const handleLogin = () => {
 
 //处理更新
 const handleUpdate = () => {
-  electron.ipcRenderer.send(
-    "openURL",
-    "https://github.com/2514765066/ym-video/releases"
-  );
+  api.openUrl("https://github.com/2514765066/ym-video/releases");
 };
 </script>
 
