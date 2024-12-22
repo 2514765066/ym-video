@@ -4,10 +4,23 @@
       <p class="fs-40">"{{ route.query.keyword }}"的搜索结果</p>
     </header>
 
-    <ElScrollbar class="f-1">
-      <ul class="v fw-w g-1r">
-        <MovieInfo v-for="item of searchResult" :key="item.id" :data="item" />
-      </ul>
+    <ElScrollbar class="f-1" view-class="wh-100">
+      <div class="content wh-100">
+        <section
+          class="v-c-c wh-100"
+          style="padding-bottom: 130px"
+          v-if="status == '404' || status == '403'"
+        >
+          <img
+            src="@/assets/image/nothing.png"
+            style="filter: brightness(35%)"
+          />
+        </section>
+
+        <ul class="v fw-w g-1r" v-else>
+          <MovieInfo v-for="item of searchResult" :key="item.id" :data="item" />
+        </ul>
+      </div>
     </ElScrollbar>
   </main>
 </template>
@@ -17,29 +30,45 @@ import { ElScrollbar } from "element-plus";
 import MovieInfo from "@/components/MovieInfo.vue";
 import { MovieInfo as movieInfo } from "@type";
 import { useElectron } from "@/hooks/useElectron";
+import eventEmitter from "@/hooks/eventEmitter";
 
 const { search } = useElectron();
 const route = useRoute();
+
+//搜索状态
+const status = ref("");
 
 //搜索的结果
 const searchResult = ref<movieInfo[]>([]);
 
 //当关键词改变的时候重新搜索
 watchEffect(async () => {
-  searchResult.value = await search(route.query.keyword as string);
+  const response = await search(route.query.keyword as string);
+
+  status.value = response.status;
+  searchResult.value = response.data;
+
+  if (response.status == "403") {
+    eventEmitter.emit("error:show", "请在设置中登录豆瓣账号或切换网络");
+    return;
+  }
 });
 </script>
 
 <style scoped lang="scss">
 main {
-  padding-left: 3.5rem;
-
   > header {
+    height: 40px;
+    padding: 0 3.4rem;
     margin: 12px 0 2rem;
 
     > p {
-      height: 40px;
+      height: inherit;
     }
+  }
+
+  .content {
+    padding: 0 3.4rem;
   }
 }
 </style>

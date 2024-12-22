@@ -3,15 +3,20 @@
     <main class="wh-100 h">
       <TitleBar @close="handleClose" />
 
-      <section class="f-1 o-h">
-        <WebView />
-      </section>
+      <div class="v">
+        <section class="o-h w-100">
+          <WebView />
+        </section>
+
+        <Selection />
+      </div>
     </main>
   </Drawer>
 </template>
 
 <script setup lang="ts">
 import WebView from "./WebView.vue";
+import Selection from "./Selection.vue";
 import Drawer from "../index.vue";
 import TitleBar from "./TitleBar.vue";
 import eventEmitter from "@/hooks/eventEmitter";
@@ -32,13 +37,18 @@ eventEmitter.on("video:show", () => {
 
 <style scoped lang="scss">
 main {
+  padding: 0 0.5rem 0.5rem;
   background-color: #1f1f1f;
 
-  > section:nth-child(2) {
-    margin: 0 0.5rem 0.5rem;
-    border-radius: 0.5rem;
-    background-color: #131313;
-    border: 1px solid #363b3f;
+  > div {
+    height: calc(100% - 38px);
+    gap: 0.5rem;
+
+    > *:first-child {
+      border-radius: 0.5rem;
+      background-color: #131313;
+      border: 1px solid #363b3f;
+    }
   }
 }
 </style>

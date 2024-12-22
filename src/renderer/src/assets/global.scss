@@ -57,8 +57,37 @@
   }
 }
 
+.shake {
+  animation: shake 1s infinite;
+}
+
+@keyframes shake {
+  10% {
+    transform: rotate(15deg);
+  }
+  20% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(5deg);
+  }
+  40% {
+    transform: rotate(-5deg);
+  }
+  50%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .fs-40 {
   font-size: 40px;
+}
+
+button {
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .button {
@@ -88,5 +117,36 @@
 
   &:hover {
     background-color: #393939;
+  }
+}
+
+.button2 {
+  $size: 30px;
+
+  width: $size;
+  height: $size;
+  border-radius: 0.5rem;
+  transition: 0.15s;
+
+  &:hover {
+    background-color: #373737;
+  }
+
+  &:disabled {
+    cursor: default;
+
+    > svg {
+      fill: #6f6f6f;
+    }
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.circular {
+  > * {
+    stroke: #fd8132 !important;
   }
 }

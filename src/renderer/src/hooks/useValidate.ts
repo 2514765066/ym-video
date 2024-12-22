@@ -1,6 +1,18 @@
-export const validateKey = (obj1: Object, obj2: Object) => {
-  const key1 = Object.keys(obj1).sort();
-  const key2 = Object.keys(obj2).sort();
+const SupportVersion = "3.1.0";
 
-  return JSON.stringify(key1) === JSON.stringify(key2);
+//验证版本
+export const validateVersion = (version: string) => {
+  const v1 = SupportVersion.split(".");
+  const v2 = version.split(".");
+
+  for (let i = 0; i < 3; i++) {
+    const num1 = parseInt(v1[i]) || 0;
+    const num2 = parseInt(v2[i]) || 0;
+
+    if (num1 > num2) {
+      return false;
+    }
+  }
+
+  return true;
 };

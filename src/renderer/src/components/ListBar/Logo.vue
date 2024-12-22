@@ -1,6 +1,6 @@
 <template>
   <section class="v-n-c">
-    <img src="@/assets/icon.png" width="20px" />
+    <img src="@/assets/icon.png" width="18px" />
 
     <span class="c-ccc ml-2 fs-18">ym-video</span>
   </section>

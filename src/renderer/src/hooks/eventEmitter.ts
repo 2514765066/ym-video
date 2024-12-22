@@ -1,12 +1,9 @@
-import { WebView } from "@type";
-
 //事件名称
 const eventNames = [
   "error:show",
   "success:show",
   "command:show",
   "set:show",
-
   "videoSite:show",
   "video:show",
 ] as const;
@@ -17,10 +14,7 @@ interface EventMap {
   "success:show": (message: string) => void;
   "command:show": () => void;
   "set:show": () => void;
-  "videoSite:show": (
-    url: string,
-    webviewRef: (webviewRef: WebView, close: () => void) => void
-  ) => void;
+  "videoSite:show": () => void;
   "video:show": () => void;
 }
 

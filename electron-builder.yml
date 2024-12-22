@@ -1,8 +1,5 @@
 appId: ym-video
 productName: ym-video
-npmRebuild: false
-directories:
-  buildResources: build
 files:
   - "!**/.vscode/*"
   - "!src/*"
@@ -19,8 +16,9 @@ nsis:
   allowToChangeInstallationDirectory: true
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
+  uninstallDisplayName: ${productName}e
   createDesktopShortcut: always
+  deleteAppDataOnUninstall: true
 publish:
   provider: github
   owner: 2514765066

@@ -1,30 +1,43 @@
 <template>
-  <section class="title-bar w-100 v-n-c g-2">
-    <el-tooltip content="用网页打开" :hide-after="0" effect="light">
-      <button @click="handleBrowser">
-        <img src="@/assets/svg/link.svg" width="18px" />
+  <section class="title-bar w-100 v-n-c g-1">
+    <el-tooltip content="切换线路" :hide-after="0" :disabled="true">
+      <button
+        @click="change"
+        class="button2"
+        :disabled="true"
+        style="cursor: not-allowed"
+      >
+        <img
+          src="@/assets/svg/change.svg"
+          width="18px"
+          style="filter: brightness(50%)"
+        />
       </button>
     </el-tooltip>
 
-    <el-tooltip content="切换线路" :hide-after="0" effect="light">
-      <button @click="change">
-        <img src="@/assets/svg/change.svg" width="18px" />
-      </button>
-    </el-tooltip>
-
-    <el-tooltip content="刷新" :hide-after="0" effect="light">
-      <button @click="reload">
+    <el-tooltip content="刷新" :hide-after="0">
+      <button @click="reload" class="button2 mr">
         <img src="@/assets/svg/reload.svg" width="19px" />
       </button>
     </el-tooltip>
 
     <section class="fs-12 p-a c-ccc v-c-c o-h px-1r">
       <span class="ellipsis">
-        {{ videoStore.selectedVideo?.name }}
+        {{ selectedVideo?.name }}
       </span>
     </section>
 
-    <button @click="emits('close')" class="ml">
+    <el-tooltip :content="isOpen ? '关闭选集' : '打开选集'" :hide-after="0">
+      <button
+        @click="isOpen = !isOpen"
+        class="button2"
+        v-if="selectedVideo!.url.length > 1"
+      >
+        <img src="@/assets/svg/list.svg" width="20px" />
+      </button>
+    </el-tooltip>
+
+    <button @click="emits('close')" class="button2">
       <img src="@/assets/svg/close.svg" width="16" />
     </button>
   </section>
@@ -33,33 +46,19 @@
 <script setup lang="ts">
 import { ElTooltip } from "element-plus";
 import { useLineStore } from "@/stores/useLineStore";
-import { reload } from "./index";
-import eventEmitter from "@/hooks/eventEmitter";
+import { reload, isOpen } from "./index";
+
 import { useVideoStore } from "@/stores/useVideoStore";
 
-const videoStore = useVideoStore();
+const { selectedVideo } = storeToRefs(useVideoStore());
 const { change } = useLineStore();
 
 const emits = defineEmits(["close"]);
-
-//处理网页打开
-const handleBrowser = () => {
-  eventEmitter.emit(
-    "videoSite:show",
-    videoStore.selectedVideo!.url,
-    (webview, close) => {
-      videoStore.selectedVideo!.url = webview.getURL();
-
-      close();
-    }
-  );
-};
 </script>
 
 <style scoped lang="scss">
 .title-bar {
   height: 38px;
-  padding: 0 0.5rem;
   -webkit-app-region: drag;
 
   > section {
@@ -74,19 +73,6 @@ const handleBrowser = () => {
     &:hover {
       background-color: #313131;
       border-color: #5b5b5b;
-    }
-  }
-
-  > button {
-    $size: 30px;
-
-    width: $size;
-    height: $size;
-    border-radius: 0.5rem;
-    transition: 0.15s;
-
-    &:hover {
-      background-color: #373737;
     }
   }
 }

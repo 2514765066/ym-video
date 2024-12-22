@@ -1,8 +1,7 @@
 import { ipcMain } from "./ipcMain";
 import { windows } from "ym-electron.js";
 import { readJson, writeJson } from "../api/fs";
-import { shell } from "electron";
-// import { autoUpdater } from "electron-updater";
+import { autoUpdater } from "./updater";
 
 //最小化
 ipcMain.on("minimize", () => {
@@ -31,11 +30,6 @@ ipcMain.handle("readConfig", async (_, name: string) => {
 ipcMain.handle("writeConfig", async (_, name: string, data: any) => {
   await writeJson(name, data);
   return true;
-});
-
-//打开网页
-ipcMain.on("openURL", (_, url: string) => {
-  shell.openExternal(url);
 });
 
 //获取图片
@@ -95,13 +89,42 @@ ipcMain.handle("getUrl", async (_, option: getUrlOption) => {
   //获取返回的html
   const html = await response.text();
 
+  //检测是否被封禁
+  if (html.includes("有异常请求从你的 IP 发出")) {
+    return {
+      status: 403,
+      data: [],
+    };
+  }
+
+  //正则匹配播放地址
   const reg = /"https:\/\/www.douban.com\/link2\/\?url\=(.*?)"/g;
 
-  const urls = [...html.matchAll(reg)]
-    .map(item => decodeURIComponent(item[1]).split("?")[0])
-    .filter(url => !url.includes("migu") && !url.includes("bilibili"));
+  const match = [...html.matchAll(reg)];
 
-  return [...new Set(urls)];
+  //获取地址，解码，去掉查询字符串，替换http为https
+  const urls = match
+    .map(item =>
+      decodeURIComponent(item[1]).split("?")[0].replace("http://", "https://")
+    )
+    .filter(url => !url.includes("migu"));
+
+  //去重
+  const res = [...new Set(urls)];
+
+  //如果没有获取到地址
+  if (res.length == 0) {
+    return {
+      status: 404,
+      data: [],
+    };
+  }
+
+  //返回地址
+  return {
+    status: 200,
+    data: res,
+  };
 });
 
 //搜索
@@ -113,7 +136,7 @@ type searchOption = {
 ipcMain.handle("search", async (_, option: searchOption) => {
   const { keyword, cookie } = option;
 
-  const url = `https://search.douban.com/movie/subject_search?search_text=${keyword}&start=0`;
+  const url = `https://search.douban.com/movie/subject_search?search_text=${keyword}`;
 
   const response = await fetch(url, {
     referrer: "https://movie.douban.com/explore",
@@ -122,43 +145,67 @@ ipcMain.handle("search", async (_, option: searchOption) => {
     },
   });
 
+  //获取返回的html
   const html = await response.text();
 
-  type Result = {
-    title: string;
-    cover_url: string;
-    id: string;
-    labels: object[];
+  //检测是否被封禁
+  if (html.includes("有异常请求从你的 IP 发出")) {
+    return {
+      status: 403,
+      data: [],
+    };
+  }
+
+  //解析html获取数据
+  const getData = (html: string) => {
+    type Result = {
+      title: string;
+      cover_url: string;
+      id: string;
+      labels: object[];
+    };
+
+    const data: Result[] = JSON.parse(
+      html.match(/window.__DATA__ = (.*?);/)![1]
+    ).items;
+
+    return data;
   };
 
-  const data: Result[] = JSON.parse(
-    html.match(/window.__DATA__ = (.*?);/)![1]
-  ).items;
+  const data = getData(html);
 
-  return data
+  //过滤掉不能播放的数据
+  const res = data
     .filter(item => item.labels && item.labels.length != 0)
-    .map(item => {
-      const info = item.title.split(" ");
-      const year = info.at(-1)!.replace(/[()]/g, "");
+    .map(item => ({
+      name: item.title.replace(/\((.*?)\)/, ""),
+      year: item.title.match(/\((.*?)\)/)![1],
+      img: item.cover_url,
+      id: item.id,
+    }));
 
-      return {
-        name: info[0],
-        year,
-        img: item.cover_url,
-        id: item.id,
-      };
-    });
+  if (res.length == 0) {
+    return {
+      status: 404,
+      data: [],
+    };
+  }
+
+  return {
+    status: 200,
+    data: res,
+  };
 });
 
 //检查更新
-// ipcMain.handle("checkForUpdates", async _ => {
-//   const res = await autoUpdater.checkForUpdates();
+ipcMain.handle("checkForUpdates", async () => {
+  const res = await autoUpdater.checkForUpdates();
 
-//   const newVersion = res?.updateInfo.version;
+  const newVersion = res?.updateInfo.version;
 
-//   if (newVersion !== autoUpdater.currentVersion.version) {
-//     return newVersion;
-//   }
+  if (newVersion !== autoUpdater.currentVersion.version) {
+    return newVersion;
+  }
 
-//   return void 0;
-// });
+  return false;
+});

@@ -4,10 +4,28 @@
       <p class="fs-40">历史</p>
     </header>
 
-    <ElScrollbar class="f-1">
-      <ul class="v fw-w g-1r">
-        <MovieInfo v-for="item of data" :key="item.id" :data="item" />
-      </ul>
+    <ElScrollbar class="f-1" view-class="wh-100">
+      <div class="content wh-100">
+        <section
+          class="v-c-c wh-100"
+          style="padding-bottom: 130px"
+          v-if="data.length == 0"
+        >
+          <img
+            src="@/assets/image/nothing.png"
+            style="filter: brightness(35%)"
+          />
+        </section>
+
+        <ul class="v fw-w g-1r" v-else>
+          <MovieInfo
+            v-for="item of data"
+            :key="item.id"
+            :data="item"
+            :remove="true"
+          />
+        </ul>
+      </div>
     </ElScrollbar>
   </main>
 </template>
@@ -22,15 +40,20 @@ const { data } = storeToRefs(useVideoStore());
 
 <style scoped lang="scss">
 main {
-  padding-left: 3.5rem;
   padding-right: 5px;
 
   > header {
+    height: 40px;
+    padding: 0 3.4rem;
     margin: 12px 0 2rem;
 
     > p {
-      height: 40px;
+      height: inherit;
     }
+  }
+
+  .content {
+    padding: 0 3.4rem;
   }
 }
 </style>

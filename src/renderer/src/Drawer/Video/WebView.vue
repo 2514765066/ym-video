@@ -24,7 +24,7 @@ watchEffect(() => {
     return;
   }
 
-  src.value = `${selectedLine.value}${selectedVideo.value.url}`;
+  src.value = `${selectedLine.value}${selectedVideo.value.history}`;
   id.value = selectedVideo.value.id;
 });
 
@@ -43,7 +43,7 @@ onMounted(() => {
       const url = webviewRef.value!.src.split(selectedLine.value)[1];
 
       if (url && selectedVideo.value) {
-        selectedVideo.value.url = url;
+        selectedVideo.value.history = url;
       }
     },
     {

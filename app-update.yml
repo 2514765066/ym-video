@@ -1,0 +1,5 @@
+owner: '2514765066'
+repo: ym-video
+provider: github
+releaseType: release
+updaterCacheDirName: ym-video-updater

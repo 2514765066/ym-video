@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer, shell } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { EventNames } from "../type";
 
@@ -21,15 +21,10 @@ const api = {
     ipcRenderer.send<EventNames>("close");
   },
 
-  // //获取db
-  // async readConfig(name: string) {
-  //   return await readJson(name);
-  // },
-
-  // //写入db
-  // async writeConfig(name: string, data: any) {
-  //   await writeJson(name, data);
-  // },
+  //打开网页
+  openUrl(url: string) {
+    shell.openExternal(url);
+  },
 };
 
 export type Api = typeof api;

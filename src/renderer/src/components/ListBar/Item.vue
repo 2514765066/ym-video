@@ -1,27 +1,32 @@
 <template>
-  <RouterLink :to="to" class="v-n-c pl-2 g-1r p-r">
-    <img :src="src" />
-    <span class="fs-14">{{ title }}</span>
+  <RouterLink :to="to" class="v-n-c pl-2 g-1r p-r" v-if="to">
+    <slot></slot>
+    <span class="fs-14" v-if="title">{{ title }}</span>
   </RouterLink>
+
+  <li class="v-n-c pl-2 g-1r p-r" v-else>
+    <slot></slot>
+    <span class="fs-14">{{ title }}</span>
+  </li>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  title: string;
-  src: URL;
-  to: string;
+  title?: string;
+  to?: string;
 }>();
 </script>
 
 <style scoped lang="scss">
-a {
+a,
+li {
   height: 34px;
   transition: 0.1s;
   border-radius: 5px;
   color: #fff;
   cursor: default;
 
-  > img {
+  > :deep(img) {
     width: 20px;
   }
 

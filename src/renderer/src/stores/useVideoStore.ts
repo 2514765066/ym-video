@@ -1,6 +1,6 @@
 import { VideoInfo } from "@type";
 import { useConfigStore } from "./useConfigStore";
-import { validateKey } from "@/hooks/useValidate";
+import { validateVersion } from "@/hooks/useValidate";
 
 export const useVideoStore = defineStore("list", () => {
   const configStore = useConfigStore();
@@ -60,25 +60,17 @@ export const useVideoStore = defineStore("list", () => {
 
   //初始化
   const init = async () => {
-    const res: VideoInfo[] = await electron.ipcRenderer.invoke(
-      "readConfig",
-      "db"
-    );
-
-    const validateObj = {
-      name: "",
-      year: "",
-      img: "",
-      id: "",
-      url: "",
-    };
-
-    //验证数据是否合法
-    if (!validateKey(res[0], validateObj)) return;
+    const res = (
+      (await electron.ipcRenderer.invoke("readConfig", "db")) as VideoInfo[]
+    ).filter(({ minVersion }) => validateVersion(minVersion));
 
     //最大历史记录数量
     if (res.length > configStore.data.historyCount) {
       data.value = res.slice(0, configStore.data.historyCount);
+      return;
+    }
+
+    if (res.length == 0) {
       return;
     }
 

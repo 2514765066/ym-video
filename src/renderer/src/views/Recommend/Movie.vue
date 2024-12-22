@@ -8,7 +8,11 @@
 import MovieInfo from "@/components/MovieInfo.vue";
 import { useMovieStore } from "@/stores/useMovieStore";
 
-const { movieData } = storeToRefs(useMovieStore());
+const movieStore = useMovieStore();
+
+const movieData = computed(() => {
+  return movieStore.movieData.slice(0, movieStore.movieDataShowCount);
+});
 </script>
 
 <style scoped lang="scss"></style>

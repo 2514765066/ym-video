@@ -15,13 +15,13 @@ import WebView from "./WebView.vue";
 import Drawer from "../index.vue";
 import TitleBar from "./TitleBar.vue";
 import eventEmitter from "@/hooks/eventEmitter";
-import { reload, src, webviewRef } from "./index";
+import { reload, webviewRef } from "./index";
+import { useConfigStore } from "@/stores/useConfigStore";
+
+const { data } = storeToRefs(useConfigStore());
 
 //是否可见
 const showable = ref(false);
-
-//传递过来的函数
-const fn = ref();
 
 //关闭Drawer
 const handleClose = () => {
@@ -29,14 +29,23 @@ const handleClose = () => {
 };
 
 //处理点击
-const handleSelect = () => {
-  fn.value(webviewRef.value, handleClose);
+const handleSelect = async () => {
+  const cookie = await webviewRef.value!.executeJavaScript("document.cookie");
+
+  if (!cookie) {
+    eventEmitter.emit("error:show", "请登录后再提交");
+    return;
+  }
+
+  data.value.cookie = cookie;
+
+  eventEmitter.emit("success:show", "登录成功");
+
+  handleClose();
 };
 
 //事件触发
-eventEmitter.on("videoSite:show", (url, func) => {
-  src.value = url;
-  fn.value = func;
+eventEmitter.on("videoSite:show", () => {
   showable.value = true;
 });
 </script>

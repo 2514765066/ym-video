@@ -5,37 +5,45 @@
     </header>
 
     <ElScrollbar class="f-1">
-      <section class="mb-2r module" v-if="historyData.length != 0">
-        <p class="fs-22 mb-4">历史</p>
+      <div class="content">
+        <section class="mb-2r module" v-if="historyData.length != 0">
+          <p class="fs-22 mb-4">历史</p>
 
-        <ul class="v fw-w g-1r">
-          <MovieInfo v-for="item of historyData" :key="item.id" :data="item" />
-        </ul>
-      </section>
+          <ul class="v fw-w g-1r">
+            <MovieInfo
+              v-for="item of historyData"
+              :key="item.id"
+              :data="item"
+            />
+          </ul>
+        </section>
 
-      <section class="mb-2r module" v-if="movieData.length != 0">
-        <header class="v-n-c mb-4 g-1r">
-          <p class="fs-22">推荐电影</p>
+        <section class="mb-2r module" v-if="movieData.length != 0">
+          <header class="v-n-c mb-4 g-1r">
+            <p class="fs-22">推荐电影</p>
 
-          <RouterLink to="/recommend/movie" class="more">更多></RouterLink>
-        </header>
+            <RouterLink to="/recommend/movie" class="more fs-14"
+              >更多></RouterLink
+            >
+          </header>
 
-        <ul class="v fw-w g-1r">
-          <MovieInfo v-for="item of movieData" :key="item.id" :data="item" />
-        </ul>
-      </section>
+          <ul class="v fw-w g-1r">
+            <MovieInfo v-for="item of movieData" :key="item.id" :data="item" />
+          </ul>
+        </section>
 
-      <section class="mb-2r module" v-if="tvData.length != 0">
-        <header class="v-n-c mb-4 g-1r">
-          <p class="fs-22">推荐电视剧</p>
+        <section class="mb-2r module" v-if="tvData.length != 0">
+          <header class="v-n-c mb-4 g-1r">
+            <p class="fs-22">推荐电视剧</p>
 
-          <RouterLink to="/recommend/tv" class="more">更多></RouterLink>
-        </header>
+            <RouterLink to="/recommend/tv" class="more fs-14">更多></RouterLink>
+          </header>
 
-        <ul class="v fw-w g-1r">
-          <MovieInfo v-for="item of tvData" :key="item.id" :data="item" />
-        </ul>
-      </section>
+          <ul class="v fw-w g-1r">
+            <MovieInfo v-for="item of tvData" :key="item.id" :data="item" />
+          </ul>
+        </section>
+      </div>
     </ElScrollbar>
   </main>
 </template>
@@ -53,57 +61,42 @@ defineOptions({
   name: "Home",
 });
 
-//历史记录数量
-const maxCount = ref(5);
-
 //历史记录
 const historyData = computed(() => {
-  return videoStore.data.slice(0, maxCount.value);
+  return videoStore.data.slice(0, movieStore.colCount);
 });
 
 //推荐电影
 const movieData = computed(() => {
-  return movieStore.movieData.slice(0, maxCount.value);
+  return movieStore.movieData.slice(0, movieStore.colCount);
 });
 
 //推荐电视剧
 const tvData = computed(() => {
-  return movieStore.tvData.slice(0, maxCount.value);
-});
-
-onMounted(() => {
-  window.addEventListener("resize", () => {
-    const count = Math.floor((window.innerWidth - 320) / (140 + 16));
-
-    if (count == maxCount.value) {
-      return;
-    }
-
-    maxCount.value = count;
-  });
+  return movieStore.tvData.slice(0, movieStore.colCount);
 });
 </script>
 
 <style scoped lang="scss">
 main {
-  padding-left: 3.5rem;
   padding-right: 5px;
 
   > header {
+    height: 40px;
+    padding: 0 3.4rem;
     margin: 12px 0 2rem;
 
     > p {
-      height: 40px;
+      height: inherit;
     }
   }
 
-  .more {
-    color: #fff;
-    font-size: 14px;
-    transition: 0.1s color;
+  .content {
+    padding: 0 3.4rem;
 
-    &:hover {
+    .more {
       color: #ff8232;
+      transition: 0.1s color;
     }
   }
 }

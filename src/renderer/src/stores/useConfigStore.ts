@@ -1,7 +1,8 @@
-import { validateKey } from "@/hooks/useValidate";
+import { Config } from "@type";
+import { filterObj } from "@/hooks/useFilterObj";
 
 export const useConfigStore = defineStore("config", () => {
-  const data = ref({
+  const data = ref<Config>({
     historyCount: 20,
     cookie: "",
   });
@@ -25,9 +26,14 @@ export const useConfigStore = defineStore("config", () => {
   const init = async () => {
     const res = await electron.ipcRenderer.invoke("readConfig", "config");
 
-    if (!validateKey(res, data.value)) return;
+    //过滤obj
+    const obj = filterObj(res, ([key]) => key in data.value) as Config;
 
-    data.value = res;
+    if (Object.keys(obj).length == 0) {
+      return;
+    }
+
+    data.value = obj;
   };
 
   init();

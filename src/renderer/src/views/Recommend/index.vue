@@ -15,21 +15,23 @@
     </header>
 
     <ElScrollbar class="f-1">
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
+      <div class="content">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
 
-      <section class="v-c-c more" v-if="movieData.length != 0">
-        <img
-          src="@/assets/svg/loading.svg"
-          class="loading"
-          width="35px"
-          v-if="loading"
-        />
-        <button class="button1" @click="handleClick" v-else>查看更多</button>
-      </section>
+        <section class="v-c-c more" v-if="movieData.length != 0">
+          <img
+            src="@/assets/svg/loading.svg"
+            class="loading"
+            width="35px"
+            v-if="loading"
+          />
+          <button class="button1" @click="handleClick" v-else>查看更多</button>
+        </section>
+      </div>
     </ElScrollbar>
   </main>
 </template>
@@ -57,8 +59,10 @@ const nav = [
   },
 ];
 
+//是否在加载
 const loading = ref(false);
 
+//处理点击
 const handleClick = async () => {
   loading.value = true;
 
@@ -74,14 +78,15 @@ const handleClick = async () => {
 
 <style scoped lang="scss">
 main {
-  padding-left: 3.5rem;
   padding-right: 5px;
 
   > header {
+    height: 40px;
+    padding: 0 3.4rem;
     margin: 12px 0 2rem;
 
     > p {
-      height: 40px;
+      height: inherit;
     }
 
     > a {
@@ -97,7 +102,7 @@ main {
         height: 3.5px;
         display: block;
         position: absolute;
-        bottom: -2px;
+        bottom: 8px;
         border-radius: 3.5px;
         transition: 0.1s background-color;
       }
@@ -110,8 +115,12 @@ main {
     }
   }
 
-  .more {
-    height: 100px;
+  .content {
+    padding: 0 3.4rem;
+
+    .more {
+      height: 100px;
+    }
   }
 }
 </style>

@@ -11,17 +11,17 @@
 
   <VideoSite />
   <Video />
-  <!-- <Add /> -->
+  <LineTip />
 </template>
 
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
 import TitleBar from "@/components/TitleBar.vue";
 import ListBar from "@/components/ListBar/index.vue";
-// import Add from "@/components/Add.vue";
 import VideoSite from "@/Drawer/VideoSite/index.vue";
 import Video from "@/Drawer/Video/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
+import LineTip from "./components/LineTip.vue";
 
 eventEmitter.on("error:show", (message: string) => {
   ElMessage({

@@ -4,11 +4,14 @@
 
 <script setup lang="ts">
 import { WebView } from "@type";
-import { webviewRef, src } from "./index";
+import { webviewRef } from "./index";
+
+const src = ref("https://accounts.douban.com/passport/login");
 
 //初始化
 onMounted(() => {
   webviewRef.value = document.querySelector("#videoSite") as WebView;
+
   webviewRef.value.addEventListener("did-finish-load", () => {
     webviewRef.value!.setAudioMuted(true);
   });
