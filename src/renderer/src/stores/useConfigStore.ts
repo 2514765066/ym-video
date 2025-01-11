@@ -1,10 +1,8 @@
 import { Config } from "@type";
-import { filterObj } from "@/hooks/useFilterObj";
 
 export const useConfigStore = defineStore("config", () => {
   const data = ref<Config>({
     historyCount: 20,
-    cookie: "",
   });
 
   //监视更新值
@@ -24,16 +22,12 @@ export const useConfigStore = defineStore("config", () => {
 
   //初始化
   const init = async () => {
-    const res = await electron.ipcRenderer.invoke("readConfig", "config");
+    const res: Config = await electron.ipcRenderer.invoke(
+      "readConfig",
+      "config"
+    );
 
-    //过滤obj
-    const obj = filterObj(res, ([key]) => key in data.value) as Config;
-
-    if (Object.keys(obj).length == 0) {
-      return;
-    }
-
-    data.value = obj;
+    data.value.historyCount = res.historyCount;
   };
 
   init();

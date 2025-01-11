@@ -3,18 +3,22 @@ import {
   IpcMainEvent,
   IpcMainInvokeEvent,
 } from "electron";
-import { EventNames } from "../type";
-
-type IpcMainHandler = (event: IpcMainEvent, ...args: any[]) => void;
+import { IpcEventParameters, IpcEventNames, IpcEventReturn } from "../type";
 
 class IpcMainWrapper {
-  on(event: EventNames, listener: IpcMainHandler) {
+  on<T extends IpcEventNames>(
+    event: T,
+    listener: (event: IpcMainEvent, ...args: IpcEventParameters<T>) => void
+  ) {
     ipcMain1.on(event, listener);
   }
 
-  handle(
-    event: EventNames,
-    listener: (event: IpcMainInvokeEvent, ...args: any[]) => Promise<any> | any
+  handle<T extends IpcEventNames>(
+    event: T,
+    listener: (
+      event: IpcMainInvokeEvent,
+      ...args: IpcEventParameters<T>
+    ) => Promise<IpcEventReturn<T>> | IpcEventReturn<T>
   ) {
     ipcMain1.handle(event, listener);
   }

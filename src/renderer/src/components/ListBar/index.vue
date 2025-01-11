@@ -26,9 +26,17 @@
       </Item>
 
       <Item
-        title="推荐"
-        to="/recommend"
-        :class="{ active: route.path.includes('/recommend') }"
+        title="电影"
+        to="/movie"
+        :class="{ active: route.path.includes('/movie') }"
+      >
+        <img src="@/assets/svg/tv.svg" />
+      </Item>
+
+      <Item
+        title="电视剧"
+        to="/tv"
+        :class="{ active: route.path.includes('/tv') }"
       >
         <img src="@/assets/svg/tv.svg" />
       </Item>
@@ -67,7 +75,7 @@
 
 <script setup lang="ts">
 import { ElTooltip } from "element-plus";
-import Logo from "./Logo.vue";
+import Logo from "@/components/Logo.vue";
 import Search from "./Search.vue";
 import Item from "./Item.vue";
 

@@ -9,16 +9,22 @@ export const useMovieStore = defineStore("movie", () => {
   const movieData = ref<MovieInfo[]>([]);
 
   //电影数据应该显示的数量
-  const movieDataShowCount = computed(() => {
-    return Math.floor(movieData.value.length / colCount.value) * colCount.value;
+  const movieDataShow = computed(() => {
+    const count =
+      Math.floor(movieData.value.length / colCount.value) * colCount.value;
+
+    return movieData.value.slice(0, count);
   });
 
   //电视剧数据
   const tvData = ref<MovieInfo[]>([]);
 
   //电影数据应该显示的数量
-  const tvDataShowCount = computed(() => {
-    return Math.floor(tvData.value.length / colCount.value) * colCount.value;
+  const tvDataShow = computed(() => {
+    const count =
+      Math.floor(tvData.value.length / colCount.value) * colCount.value;
+
+    return tvData.value.slice(0, count);
   });
 
   //获取电影数据
@@ -29,7 +35,7 @@ export const useMovieStore = defineStore("movie", () => {
     };
 
     const data: MovieInfo[] = await electron.ipcRenderer.invoke(
-      "getMovie",
+      "getRecommend",
       option
     );
 
@@ -40,11 +46,11 @@ export const useMovieStore = defineStore("movie", () => {
   const getTvData = async () => {
     const option = {
       type: "tv",
-      start: tvData.value.length,
+      start: movieData.value.length,
     };
 
     const data: MovieInfo[] = await electron.ipcRenderer.invoke(
-      "getMovie",
+      "getRecommend",
       option
     );
 
@@ -53,9 +59,9 @@ export const useMovieStore = defineStore("movie", () => {
 
   //大小改变
   const resize = debounce(() => {
-    const width = window.innerWidth - 320 - 54.5 * 2;
+    const width = window.innerWidth - 320 - 109;
     const gap = 16;
-    const itemWidth = 140;
+    const itemWidth = 170;
 
     colCount.value = Math.floor((width + gap) / (itemWidth + gap));
   });
@@ -71,8 +77,8 @@ export const useMovieStore = defineStore("movie", () => {
     colCount,
     movieData,
     tvData,
-    movieDataShowCount,
-    tvDataShowCount,
+    movieDataShow,
+    tvDataShow,
     getMovieData,
     getTvData,
   };

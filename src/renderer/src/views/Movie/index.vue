@@ -1,28 +1,20 @@
 <template>
   <main class="h">
     <header class="w-100 v g-2r">
-      <p class="fs-40">推荐</p>
-
-      <RouterLink
-        class="fs-18 c-fff p-r v-c-n"
-        v-for="{ to, title } of nav"
-        :key="title"
-        :to="to"
-        :class="{ active: route.path == to }"
-      >
-        {{ title }}
-      </RouterLink>
+      <p class="fs-40">推荐电影</p>
     </header>
 
     <ElScrollbar class="f-1">
       <div class="content">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
+        <ul class="v fw-w g-1r">
+          <MovieInfo
+            v-for="item of movieDataShow"
+            :key="item.id"
+            :data="item"
+          />
+        </ul>
 
-        <section class="v-c-c more" v-if="movieData.length != 0">
+        <section class="v-c-c more" v-if="movieDataShow.length != 0">
           <img
             src="@/assets/svg/loading.svg"
             class="loading"
@@ -37,40 +29,23 @@
 </template>
 
 <script setup lang="ts">
+import MovieInfo from "@/components/MovieInfo.vue";
 import { ElScrollbar } from "element-plus";
 import { useMovieStore } from "@/stores/useMovieStore";
 
-const { movieData } = storeToRefs(useMovieStore());
-const { getMovieData, getTvData } = useMovieStore();
-const route = useRoute();
+const { movieDataShow } = storeToRefs(useMovieStore());
+const { getMovieData } = useMovieStore();
 
 defineOptions({
-  name: "Recommend",
+  name: "Movie",
 });
-
-const nav = [
-  {
-    title: "推荐电影",
-    to: "/recommend/movie",
-  },
-  {
-    title: "推荐电视剧",
-    to: "/recommend/tv",
-  },
-];
 
 //是否在加载
 const loading = ref(false);
 
 //处理点击
 const handleClick = async () => {
-  loading.value = true;
-
-  if (route.path == "/recommend/movie") {
-    await getMovieData();
-  } else {
-    await getTvData();
-  }
+  await getMovieData();
 
   loading.value = false;
 };

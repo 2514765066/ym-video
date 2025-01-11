@@ -3,6 +3,10 @@
   user-select: none;
 }
 
+html:root {
+  --main-color: #ff8232;
+}
+
 .el-dialog {
   border-radius: 0.5rem !important;
   box-shadow: 0 0 10px 5px rgba(#000, 0.4) !important;
@@ -24,10 +28,6 @@
   line-height: 12px;
 }
 
-.el-time-panel__footer {
-  display: none;
-}
-
 .Drawer {
   .el-drawer__header {
     height: 38px;
@@ -42,19 +42,6 @@
 @font-face {
   font-family: "logo";
   src: url("./fonts/logo.ttf");
-}
-
-.loading {
-  animation: rotate 1s steps(12, jump-end) infinite;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .shake {
@@ -82,12 +69,6 @@
 
 .fs-40 {
   font-size: 40px;
-}
-
-button {
-  &:disabled {
-    cursor: not-allowed;
-  }
 }
 
 .button {
@@ -148,5 +129,21 @@ button {
 .circular {
   > * {
     stroke: #fd8132 !important;
+  }
+}
+
+.loading {
+  animation: loading 800ms infinite linear;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

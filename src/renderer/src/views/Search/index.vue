@@ -29,10 +29,7 @@
 import { ElScrollbar } from "element-plus";
 import MovieInfo from "@/components/MovieInfo.vue";
 import { MovieInfo as movieInfo } from "@type";
-import { useElectron } from "@/hooks/useElectron";
-import eventEmitter from "@/hooks/eventEmitter";
 
-const { search } = useElectron();
 const route = useRoute();
 
 //搜索状态
@@ -43,15 +40,7 @@ const searchResult = ref<movieInfo[]>([]);
 
 //当关键词改变的时候重新搜索
 watchEffect(async () => {
-  const response = await search(route.query.keyword as string);
-
-  status.value = response.status;
-  searchResult.value = response.data;
-
-  if (response.status == "403") {
-    eventEmitter.emit("error:show", "请在设置中登录豆瓣账号或切换网络");
-    return;
-  }
+  searchResult.value = await api.search(route.query.keyword as string);
 });
 </script>
 

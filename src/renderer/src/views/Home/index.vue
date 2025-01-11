@@ -22,9 +22,7 @@
           <header class="v-n-c mb-4 g-1r">
             <p class="fs-22">推荐电影</p>
 
-            <RouterLink to="/recommend/movie" class="more fs-14"
-              >更多></RouterLink
-            >
+            <RouterLink to="/movie" class="more fs-14">更多></RouterLink>
           </header>
 
           <ul class="v fw-w g-1r">
@@ -36,7 +34,7 @@
           <header class="v-n-c mb-4 g-1r">
             <p class="fs-22">推荐电视剧</p>
 
-            <RouterLink to="/recommend/tv" class="more fs-14">更多></RouterLink>
+            <RouterLink to="/tv" class="more fs-14">更多></RouterLink>
           </header>
 
           <ul class="v fw-w g-1r">

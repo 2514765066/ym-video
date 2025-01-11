@@ -1,5 +1,5 @@
 <template>
-  <section class="ym-slider">
+  <section class="ym-slider" ref="slider">
     <input
       type="range"
       :min="min"
@@ -22,7 +22,7 @@ const props = withDefaults(
     width?: number;
     min?: number;
     max?: number;
-    step?: number;
+    step?: number | string;
   }>(),
   {
     width: 300,
@@ -36,9 +36,9 @@ const model = defineModel<number>({
   default: 0,
 });
 
-const track = computed(() => {
-  return ((model.value - props.min) / (props.max - props.min)) * props.width;
-});
+const track = computed(
+  () => ((model.value - props.min) / (props.max - props.min)) * props.width
+);
 </script>
 
 <style scoped lang="scss">

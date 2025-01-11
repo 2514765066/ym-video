@@ -29,6 +29,12 @@ window.addEventListener("online", () => {
 
   showable.value = false;
 });
+
+onMounted(() => {
+  if (!navigator.onLine) {
+    showable.value = true;
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -37,24 +43,16 @@ section {
   top: 0;
   left: 0;
   z-index: 9999;
-  background-color: rgba(#000, 0.8);
+  background-color: rgba(#000, 0.9);
+  -webkit-app-region: drag;
 
   > svg {
     width: 200px;
-    animation: change 1s infinite alternate;
+    fill: var(--main-color);
   }
 
   > span {
-    color: #ff8232;
-  }
-
-  @keyframes change {
-    from {
-      fill: #272727;
-    }
-    to {
-      fill: #ff8232;
-    }
+    color: var(--main-color);
   }
 }
 </style>

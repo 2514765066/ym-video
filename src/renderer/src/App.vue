@@ -4,12 +4,11 @@
   <ListBar />
 
   <router-view v-slot="{ Component }">
-    <keep-alive :include="['Home', 'Recommend']">
+    <keep-alive :include="['Home', 'Movie', 'Tv']">
       <component :is="Component" />
     </keep-alive>
   </router-view>
 
-  <VideoSite />
   <Video />
   <LineTip />
 </template>
@@ -18,7 +17,6 @@
 import { ElMessage } from "element-plus";
 import TitleBar from "@/components/TitleBar.vue";
 import ListBar from "@/components/ListBar/index.vue";
-import VideoSite from "@/Drawer/VideoSite/index.vue";
 import Video from "@/Drawer/Video/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
 import LineTip from "./components/LineTip.vue";

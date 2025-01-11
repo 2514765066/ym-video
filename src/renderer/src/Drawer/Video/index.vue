@@ -3,23 +3,25 @@
     <main class="wh-100 h">
       <TitleBar @close="handleClose" />
 
-      <div class="v">
-        <section class="o-h w-100">
-          <WebView />
-        </section>
-
-        <Selection />
-      </div>
+      <YmVideoPlayer
+        width="100%"
+        height="100%"
+        :list="selectedVideo!.url"
+        v-model="selectedVideo!.history"
+      />
     </main>
   </Drawer>
 </template>
 
 <script setup lang="ts">
-import WebView from "./WebView.vue";
-import Selection from "./Selection.vue";
+import "ym-video-player/es/index.css";
+import { YmVideoPlayer } from "ym-video-player";
 import Drawer from "../index.vue";
 import TitleBar from "./TitleBar.vue";
 import eventEmitter from "@/hooks/eventEmitter";
+import { useVideoStore } from "@/stores/useVideoStore";
+
+const { selectedVideo } = storeToRefs(useVideoStore());
 
 //是否可见
 const showable = ref(false);
@@ -40,15 +42,10 @@ main {
   padding: 0 0.5rem 0.5rem;
   background-color: #1f1f1f;
 
-  > div {
-    height: calc(100% - 38px);
-    gap: 0.5rem;
-
-    > *:first-child {
-      border-radius: 0.5rem;
-      background-color: #131313;
-      border: 1px solid #363b3f;
-    }
+  > section:last-child {
+    border-radius: 0.5rem;
+    background-color: #131313;
+    border: 1px solid #363b3f;
   }
 }
 </style>

@@ -18,12 +18,7 @@
         </section>
 
         <ul class="v fw-w g-1r" v-else>
-          <MovieInfo
-            v-for="item of data"
-            :key="item.id"
-            :data="item"
-            :remove="true"
-          />
+          <MovieInfo v-for="item of data" :key="item.id" :data="item" />
         </ul>
       </div>
     </ElScrollbar>

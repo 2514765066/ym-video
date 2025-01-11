@@ -23,16 +23,6 @@
           />
         </Row>
 
-        <p class="fs-14 mt-2r">播放</p>
-
-        <Row label="cookie" des="如果无法搜索和播放请使用登录自己的豆瓣">
-          <template #icon>
-            <img src="@/assets/svg/cookie.svg" width="28px" />
-          </template>
-
-          <Button @click="handleLogin">登录</Button>
-        </Row>
-
         <p class="fs-14 mt-2r">关于</p>
 
         <Row label="ym-video" des="免费视频播放器">
@@ -56,21 +46,15 @@
 </template>
 
 <script setup lang="ts">
-import Slider from "@/Lib/Slider/Index.vue";
+import Slider from "@/Lib/Slider/index.vue";
 import Row from "@/Lib/Row/index.vue";
 import Button from "@/Lib/Button/index.vue";
 import { ElScrollbar } from "element-plus";
 import { useConfigStore } from "@/stores/useConfigStore";
-import eventEmitter from "@/hooks/eventEmitter";
 
 const { data } = storeToRefs(useConfigStore());
 
 const version = __APP_VERSION__;
-
-//处理登录
-const handleLogin = () => {
-  eventEmitter.emit("videoSite:show");
-};
 
 //处理更新
 const handleUpdate = () => {

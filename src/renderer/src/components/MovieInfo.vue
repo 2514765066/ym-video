@@ -1,27 +1,26 @@
 <template>
-  <el-skeleton style="width: 140px; height: 215px" :loading="loading" animated>
+  <el-skeleton style="width: 170px; height: 240px" :loading="loading" animated>
     <template #template>
       <el-skeleton-item
         variant="image"
-        style="width: 140px; height: 190px; border-radius: 5px"
+        style="width: 170px; height: 240px; border-radius: 0.5rem"
       />
-
-      <el-skeleton-item variant="text" style="width: 50%; margin-top: 5px" />
     </template>
 
     <template #default>
-      <li class="h g-1 click" @click="handleClick">
-        <div class="o-h p-r">
-          <img :src="src" class="wh-100" />
+      <li class="h p-r o-h">
+        <img :src="src" class="wh-100" @load="handleLoad" />
 
-          <span class="p-a fs-12">{{ data.year }}</span>
+        <div class="p-a w-100 p-2 v-sb-e">
+          <p class="fs-14 ellipsis">{{ data.name }}</p>
 
-          <button class="p-a" @click.stop="handleRemove" v-if="remove">
-            <img src="@/assets/svg/remove.svg" width="20px" />
-          </button>
+          <img
+            src="@/assets/svg/play.svg"
+            width="40px"
+            class="click"
+            @click="handleClick"
+          />
         </div>
-
-        <p class="fs-14 ellipsis">{{ data.name }}</p>
       </li>
     </template>
   </el-skeleton>
@@ -32,11 +31,12 @@ import { ElSkeleton, ElSkeletonItem } from "element-plus";
 import { MovieInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useElectron } from "@/hooks/useElectron";
-import { getLongestGroupByHostname } from "@/hooks/useGroup";
+import ColorThief from "colorthief";
+import { useLoading } from "@/hooks/useLoading";
 
 const videoStore = useVideoStore();
-const { getUrl } = useElectron();
+const colorThief = new ColorThief();
+const getUrl = useLoading(api.getUrl);
 
 const props = defineProps<{
   data: MovieInfo;
@@ -46,63 +46,70 @@ const props = defineProps<{
 //图片的base64
 const src = ref("");
 
+//主要颜色
+const mainColor = ref("");
+
+//图片是否加载完成
 const loading = ref(true);
 
 //处理点击
 const handleClick = async () => {
   if (videoStore.has(props.data.id)) {
+    const url = await getUrl(videoStore.selectedVideo!.name);
+
+    //需要更新
+    if (url.length > videoStore.selectedVideo!.url.length) {
+      videoStore.selectedVideo!.url = url;
+    }
+
     eventEmitter.emit("video:show");
     return;
   }
 
-  //获取资源
-  const response = await getUrl(props.data.id);
+  //获取url
+  const url = props.data.url ? props.data.url : await getUrl(props.data.name);
 
-  //处理403
-  if (response.status == 403) {
-    eventEmitter.emit("error:show", "请在设置中登录豆瓣账号或切换网络");
+  if (url.length == 0) {
+    eventEmitter.emit("error:show", "暂时没有资源");
     return;
   }
-
-  //处理404
-  if (response.status == 404) {
-    eventEmitter.emit("error:show", "资源不存在");
-    return;
-  }
-
-  //获取最长的url
-  const urls = getLongestGroupByHostname(response.data);
 
   //添加数据
   videoStore.add({
     name: props.data.name,
-    year: props.data.year,
     id: props.data.id,
-    url: urls,
-    img: src.value,
+    url,
+    history: 0,
     minVersion: __APP_VERSION__,
-    history: urls[0],
+    pic: src.value,
   });
 
   eventEmitter.emit("video:show");
 };
 
 //处理移除
-const handleRemove = () => {
-  videoStore.remove(props.data.id);
-  eventEmitter.emit("success:show", "移除成功");
+// const handleRemove = () => {
+//   videoStore.remove(props.data.id);
+//   eventEmitter.emit("success:show", "移除成功");
+// };
+
+//处理load
+const handleLoad = async ({ target }) => {
+  const color = await colorThief.getColor(target);
+
+  mainColor.value = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 };
 
 //初始化获取图片
 (async () => {
-  if (props.data.img.includes("data:image/jpeg;base64")) {
-    src.value = props.data.img;
+  if (props.data.pic.includes("data:image/jpeg;base64")) {
+    src.value = props.data.pic;
 
     loading.value = false;
     return;
   }
 
-  src.value = await electron.ipcRenderer.invoke("getImg", props.data.img);
+  src.value = await electron.ipcRenderer.invoke("getImg", props.data.pic);
 
   loading.value = false;
 })();
@@ -110,53 +117,41 @@ const handleRemove = () => {
 
 <style scoped lang="scss">
 li {
-  width: 140px;
-  height: 215px;
+  width: 170px;
+  height: 240px;
+
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 5px 2px rgba(#000, 0.1);
 
   > div {
-    width: inherit;
-    height: 190px;
-    border-radius: 5px;
+    height: 40px;
+    left: 0;
+    bottom: 0;
+    background-color: v-bind("mainColor");
+
+    transition: 0.1s;
+
+    > p {
+      text-shadow: 0.5px 0.5px 3px #000;
+    }
 
     > img {
-      transition: 0.2s transform;
-    }
-
-    > span {
-      padding: 0 5px;
-      top: 0;
-      left: 0;
-      background-color: #ff8232;
-      border-bottom-right-radius: 5px;
-      text-shadow: 1px 1px 1px #333;
-    }
-
-    > button {
-      padding: 5px;
       display: none;
-      top: 0;
-      right: 0;
-      background-color: rgba(#000, 0.8);
-      border-bottom-left-radius: 5px;
-    }
-  }
 
-  > p {
-    transition: 0.1s color;
+      filter: drop-shadow(0 1px 1px rgba(#000, 0.5));
+    }
   }
 
   &:hover {
-    > p {
-      color: #ff8232;
-    }
-
     > div {
-      > img {
-        transform: scale(1.1);
+      box-shadow: 0 -1px 50px 50px v-bind("mainColor");
+
+      > p {
+        white-space: wrap;
       }
 
-      > button {
-        display: flex;
+      > img {
+        display: block;
       }
     }
   }
