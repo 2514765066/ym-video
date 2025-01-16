@@ -11,6 +11,7 @@
 
   <Video />
   <LineTip />
+  <NewFunc />
 </template>
 
 <script setup lang="ts">
@@ -20,11 +21,13 @@ import ListBar from "@/components/ListBar/index.vue";
 import Video from "@/Drawer/Video/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
 import LineTip from "./components/LineTip.vue";
+import NewFunc from "./components/NewFunc.vue";
 
 eventEmitter.on("error:show", (message: string) => {
   ElMessage({
     message,
     type: "error",
+    grouping: true,
   });
 });
 
@@ -32,6 +35,7 @@ eventEmitter.on("success:show", (message: string) => {
   ElMessage({
     message,
     type: "success",
+    grouping: true,
   });
 });
 </script>

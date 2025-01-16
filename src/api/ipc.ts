@@ -4,6 +4,7 @@ import { writeFile, readFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { resources } from "./path";
+import { autoUpdater } from "./updater";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
@@ -101,4 +102,11 @@ ipcMain.handle("search", async (_, keyword) => {
       pic: item.vod_pic,
     };
   });
+});
+
+//检查是否有更新
+ipcMain.handle("checkForUpdates", async () => {
+  const res = await autoUpdater.checkForUpdatesAndNotify();
+
+  return res?.updateInfo.version;
 });

@@ -25,7 +25,7 @@ export const mainWindow = createWindow(
     });
 
     if (isDev()) {
-      // bw.webContents.openDevTools({ mode: "detach" });
+      bw.webContents.openDevTools({ mode: "detach" });
       await bw.loadURL(process.env["ELECTRON_RENDERER_URL"]!);
     } else {
       await bw.loadFile(join(__dirname, "../renderer/index.html"));
@@ -44,7 +44,7 @@ export const mainWindow = createWindow(
     webPreferences: {
       preload: join(__dirname, "../preload/index.mjs"),
       sandbox: false,
-      devTools: false,
+      devTools: isDev(),
     },
   }
 );

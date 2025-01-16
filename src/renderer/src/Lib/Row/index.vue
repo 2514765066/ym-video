@@ -1,12 +1,13 @@
 <template>
   <section class="row v-n-c f-s-0">
-    <slot name="icon">
-      <img src="@/assets/svg/restore.svg" width="20" />
-    </slot>
+    <slot name="icon"></slot>
 
-    <div class="ml-1r mr h-n-c g-1">
+    <div class="mr h-n-c g-1 f-1" :class="{ 'ml-1r': $slots.icon }">
       <span class="c-fff fs-14 l-h-14">{{ label }}</span>
-      <span class="c-ccc fs-12 l-h-12">{{ des }}</span>
+
+      <slot name="des">
+        <span class="c-ccc fs-12 l-h-12" v-if="des">{{ des }}</span>
+      </slot>
     </div>
 
     <slot></slot>
@@ -14,15 +15,23 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  label?: string;
-  des?: string;
-}>();
+import { formatUnit } from "../../hooks/useCss";
+
+withDefaults(
+  defineProps<{
+    label?: string;
+    des?: string;
+    height?: string | number;
+  }>(),
+  {
+    height: 65,
+  }
+);
 </script>
 
 <style scoped lang="scss">
 .row {
-  height: 65px;
+  height: v-bind("formatUnit(height)");
   padding: 0 1rem;
   background-color: #323232;
   border: 1.5px solid #232323;

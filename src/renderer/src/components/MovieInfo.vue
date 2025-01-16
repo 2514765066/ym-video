@@ -48,7 +48,9 @@ import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import ColorThief from "colorthief";
 import { useLoading } from "@/hooks/useLoading";
+import { useVersionStore } from "@/stores/useVersionStore";
 
+const { version } = useVersionStore();
 const videoStore = useVideoStore();
 const colorThief = new ColorThief();
 const getUrl = useLoading(api.getUrl);
@@ -82,7 +84,7 @@ const handleClick = async () => {
     videoStore.add({
       name: props.data.name,
       history: 0,
-      minVersion: __APP_VERSION__,
+      minVersion: version,
       pic: props.data.pic,
     });
   }

@@ -69,6 +69,7 @@ import { ElTooltip } from "element-plus";
 import Logo from "@/components/Logo.vue";
 import Search from "./Search.vue";
 import Item from "./Item.vue";
+import eventEmitter from "@/hooks/eventEmitter";
 
 const route = useRoute();
 const router = useRouter();
@@ -93,9 +94,7 @@ const handleBack = () => {
 
 //处理新增功能
 const handleNew = () => {
-  api.openUrl(
-    `https://github.com/2514765066/ym-video/releases/tag/v${__APP_VERSION__}`
-  );
+  eventEmitter.emit("new:show");
 };
 </script>
 

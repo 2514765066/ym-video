@@ -6,6 +6,7 @@ const eventNames = [
   "set:show",
   "videoSite:show",
   "video:show",
+  "new:show",
 ] as const;
 
 // 定义事件到函数类型的映射
@@ -16,6 +17,7 @@ interface EventMap {
   "set:show": () => void;
   "videoSite:show": () => void;
   "video:show": (url: string[]) => void;
+  "new:show": () => void;
 }
 
 type EventNames = keyof EventMap;

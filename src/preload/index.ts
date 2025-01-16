@@ -47,6 +47,11 @@ const api = {
   async read() {
     return await ipcRenderer.invoke("readConfig");
   },
+
+  //检查更新
+  async checkForUpdates() {
+    return await ipcRenderer.invoke("checkForUpdates");
+  },
 };
 
 export type Api = typeof api;

@@ -14,6 +14,10 @@ export type IpcEvent = {
   getRecommend: (option: { type: "tv" | "movie"; start?: number }) => MovieInfo;
 
   getUrl: (name: string) => string[];
+
+  checkForUpdates: () => string | undefined;
+
+  downloadProgress: (percent: number) => void;
 };
 
 //ipc事件名称类型

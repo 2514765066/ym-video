@@ -1,17 +1,18 @@
 import { dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 import { mainWindow } from "../main/manage";
-import { onMounted } from "ym-electron.js";
 
 //开发模式测试更新
 autoUpdater.forceDevUpdateConfig = true;
 
-//关闭应用不自动更新
-autoUpdater.autoInstallOnAppQuit = false;
+//下载进度
+autoUpdater.on("download-progress", ({ percent }) => {
+  mainWindow.instance!.webContents.send("downloadProgress", percent);
+});
 
 //下载完成
 autoUpdater.on("update-downloaded", async () => {
-  await onMounted();
+  mainWindow.instance!.webContents.send("downloadProgress", 100);
 
   const res = await dialog.showMessageBox(mainWindow.instance!, {
     type: "info",
@@ -27,4 +28,4 @@ autoUpdater.on("update-downloaded", async () => {
   autoUpdater.quitAndInstall(true, true);
 });
 
-autoUpdater.checkForUpdatesAndNotify();
+export { autoUpdater };
