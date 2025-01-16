@@ -4,7 +4,7 @@
   <ListBar />
 
   <router-view v-slot="{ Component }">
-    <keep-alive :include="['Home', 'Movie', 'Tv']">
+    <keep-alive :include="['Home', 'Movie', 'Tv', 'History']">
       <component :is="Component" />
     </keep-alive>
   </router-view>

@@ -11,8 +11,9 @@
 
           <ul class="v fw-w g-1r">
             <MovieInfo
+              remove
               v-for="item of historyData"
-              :key="item.id"
+              :key="item.name"
               :data="item"
             />
           </ul>
@@ -26,7 +27,11 @@
           </header>
 
           <ul class="v fw-w g-1r">
-            <MovieInfo v-for="item of movieData" :key="item.id" :data="item" />
+            <MovieInfo
+              v-for="item of movieData"
+              :key="item.name"
+              :data="item"
+            />
           </ul>
         </section>
 
@@ -38,7 +43,7 @@
           </header>
 
           <ul class="v fw-w g-1r">
-            <MovieInfo v-for="item of tvData" :key="item.id" :data="item" />
+            <MovieInfo v-for="item of tvData" :key="item.name" :data="item" />
           </ul>
         </section>
       </div>

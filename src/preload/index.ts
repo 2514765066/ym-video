@@ -23,6 +23,11 @@ const api = {
     shell.openExternal(url);
   },
 
+  //获取图片
+  async getImg(url: string) {
+    return await ipcRenderer.invoke("getImg", url);
+  },
+
   //获取url
   async getUrl(name: string) {
     return await ipcRenderer.invoke("getUrl", name);
@@ -31,6 +36,16 @@ const api = {
   //搜索
   async search(keyword: string) {
     return await ipcRenderer.invoke("search", keyword);
+  },
+
+  //写入
+  async write(data: string) {
+    await ipcRenderer.invoke("writeConfig", data);
+  },
+
+  //读取
+  async read() {
+    return await ipcRenderer.invoke("readConfig");
   },
 };
 

@@ -1,35 +1,32 @@
 import { ipcMain } from "./ipcMain";
-import { windows } from "ym-electron.js";
-import { readJson, writeJson } from "../api/fs";
-import { autoUpdater } from "./updater";
 import { handlePlayUrl } from "../api/tools";
-
-//最小化
-ipcMain.on("minimize", () => {
-  const win = windows.get("manage")!;
-  win.minimize();
-});
-
-//最大化还原
-ipcMain.on("maximize", () => {
-  const win = windows.get("manage")!;
-  win.isMaximized() ? win.restore() : win.maximize();
-});
-
-//关闭
-ipcMain.on("close", () => {
-  const win = windows.get("manage")!;
-  win.close();
-});
+import { writeFile, readFile, mkdir } from "fs/promises";
+import { existsSync } from "fs";
+import { join } from "path";
+import { resources } from "./path";
 
 //读取配置
-ipcMain.handle("readConfig", async (_, name) => {
-  return await readJson(name);
+ipcMain.handle("readConfig", async () => {
+  const path = join(resources, `db.json`);
+
+  if (!existsSync(path)) {
+    return null;
+  }
+
+  const res = await readFile(path);
+
+  return JSON.parse(res.toString());
 });
 
 //写入配置
-ipcMain.handle("writeConfig", async (_, name, data) => {
-  await writeJson(name, data);
+ipcMain.handle("writeConfig", async (_, data) => {
+  if (!existsSync(resources)) {
+    await mkdir(resources);
+  }
+
+  const path = join(resources, `db.json`);
+
+  await writeFile(path, data);
 });
 
 //获取图片
@@ -57,7 +54,6 @@ ipcMain.handle("getRecommend", async (_, option) => {
     return {
       name: item.title,
       pic: item.pic.normal,
-      id: item.id,
     };
   });
 });
@@ -101,16 +97,8 @@ ipcMain.handle("search", async (_, keyword) => {
   return data.map(item => {
     return {
       name: item.vod_name,
-      id: item.vod_id,
       url: handlePlayUrl(item.vod_play_url),
       pic: item.vod_pic,
     };
   });
-});
-
-//检查更新
-ipcMain.handle("checkForUpdates", async () => {
-  const res = await autoUpdater.checkForUpdates();
-
-  return res?.updateInfo.version || "";
 });

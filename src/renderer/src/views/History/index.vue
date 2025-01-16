@@ -18,7 +18,12 @@
         </section>
 
         <ul class="v fw-w g-1r" v-else>
-          <MovieInfo v-for="item of data" :key="item.id" :data="item" />
+          <MovieInfo
+            remove
+            v-for="item of data"
+            :key="item.name"
+            :data="item"
+          />
         </ul>
       </div>
     </ElScrollbar>
@@ -31,6 +36,10 @@ import MovieInfo from "@/components/MovieInfo.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { data } = storeToRefs(useVideoStore());
+
+defineOptions({
+  name: "History",
+});
 </script>
 
 <style scoped lang="scss">

@@ -24,4 +24,3 @@ publish:
   owner: 2514765066
   repo: ym-video
   releaseType: release
-  blockMap: false

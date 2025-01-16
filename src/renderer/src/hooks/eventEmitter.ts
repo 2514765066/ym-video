@@ -15,7 +15,7 @@ interface EventMap {
   "command:show": () => void;
   "set:show": () => void;
   "videoSite:show": () => void;
-  "video:show": () => void;
+  "video:show": (url: string[]) => void;
 }
 
 type EventNames = keyof EventMap;

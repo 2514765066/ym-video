@@ -9,7 +9,7 @@
         <ul class="v fw-w g-1r">
           <MovieInfo
             v-for="item of movieDataShow"
-            :key="item.id"
+            :key="item.name"
             :data="item"
           />
         </ul>

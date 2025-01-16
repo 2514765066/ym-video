@@ -7,7 +7,7 @@
     <ElScrollbar class="f-1">
       <div class="content">
         <ul class="v fw-w g-1r">
-          <MovieInfo v-for="item of tvDataShow" :key="item.id" :data="item" />
+          <MovieInfo v-for="item of tvDataShow" :key="item.name" :data="item" />
         </ul>
 
         <section class="v-c-c more" v-if="tvDataShow.length != 0">

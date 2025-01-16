@@ -1,46 +1,50 @@
 import { join } from "path";
-import { createWindow, onMounted, getScreenSize } from "ym-electron.js";
+import { createWindow, isDev } from "ym-electron.js";
+import { ipcMain } from "../api/ipcMain";
 
-onMounted(() => {
-  let width = 1165;
-  let height = 900;
+export const mainWindow = createWindow(
+  async bw => {
+    bw.on("maximize", () => {
+      bw.webContents.send("is:maximize", true);
+    });
 
-  const screen = getScreenSize();
+    bw.on("restore", () => {
+      bw.webContents.send("is:maximize", false);
+    });
 
-  if (screen.height * 0.9 < 900) {
-    height = screen.height * 0.9;
-  }
+    ipcMain.on("minimize", () => {
+      bw.minimize();
+    });
 
-  const win = createWindow("manage", {
-    // devTool: true,
+    ipcMain.on("maximize", () => {
+      bw.isMaximized() ? bw.restore() : bw.maximize();
+    });
 
-    width,
-    height,
+    ipcMain.on("close", () => {
+      bw.close();
+    });
+
+    if (isDev()) {
+      // bw.webContents.openDevTools({ mode: "detach" });
+      await bw.loadURL(process.env["ELECTRON_RENDERER_URL"]!);
+    } else {
+      await bw.loadFile(join(__dirname, "../renderer/index.html"));
+    }
+
+    bw.show();
+  },
+  {
+    width: 1165,
+    height: 900,
     minWidth: 1000,
     minHeight: 750,
     frame: false,
-    render: {
-      dev: {
-        url: `${process.env["ELECTRON_RENDERER_URL"]}`,
-      },
-      dep: {
-        path: join(__dirname, "../renderer/index.html"),
-      },
-    },
+    show: false,
 
     webPreferences: {
-      webviewTag: true,
       preload: join(__dirname, "../preload/index.mjs"),
       sandbox: false,
       devTools: false,
     },
-  });
-
-  win.on("maximize", () => {
-    win.webContents.send("is:maximize", true);
-  });
-
-  win.on("unmaximize", () => {
-    win.webContents.send("is:maximize", false);
-  });
-});
+  }
+);

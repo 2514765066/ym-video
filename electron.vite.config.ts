@@ -23,13 +23,7 @@ export default defineConfig({
       },
     },
     plugins: [
-      vue({
-        template: {
-          compilerOptions: {
-            isCustomElement: tag => tag == "webview",
-          },
-        },
-      }),
+      vue(),
       ElementPlus({}),
       AutoImport({
         imports: ["vue", "pinia", "vue-router"],

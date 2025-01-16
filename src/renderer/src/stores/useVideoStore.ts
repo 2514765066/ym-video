@@ -1,87 +1,61 @@
 import { VideoInfo } from "@type";
-import { useConfigStore } from "./useConfigStore";
 import { validateVersion } from "@/hooks/useValidate";
 
 export const useVideoStore = defineStore("list", () => {
-  const configStore = useConfigStore();
-
   //数据
   const data = ref<VideoInfo[]>([]);
 
   //当前选中id
-  const selectedID = ref("");
+  const selectedName = ref("");
 
   //当前选中video
   const selectedVideo = computed(() => {
-    return data.value.find(item => item.id == selectedID.value);
+    return data.value.find(item => item.name == selectedName.value);
   });
-
-  //监视更新值
-  watch(
-    data,
-    val => {
-      electron.ipcRenderer.invoke(
-        "writeConfig",
-        "db",
-        JSON.parse(JSON.stringify(val))
-      );
-    },
-    {
-      deep: true,
-    }
-  );
 
   //添加
   const add = (info: VideoInfo) => {
     data.value.unshift(info);
 
-    selectedID.value = info.id;
+    selectedName.value = info.name;
   };
 
   //判断是否存在
-  const has = (id: string) => {
-    const res = data.value.some(item => item.id == id);
+  const has = (name: string) => {
+    const res = data.value.some(item => item.name == name);
 
     if (res) {
-      const item = remove(id);
+      const item = remove(name);
       data.value.unshift(item);
-      selectedID.value = id;
+      selectedName.value = name;
     }
 
     return res;
   };
 
   //移除
-  const remove = (id: string) => {
-    const index = data.value.findIndex(item => item.id == id);
+  const remove = (name: string) => {
+    const index = data.value.findIndex(item => item.name == name);
 
     return data.value.splice(index, 1)[0];
   };
 
   //初始化
   const init = async () => {
-    const res = (
-      (await electron.ipcRenderer.invoke("readConfig", "db")) as VideoInfo[]
-    ).filter(({ minVersion }) => validateVersion(minVersion));
+    const res: VideoInfo[] = await api.read();
 
-    //最大历史记录数量
-    if (res.length > configStore.data.historyCount) {
-      data.value = res.slice(0, configStore.data.historyCount);
-      return;
-    }
+    data.value = res.filter(({ minVersion }) => validateVersion(minVersion));
 
-    if (res.length == 0) {
-      return;
-    }
-
-    data.value = res;
+    //监视更新值
+    watchEffect(() => {
+      api.write(JSON.stringify(data.value));
+    });
   };
 
   init();
 
   return {
     data,
-    selectedID,
     selectedVideo,
     add,
     has,

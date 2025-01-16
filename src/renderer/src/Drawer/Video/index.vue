@@ -6,7 +6,7 @@
       <YmVideoPlayer
         width="100%"
         height="100%"
-        :list="selectedVideo!.url"
+        :list="list"
         v-model="selectedVideo!.history"
       />
     </main>
@@ -26,13 +26,17 @@ const { selectedVideo } = storeToRefs(useVideoStore());
 //是否可见
 const showable = ref(false);
 
+//播放地址列表
+const list = ref<string[]>([]);
+
 //关闭Drawer
 const handleClose = () => {
   showable.value = false;
 };
 
 //事件触发
-eventEmitter.on("video:show", () => {
+eventEmitter.on("video:show", url => {
+  list.value = url;
   showable.value = true;
 });
 </script>

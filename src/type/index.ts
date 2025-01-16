@@ -1,14 +1,11 @@
-import { WebviewTag } from "electron";
-
 //ipc事件配置
 export type IpcEvent = {
   minimize: () => void;
   maximize: () => void;
   close: () => void;
   "is:maximize": () => void;
-  readConfig: (name: string) => any;
-  writeConfig: (name: string, data: any) => void;
-  checkForUpdates: () => string;
+  readConfig: () => any;
+  writeConfig: (data: string) => void;
 
   search: (keyword: string) => MovieInfo[];
 
@@ -30,13 +27,9 @@ export type IpcEventParameters<T extends IpcEventNames> = Parameters<
 //ipc事件函数的返回值类型
 export type IpcEventReturn<T extends IpcEventNames> = ReturnType<IpcEvent[T]>;
 
-export type WebView = WebviewTag;
-
 //视频信息
 export type VideoInfo = {
   name: string;
-  id: string;
-  url: string[];
   history: number;
   minVersion: string;
   pic: string;
@@ -45,8 +38,6 @@ export type VideoInfo = {
 //电影信息
 export type MovieInfo = {
   name: string;
-  id: string;
-  url?: string[];
   pic: string;
 };
 

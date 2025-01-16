@@ -17,12 +17,20 @@
     <Search />
 
     <ul class="h-100 h g-1 mt-1r">
-      <Item
+      <!-- <Item
         title="主页"
         to="/home"
         :class="{ active: route.path.includes('/home') }"
       >
         <img src="@/assets/svg/home.svg" />
+      </Item> -->
+
+      <Item
+        title="历史"
+        to="/history"
+        :class="{ active: route.path.includes('/history') }"
+      >
+        <img src="@/assets/svg/history.svg" />
       </Item>
 
       <Item
@@ -41,24 +49,7 @@
         <img src="@/assets/svg/tv.svg" />
       </Item>
 
-      <Item
-        title="历史"
-        to="/history"
-        :class="{ active: route.path.includes('/history') }"
-        class="mb"
-      >
-        <img src="@/assets/svg/history.svg" />
-      </Item>
-
-      <Item
-        :title="`有可用更新v${updateVersion}`"
-        @click="handleUpdate"
-        v-if="hasUpdate"
-      >
-        <img src="@/assets/svg/megaphone-fill.svg" class="shake" />
-      </Item>
-
-      <Item title="新增功能" @click="handleNew" v-else>
+      <Item title="新增功能" @click="handleNew" class="mt">
         <img src="@/assets/svg/megaphone.svg" />
       </Item>
 
@@ -81,12 +72,6 @@ import Item from "./Item.vue";
 
 const route = useRoute();
 const router = useRouter();
-
-//有无可用更新
-const hasUpdate = ref(false);
-
-//可用更新版本
-const updateVersion = ref("");
 
 //是否还能回退
 const canBack = ref(false);
@@ -112,22 +97,6 @@ const handleNew = () => {
     `https://github.com/2514765066/ym-video/releases/tag/v${__APP_VERSION__}`
   );
 };
-
-//处理更新
-const handleUpdate = () => {
-  api.openUrl(
-    `https://github.com/2514765066/ym-video/releases/tag/v${updateVersion.value}`
-  );
-};
-
-onMounted(async () => {
-  const res = await electron.ipcRenderer.invoke("checkForUpdates");
-
-  if (res) {
-    hasUpdate.value = true;
-    updateVersion.value = res;
-  }
-});
 </script>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import Home from "@/views/Home/index.vue";
+// import Home from "@/views/Home/index.vue";
 import Movie from "@/views/Movie/index.vue";
 import Tv from "@/views/Tv/index.vue";
 import History from "@/views/History/index.vue";
@@ -11,12 +11,12 @@ const router = createRouter({
   routes: [
     {
       path: "",
-      redirect: "/home",
+      redirect: "/history",
     },
-    {
-      path: "/home",
-      component: Home,
-    },
+    // {
+    //   path: "/home",
+    //   component: Home,
+    // },
     {
       path: "/movie",
       component: Movie,

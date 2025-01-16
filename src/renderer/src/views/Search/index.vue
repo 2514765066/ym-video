@@ -18,7 +18,11 @@
         </section>
 
         <ul class="v fw-w g-1r" v-else>
-          <MovieInfo v-for="item of searchResult" :key="item.id" :data="item" />
+          <MovieInfo
+            v-for="item of searchResult"
+            :key="item.name"
+            :data="item"
+          />
         </ul>
       </div>
     </ElScrollbar>
@@ -28,7 +32,7 @@
 <script setup lang="ts">
 import { ElScrollbar } from "element-plus";
 import MovieInfo from "@/components/MovieInfo.vue";
-import { MovieInfo as movieInfo } from "@type";
+import { MovieInfo as Movieinfo } from "@type";
 
 const route = useRoute();
 
@@ -36,7 +40,7 @@ const route = useRoute();
 const status = ref("");
 
 //搜索的结果
-const searchResult = ref<movieInfo[]>([]);
+const searchResult = ref<Movieinfo[]>([]);
 
 //当关键词改变的时候重新搜索
 watchEffect(async () => {

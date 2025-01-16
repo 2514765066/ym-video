@@ -44,29 +44,6 @@ html:root {
   src: url("./fonts/logo.ttf");
 }
 
-.shake {
-  animation: shake 1s infinite;
-}
-
-@keyframes shake {
-  10% {
-    transform: rotate(15deg);
-  }
-  20% {
-    transform: rotate(-10deg);
-  }
-  30% {
-    transform: rotate(5deg);
-  }
-  40% {
-    transform: rotate(-5deg);
-  }
-  50%,
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
 .fs-40 {
   font-size: 40px;
 }
