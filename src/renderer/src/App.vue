@@ -22,6 +22,11 @@ import Video from "@/Drawer/Video/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
 import LineTip from "./components/LineTip.vue";
 import NewFunc from "./components/NewFunc.vue";
+import { useVersionStore } from "@/stores/useVersionStore";
+
+const { checkForUpdates } = useVersionStore();
+
+checkForUpdates();
 
 eventEmitter.on("error:show", (message: string) => {
   ElMessage({

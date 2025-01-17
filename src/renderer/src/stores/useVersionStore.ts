@@ -20,11 +20,10 @@ export const useVersionStore = defineStore("version", () => {
     percentage.value = Math.floor(percent);
   });
 
-  checkForUpdates();
-
   return {
     version,
     latestVersion,
     percentage,
+    checkForUpdates,
   };
 });
