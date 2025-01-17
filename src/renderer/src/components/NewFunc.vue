@@ -9,25 +9,18 @@
 </template>
 
 <script setup lang="ts">
+import Doc from "@/assets/release-note.md?raw";
 import eventEmitter from "@/hooks/eventEmitter";
 import { ElDialog } from "element-plus";
 
 //是否显示
 const showable = ref(false);
 
-const data = ref([
-  `新增："导航栏" 的 "新增功能" 现在可以在软件中查看`,
-  `新增："设置页面" 显示软件更新进度`,
-]);
+const data = ref(Doc.match(/^\d+\..+/gm));
 
 eventEmitter.on("new:show", () => {
   showable.value = true;
 });
 </script>
 
-<style scoped lang="scss">
-ol {
-  list-style-type: decimal;
-  padding-left: 1rem;
-}
-</style>
+<style scoped lang="scss"></style>
