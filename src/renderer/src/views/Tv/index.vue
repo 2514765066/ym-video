@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import MovieInfo from "@/components/MovieInfo.vue";
+import MovieInfo from "@/components/Info/MovieInfo.vue";
 import { ElScrollbar } from "element-plus";
 import { useMovieStore } from "@/stores/useMovieStore";
 

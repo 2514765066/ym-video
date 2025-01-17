@@ -1,10 +1,10 @@
 import { ipcMain } from "./ipcMain";
-import { handlePlayUrl } from "../api/tools";
 import { writeFile, readFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { resources } from "./path";
 import { autoUpdater } from "./updater";
+import { handlePlayUrl } from "./tools";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
@@ -86,7 +86,11 @@ ipcMain.handle("getUrl", async (_, name) => {
 ipcMain.handle("search", async (_, keyword) => {
   const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${keyword}&count=50`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    headers: {
+      "user-agent": `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0`,
+    },
+  });
 
   //获取返回的html
   const json = await response.json();

@@ -16,7 +16,7 @@ interface EventMap {
   "command:show": () => void;
   "set:show": () => void;
   "videoSite:show": () => void;
-  "video:show": (url: string[]) => void;
+  "video:show": () => void;
   "new:show": () => void;
 }
 

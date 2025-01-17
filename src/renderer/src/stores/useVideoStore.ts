@@ -22,15 +22,14 @@ export const useVideoStore = defineStore("list", () => {
 
   //判断是否存在
   const has = (name: string) => {
-    const res = data.value.some(item => item.name == name);
+    return data.value.some(item => item.name == name);
+  };
 
-    if (res) {
-      const item = remove(name);
-      data.value.unshift(item);
-      selectedName.value = name;
-    }
-
-    return res;
+  //放在最前面
+  const before = (name: string) => {
+    const item = remove(name);
+    data.value.unshift(item);
+    selectedName.value = name;
   };
 
   //移除
@@ -60,5 +59,6 @@ export const useVideoStore = defineStore("list", () => {
     add,
     has,
     remove,
+    before,
   };
 });

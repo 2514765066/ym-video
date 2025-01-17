@@ -6,19 +6,8 @@
 
     <ElScrollbar class="f-1" view-class="wh-100">
       <div class="content wh-100">
-        <section
-          class="v-c-c wh-100"
-          style="padding-bottom: 130px"
-          v-if="status == '404' || status == '403'"
-        >
-          <img
-            src="@/assets/image/nothing.png"
-            style="filter: brightness(35%)"
-          />
-        </section>
-
-        <ul class="v fw-w g-1r" v-else>
-          <MovieInfo
+        <ul class="v fw-w g-1r">
+          <SearchInfo
             v-for="item of searchResult"
             :key="item.name"
             :data="item"
@@ -31,16 +20,13 @@
 
 <script setup lang="ts">
 import { ElScrollbar } from "element-plus";
-import MovieInfo from "@/components/MovieInfo.vue";
-import { MovieInfo as Movieinfo } from "@type";
+import SearchInfo from "@/components/Info/SearchInfo.vue";
+import { MovieInfo } from "@type";
 
 const route = useRoute();
 
-//搜索状态
-const status = ref("");
-
 //搜索的结果
-const searchResult = ref<Movieinfo[]>([]);
+const searchResult = ref<MovieInfo[]>([]);
 
 //当关键词改变的时候重新搜索
 watchEffect(async () => {

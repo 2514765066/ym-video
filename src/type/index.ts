@@ -35,6 +35,7 @@ export type IpcEventReturn<T extends IpcEventNames> = ReturnType<IpcEvent[T]>;
 export type VideoInfo = {
   name: string;
   history: number;
+  url: string[];
   minVersion: string;
   pic: string;
 };
@@ -42,6 +43,7 @@ export type VideoInfo = {
 //电影信息
 export type MovieInfo = {
   name: string;
+  url?: string[];
   pic: string;
 };
 

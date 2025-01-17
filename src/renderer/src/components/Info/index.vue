@@ -24,7 +24,7 @@
           <button @click="handleRemove">删除</button>
         </el-popover>
 
-        <img :src="src" class="wh-100" @load="handleLoad" />
+        <img :src="src ? src : data.pic" class="wh-100" @load="handleLoad" />
 
         <div class="p-a w-100 p-2 v-sb-e">
           <p class="fs-14 ellipsis">{{ data.name }}</p>
@@ -33,7 +33,7 @@
             src="@/assets/svg/play.svg"
             width="40px"
             class="click"
-            @click="handleClick"
+            @click="emits('play')"
           />
         </div>
       </li>
@@ -47,50 +47,27 @@ import { MovieInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import ColorThief from "colorthief";
-import { useLoading } from "@/hooks/useLoading";
-import { useVersionStore } from "@/stores/useVersionStore";
 
-const { version } = useVersionStore();
 const videoStore = useVideoStore();
 const colorThief = new ColorThief();
-const getUrl = useLoading(api.getUrl);
 
-const props = defineProps<{
-  data: MovieInfo;
-  remove?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    data: MovieInfo;
+    src?: string;
+    loading?: boolean;
+    remove?: boolean;
+  }>(),
+  {
+    loading: false,
+    remove: false,
+  }
+);
 
-//图片的base64
-const src = ref("");
+const emits = defineEmits(["play"]);
 
 //主要颜色
 const mainColor = ref("");
-
-//图片是否加载完成
-const loading = ref(true);
-
-//处理点击
-const handleClick = async () => {
-  //获取url
-  const url = await getUrl(props.data.name);
-
-  if (url.length == 0) {
-    eventEmitter.emit("error:show", "暂时没有资源");
-    return;
-  }
-
-  //不存在就添加
-  if (!videoStore.has(props.data.name)) {
-    videoStore.add({
-      name: props.data.name,
-      history: 0,
-      minVersion: version,
-      pic: props.data.pic,
-    });
-  }
-
-  eventEmitter.emit("video:show", url);
-};
 
 //处理移除
 const handleRemove = () => {
@@ -104,13 +81,6 @@ const handleLoad = async ({ target }) => {
 
   mainColor.value = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 };
-
-//初始化获取图片
-(async () => {
-  src.value = await api.getImg(props.data.pic);
-
-  loading.value = false;
-})();
 </script>
 
 <style scoped lang="scss">
@@ -149,9 +119,11 @@ li {
     }
 
     > img {
-      display: none;
+      opacity: 0;
 
       filter: drop-shadow(0 1px 1px rgba(#000, 0.5));
+
+      transition: 0.1s opacity;
     }
   }
 
@@ -168,7 +140,7 @@ li {
       }
 
       > img {
-        display: block;
+        opacity: 1;
       }
     }
   }

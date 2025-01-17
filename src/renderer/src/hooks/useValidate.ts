@@ -1,4 +1,4 @@
-const SupportVersion = "3.2.0";
+const SupportVersion = "3.3.2";
 
 //验证版本
 export const validateVersion = (version: string) => {

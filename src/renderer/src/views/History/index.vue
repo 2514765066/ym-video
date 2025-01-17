@@ -18,12 +18,7 @@
         </section>
 
         <ul class="v fw-w g-1r" v-else>
-          <MovieInfo
-            remove
-            v-for="item of data"
-            :key="item.name"
-            :data="item"
-          />
+          <HistoryInfo v-for="item of data" :key="item.name" :data="item" />
         </ul>
       </div>
     </ElScrollbar>
@@ -32,7 +27,7 @@
 
 <script setup lang="ts">
 import { ElScrollbar } from "element-plus";
-import MovieInfo from "@/components/MovieInfo.vue";
+import HistoryInfo from "@/components/Info/HistoryInfo.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { data } = storeToRefs(useVideoStore());

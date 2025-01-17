@@ -1,6 +1,10 @@
 <template>
   <section class="title-bar w-100 v-n-c g-1">
-    <Logo />
+    <ElTooltip :hide-after="0" content="更新集数">
+      <button class="button2" @click="emits('update')">
+        <img src="@/assets/svg/update1.svg" width="20px" />
+      </button>
+    </ElTooltip>
 
     <aside class="fs-12 p-a c-ccc v-c-c o-h px-1r">
       <span class="ellipsis">
@@ -15,12 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import Logo from "@/components/Logo.vue";
+import { ElTooltip } from "element-plus";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { selectedVideo } = storeToRefs(useVideoStore());
 
-const emits = defineEmits(["close"]);
+const emits = defineEmits(["close", "update"]);
 </script>
 
 <style scoped lang="scss">

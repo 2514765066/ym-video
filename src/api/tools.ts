@@ -1,11 +1,5 @@
 export const handlePlayUrl = (url: string) => {
-  //多集
-  if (url.includes("#")) {
-    const match = [...url.matchAll(/\$(.*?)#/g)];
+  const regex = /https?:\/\/[^\s#]+/g;
 
-    return match.map(item => item[1]);
-  }
-
-  //一集
-  return [url.split("$")[1]];
+  return url.match(regex)!;
 };
