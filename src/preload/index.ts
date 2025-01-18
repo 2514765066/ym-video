@@ -1,6 +1,7 @@
 import { contextBridge, shell } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { ipcRenderer } from "../api/ipcRenderer";
+import { handlePlayUrl } from "../api/tools";
 
 const api = {
   //最小化
@@ -30,12 +31,46 @@ const api = {
 
   //获取url
   async getUrl(name: string) {
-    return await ipcRenderer.invoke("getUrl", name);
+    const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${name}`;
+
+    const response = await fetch(url);
+
+    const json = await response.json();
+
+    const data: {
+      vod_play_url: string;
+      vod_id: string;
+      vod_name: string;
+    }[] = json.posts;
+
+    const res = data.find(item => item.vod_name == name);
+
+    if (!res) {
+      return [];
+    }
+
+    return handlePlayUrl(res.vod_play_url);
   },
 
   //搜索
   async search(keyword: string) {
-    return await ipcRenderer.invoke("search", keyword);
+    const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${keyword}&count=50`;
+
+    const response = await fetch(url);
+
+    const json = await response.json();
+
+    const data = json.posts.filter(
+      (item: any) => item.type_name != "电影解说" && item.type_name != "预告片"
+    );
+
+    return data.map(item => {
+      return {
+        name: item.vod_name,
+        url: handlePlayUrl(item.vod_play_url),
+        pic: item.vod_pic,
+      };
+    });
   },
 
   //写入

@@ -1,6 +1,6 @@
 {
   "name": "ym-video",
-  "version": "3.3.1",
+  "version": "3.3.3",
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "vue-tsc": "^1.8.27",
     "ym-easy.css": "^1.0.10",
     "ym-electron.js": "^3.2.1",
-    "ym-video-player": "^0.1.0"
+    "ym-video-player": "^0.1.1"
   },
   "volta": {
     "node": "20.11.1"

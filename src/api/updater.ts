@@ -3,7 +3,7 @@ import { autoUpdater } from "electron-updater";
 import { mainWindow } from "../main/manage";
 
 //开发模式测试更新
-autoUpdater.forceDevUpdateConfig = true;
+// autoUpdater.forceDevUpdateConfig = true;
 
 //下载进度
 autoUpdater.on("download-progress", ({ percent }) => {

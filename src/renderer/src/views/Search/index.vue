@@ -28,9 +28,10 @@ const route = useRoute();
 //搜索的结果
 const searchResult = ref<MovieInfo[]>([]);
 
-//当关键词改变的时候重新搜索
-watchEffect(async () => {
-  searchResult.value = await api.search(route.query.keyword as string);
+watchEffect(() => {
+  api.search(route.query.keyword as string).then(res => {
+    searchResult.value = res;
+  });
 });
 </script>
 

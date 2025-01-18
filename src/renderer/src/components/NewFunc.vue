@@ -1,7 +1,7 @@
 <template>
   <ElDialog v-model="showable" title="新增功能">
     <ol class="h g-2">
-      <li v-for="(item, index) of data" :key="index" class="c-ccc">
+      <li v-for="(item, index) of data" :key="index" class="c-ccc fs-16">
         {{ item }}
       </li>
     </ol>

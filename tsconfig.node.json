@@ -5,8 +5,7 @@
     "src/main/**/*",
     "src/preload/**/*",
     "src/api/**/*",
-    "src/type/**/*",
-    "src/preload/video.ts"
+    "src/type/**/*"
   ],
   "compilerOptions": {
     "composite": true,
