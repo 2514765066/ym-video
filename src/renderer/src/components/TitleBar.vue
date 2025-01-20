@@ -5,8 +5,8 @@
     </div>
 
     <div class="h-100 v-c-c click" @click="maximize">
-      <img src="@/assets/svg/restore.svg" v-if="isFullScreen" />
-      <img src="@/assets/svg/maximize.svg" v-else />
+      <img src="@/assets/svg/restore.svg" v-show="isFullScreen" />
+      <img src="@/assets/svg/maximize.svg" v-show="!isFullScreen" />
     </div>
 
     <div class="h-100 v-c-c click" @click="close">
@@ -30,7 +30,7 @@ const minimize = () => {
   api.minimize();
 };
 
-electron.ipcRenderer.on("is:maximize", (_, res: boolean) => {
+electron.ipcRenderer.on("isMaximize", (_, res: boolean) => {
   isFullScreen.value = res;
 });
 </script>

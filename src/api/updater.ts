@@ -1,9 +1,11 @@
 import { dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 import { mainWindow } from "../main/manage";
+import { ipcMain } from "./ipcMain";
+import { isDev } from "ym-electron.js";
 
 //开发模式测试更新
-// autoUpdater.forceDevUpdateConfig = true;
+autoUpdater.forceDevUpdateConfig = isDev();
 
 //下载进度
 autoUpdater.on("download-progress", ({ percent }) => {
@@ -28,4 +30,9 @@ autoUpdater.on("update-downloaded", async () => {
   autoUpdater.quitAndInstall(true, true);
 });
 
-export { autoUpdater };
+//检查是否有更新
+ipcMain.handle("checkForUpdates", async () => {
+  const res = await autoUpdater.checkForUpdatesAndNotify();
+
+  return res?.updateInfo.version;
+});

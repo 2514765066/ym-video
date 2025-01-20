@@ -5,11 +5,11 @@ import { ipcMain } from "../api/ipcMain";
 export const mainWindow = createWindow(
   async bw => {
     bw.on("maximize", () => {
-      bw.webContents.send("is:maximize", true);
+      bw.webContents.send("isMaximize", true);
     });
 
-    bw.on("restore", () => {
-      bw.webContents.send("is:maximize", false);
+    bw.on("unmaximize", () => {
+      bw.webContents.send("isMaximize", false);
     });
 
     ipcMain.on("minimize", () => {

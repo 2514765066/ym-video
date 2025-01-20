@@ -9,6 +9,8 @@
           height="100%"
           :list="selectedVideo!.url"
           v-model="selectedVideo!.history"
+          ref="videoPlayer"
+          @vue:mounted="handleMounted"
         />
       </div>
     </main>
@@ -25,17 +27,29 @@ import { useVideoStore } from "@/stores/useVideoStore";
 
 const { selectedVideo } = storeToRefs(useVideoStore());
 
+//ym-video-player实例
+const videoPlayer = ref<InstanceType<typeof YmVideoPlayer>>();
+
 //是否可见
 const showable = ref(false);
 
 //关闭Drawer
 const handleClose = () => {
+  selectedVideo.value!.currentTime = videoPlayer.value!.videoRef!.currentTime;
+
   showable.value = false;
 };
 
 //处理更新
 const handleUpdate = async () => {
   selectedVideo.value!.url = await api.getUrl(selectedVideo.value!.name);
+};
+
+//初始化
+const handleMounted = () => {
+  if (selectedVideo.value?.currentTime) {
+    videoPlayer.value!.videoRef!.currentTime = selectedVideo.value!.currentTime;
+  }
 };
 
 //事件触发

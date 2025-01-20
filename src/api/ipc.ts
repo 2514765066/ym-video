@@ -3,14 +3,13 @@ import { writeFile, readFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { resources } from "./path";
-import { autoUpdater } from "./updater";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
-  const path = join(resources, `db.json`);
+  const path = join(resources, "db.json");
 
   if (!existsSync(path)) {
-    return null;
+    return [];
   }
 
   const res = await readFile(path);
@@ -56,11 +55,4 @@ ipcMain.handle("getRecommend", async (_, option) => {
       pic: item.pic.normal,
     };
   });
-});
-
-//检查是否有更新
-ipcMain.handle("checkForUpdates", async () => {
-  const res = await autoUpdater.checkForUpdatesAndNotify();
-
-  return res?.updateInfo.version;
 });
