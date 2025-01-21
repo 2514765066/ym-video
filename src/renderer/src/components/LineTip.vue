@@ -23,10 +23,6 @@ window.addEventListener("offline", () => {
 
 //处理网络恢复事件
 window.addEventListener("online", () => {
-  if (showable.value) {
-    location.reload();
-  }
-
   showable.value = false;
 });
 
