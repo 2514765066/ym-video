@@ -7,6 +7,7 @@
     :with-header="false"
     :modal="false"
     :destroy-on-close="true"
+    @close="emits('close')"
   >
     <slot></slot>
   </el-drawer>
@@ -17,6 +18,9 @@ import { ElDrawer } from "element-plus";
 
 //显示隐藏
 const model = defineModel<boolean>();
+
+//事件
+const emits = defineEmits(["close"]);
 </script>
 
 <style lang="scss"></style>

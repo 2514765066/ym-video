@@ -1,5 +1,5 @@
 <template>
-  <Drawer v-model="showable">
+  <Drawer v-model="showable" @close="handleCurrentTime">
     <main class="wh-100 h">
       <TitleBar @close="handleClose" @update="handleUpdate" />
 
@@ -35,8 +35,6 @@ const showable = ref(false);
 
 //关闭Drawer
 const handleClose = () => {
-  selectedVideo.value!.currentTime = videoPlayer.value!.videoRef!.currentTime;
-
   showable.value = false;
 };
 
@@ -50,6 +48,11 @@ const handleMounted = () => {
   if (selectedVideo.value?.currentTime) {
     videoPlayer.value!.videoRef!.currentTime = selectedVideo.value!.currentTime;
   }
+};
+
+//处理关闭
+const handleCurrentTime = () => {
+  selectedVideo.value!.currentTime = videoPlayer.value!.videoRef!.currentTime;
 };
 
 //事件触发
