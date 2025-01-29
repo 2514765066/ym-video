@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatUnit } from "../../hooks/useCss";
+import { formatUnit } from "@/utils/formatUnit";
 
 withDefaults(
   defineProps<{

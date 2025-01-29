@@ -1,5 +1,5 @@
 import { VideoInfo } from "@type";
-import { validateVersion } from "@/hooks/useValidate";
+import { validateVersion } from "@/utils/validate";
 
 export const useVideoStore = defineStore("list", () => {
   //数据

@@ -1,5 +1,5 @@
 import { MovieInfo } from "@type";
-import { debounce } from "@/hooks/useDebounce";
+import { debounce } from "@/utils/debounce";
 
 export const useMovieStore = defineStore("movie", () => {
   //最大列数

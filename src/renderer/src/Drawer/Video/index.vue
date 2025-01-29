@@ -24,6 +24,7 @@ import Drawer from "../index.vue";
 import TitleBar from "./TitleBar.vue";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useVideoStore } from "@/stores/useVideoStore";
+import { useLoading } from "@/utils/loading";
 
 const { selectedVideo } = storeToRefs(useVideoStore());
 
@@ -39,9 +40,14 @@ const handleClose = () => {
 };
 
 //处理更新
-const handleUpdate = async () => {
-  selectedVideo.value!.url = await api.getUrl(selectedVideo.value!.name);
-};
+const handleUpdate = useLoading(async () => {
+  try {
+    selectedVideo.value!.url = await api.getUrl(selectedVideo.value!.name);
+    eventEmitter.emit("success:show", "更新成功");
+  } catch {
+    eventEmitter.emit("error:show", "更新失败，请重试");
+  }
+});
 
 //初始化
 const handleMounted = () => {

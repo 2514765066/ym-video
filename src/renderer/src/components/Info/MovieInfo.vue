@@ -7,7 +7,7 @@ import Info from "./index.vue";
 import { MovieInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useLoading } from "@/hooks/useLoading";
+import { useLoading } from "@/utils/loading";
 import { useVersionStore } from "@/stores/useVersionStore";
 
 const { version } = useVersionStore();

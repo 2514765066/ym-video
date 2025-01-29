@@ -17,14 +17,6 @@
     <Search />
 
     <ul class="h-100 h g-1 mt-1r">
-      <!-- <Item
-        title="主页"
-        to="/home"
-        :class="{ active: route.path.includes('/home') }"
-      >
-        <img src="@/assets/svg/home.svg" />
-      </Item> -->
-
       <Item
         title="历史"
         to="/history"

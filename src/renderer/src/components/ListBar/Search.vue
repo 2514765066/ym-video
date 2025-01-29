@@ -6,7 +6,7 @@
       class="fs-14 w-100"
       v-model="keyword"
     />
-    <img src="@/assets/svg/search.svg" />
+    <img src="@/assets/svg/search.svg" @click="handleSubmit" />
   </form>
 </template>
 
