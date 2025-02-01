@@ -41,7 +41,7 @@ ipcMain.handle("getImg", async (_, url) => {
 ipcMain.handle("getRecommend", async (_, option) => {
   const { type, start = 0 } = option;
 
-  const url = `https://m.douban.com/rexxar/api/v2/${type}/recommend?refresh=0&start=${start}&count=20&uncollect=false&sort=U&playable=true`;
+  const url = `https://m.douban.com/rexxar/api/v2/${type}/recommend?refresh=0&start=${start}&count=20&uncollect=false&sort=U`;
 
   const response = await fetch(url, {
     referrer: "https://movie.douban.com/explore",

@@ -78,8 +78,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       ym-video-player:
-        specifier: ^0.1.4
-        version: 0.1.4(typescript@5.4.5)
+        specifier: ^0.1.6
+        version: 0.1.6(typescript@5.4.5)
 
 packages:
 
@@ -2736,8 +2736,8 @@ packages:
   ym-electron.js@3.2.1:
     resolution: {integrity: sha512-NfI8I1RJC4sYkFRqed7cEWo+v5O4H0q49WnHSEDRf6cm1hvblPjMNeYPAfhivMRqcD0GNIkbtJWdl25meV93Cg==}
 
-  ym-video-player@0.1.4:
-    resolution: {integrity: sha512-jRBE3vJt32tkRqhDH8yijlIBB+BH2uW+lagtYJG3zhY1+utVgwnnThpsd/a1+CX3KiOkg9R4frbaW39m7ePLFQ==}
+  ym-video-player@0.1.6:
+    resolution: {integrity: sha512-Nmill5s929fEwNsJp4LEx9ugeQWRLEJnXxRfq6H3cjWB01/kXpMo8TbEeigPB5YG+Im6CR2ztwJOw8ioyJUEgg==}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -5600,7 +5600,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ym-video-player@0.1.4(typescript@5.4.5):
+  ym-video-player@0.1.6(typescript@5.4.5):
     dependencies:
       hls.js: 1.5.18
       vue: 3.5.13(typescript@5.4.5)
