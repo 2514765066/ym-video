@@ -1,11 +1,18 @@
 import { VideoInfo } from "@type";
+import { useLoading } from "@/utils/loading";
 import { validateVersion } from "@/utils/validate";
+import eventEmitter from "@/hooks/eventEmitter";
+import { useVersionStore } from "@/stores/useVersionStore";
 
 export const useVideoStore = defineStore("list", () => {
+  const router = useRouter();
+  const getUrl = useLoading(api.getUrl);
+  const { version } = useVersionStore();
+
   //数据
   const data = ref<VideoInfo[]>([]);
 
-  //当前选中id
+  //当前选中名称
   const selectedName = ref("");
 
   //当前选中video
@@ -39,6 +46,43 @@ export const useVideoStore = defineStore("list", () => {
     return data.value.splice(index, 1)[0];
   };
 
+  //播放
+  const play = async (name: string, pic: string = "") => {
+    //存在直接播放
+    if (has(name)) {
+      before(name);
+      router.push("/play");
+      return;
+    }
+
+    //获取url
+    const url = await getUrl(name);
+
+    if (url.length == 0) {
+      eventEmitter.emit("error:show", "暂时没有资源");
+      return;
+    }
+
+    //不存在添加
+    add({
+      name,
+      pic,
+      history: 0,
+      url,
+      minVersion: version,
+      currentTime: 0,
+    });
+
+    router.push("/play");
+  };
+
+  //更新集数
+  const update = async (name: string) => {
+    const item = data.value.find(item => item.name == name)!;
+
+    item.url = await api.getUrl(name);
+  };
+
   //初始化
   const init = async () => {
     const res: VideoInfo[] = await api.read();
@@ -46,19 +90,28 @@ export const useVideoStore = defineStore("list", () => {
     data.value = res.filter(({ minVersion }) => validateVersion(minVersion));
 
     //监视更新值
-    watchEffect(() => {
-      api.write(JSON.stringify(data.value));
-    });
+    watch(
+      data,
+      () => {
+        api.write(JSON.stringify(data.value));
+      },
+      {
+        deep: true,
+      }
+    );
   };
 
   init();
 
   return {
     data,
+    selectedName,
     selectedVideo,
     add,
     has,
     remove,
     before,
+    play,
+    update,
   };
 });

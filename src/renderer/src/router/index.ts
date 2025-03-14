@@ -1,41 +1,52 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-// import Home from "@/views/Home/index.vue";
-import Movie from "@/views/Movie/index.vue";
-import Tv from "@/views/Tv/index.vue";
-import History from "@/views/History/index.vue";
+import Home from "@/views/Home/index.vue";
+import Film from "@/views/Film/index.vue";
+import Movie from "@/views/Film/Movie/index.vue";
+import Tv from "@/views/Film/Tv/index.vue";
 import Search from "@/views/Search/index.vue";
-import Set from "@/views/Set/index.vue";
+import Play from "@/views/Play/index.vue";
+import Doc from "@/views/Doc/index.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
       path: "",
-      redirect: "/history",
-    },
-    // {
-    //   path: "/home",
-    //   component: Home,
-    // },
-    {
-      path: "/movie",
-      component: Movie,
+      redirect: "/home",
     },
     {
-      path: "/tv",
-      component: Tv,
+      path: "/home",
+      component: Home,
     },
     {
-      path: "/history",
-      component: History,
+      path: "/film",
+      component: Film,
+      children: [
+        {
+          path: "",
+          redirect: "/film/movie",
+        },
+        {
+          path: "movie",
+          component: Movie,
+        },
+        {
+          path: "tv",
+          component: Tv,
+        },
+      ],
     },
     {
-      path: "/set",
-      component: Set,
+      path: "/play",
+      component: Play,
     },
     {
       path: "/search",
       component: Search,
+    },
+    {
+      path: "/doc",
+      component: Doc,
     },
   ],
 });

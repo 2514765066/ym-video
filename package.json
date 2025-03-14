@@ -1,6 +1,6 @@
 {
   "name": "ym-video",
-  "version": "3.4.2",
+  "version": "4.0.0",
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@types/node": "^18.19.9",
     "@vitejs/plugin-vue": "^5.0.3",
+    "autoprefixer": "^10.4.21",
     "colorthief": "^2.6.0",
     "electron": "^30.0.1",
     "electron-builder": "^25.1.8",
@@ -28,8 +29,10 @@
     "element-plus": "^2.7.1",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
+    "postcss": "^8.5.3",
     "sass": "^1.75.0",
     "sass-loader": "^14.2.1",
+    "tailwindcss": "3",
     "typescript": "^5.3.3",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-element-plus": "^0.8.0",
@@ -37,9 +40,8 @@
     "vue": "^3.4.24",
     "vue-router": "^4.4.5",
     "vue-tsc": "^1.8.27",
-    "ym-easy.css": "^1.0.10",
     "ym-electron.js": "^3.2.1",
-    "ym-video-player": "^0.1.6"
+    "ym-video-player": "^0.2.1"
   },
   "volta": {
     "node": "20.11.1"

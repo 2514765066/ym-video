@@ -1,64 +1,30 @@
 <template>
-  <Info :data="data" :loading="loading" :src="src" @play="handlePlay" />
+  <Info :data="data" :loading="loading" @play="playHandler" />
 </template>
 
 <script setup lang="ts">
 import Info from "./index.vue";
 import { MovieInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
-import eventEmitter from "@/hooks/eventEmitter";
-import { useLoading } from "@/utils/loading";
-import { useVersionStore } from "@/stores/useVersionStore";
 
-const { version } = useVersionStore();
-const videoStore = useVideoStore();
-const getUrl = useLoading(api.getUrl);
+const { play } = useVideoStore();
 
-const props = defineProps<{
-  data: MovieInfo;
-}>();
-
-//图片的base64
-const src = ref("");
+const data = defineModel<MovieInfo>({ required: true });
 
 //图片是否加载完成
 const loading = ref(true);
 
-//处理点击播放
-const handlePlay = async () => {
-  //存在直接播放
-  if (videoStore.has(props.data.name)) {
-    videoStore.before(props.data.name);
-    eventEmitter.emit("video:show");
-    return;
-  }
-
-  //获取url
-  const url = await getUrl(props.data.name);
-
-  if (url.length == 0) {
-    eventEmitter.emit("error:show", "暂时没有资源");
-    return;
-  }
-
-  //不存在添加
-  videoStore.add({
-    name: props.data.name,
-    history: 0,
-    url,
-    minVersion: version,
-    pic: src.value,
-  });
-
-  eventEmitter.emit("video:show");
+const playHandler = () => {
+  play(data.value.name, data.value.pic);
 };
 
 //初始化获取图片
-(async () => {
-  src.value = await api.getImg(props.data.pic);
-
+const getPic = async () => {
+  data.value.pic = await api.getImg(data.value.pic);
   loading.value = false;
-})();
+};
+
+getPic();
 </script>
 
 <style scoped lang="scss"></style>

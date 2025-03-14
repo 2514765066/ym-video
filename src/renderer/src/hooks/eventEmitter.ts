@@ -1,3 +1,5 @@
+import { MenuGrounp } from "@/lib/Menu";
+
 // 定义事件到函数类型的映射
 type EventMap = {
   "error:show": (message: string) => void;
@@ -7,6 +9,12 @@ type EventMap = {
   "videoSite:show": () => void;
   "video:show": () => void;
   "new:show": () => void;
+  "menu:show": (option: {
+    data: MenuGrounp[];
+    width: number;
+    x: number;
+    y: number;
+  }) => void;
 };
 
 type EventNames = keyof EventMap;

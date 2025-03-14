@@ -1,48 +1,44 @@
 <template>
-  <RouterLink :to="to" class="v-n-c pl-2 g-1r p-r" v-if="to">
-    <slot></slot>
-    <span class="fs-14" v-if="title">{{ title }}</span>
+  <RouterLink
+    :to="to"
+    class="cursor-pointer flex items-center px-2 gap-2 rounded-md w-full"
+    :class="{ active: route.path.includes(to) }"
+  >
+    <Icon :name="icon" size="20" color="#989898" />
+    <span class="text-sm text-ellipsis overflow-hidden">{{ title }}</span>
   </RouterLink>
-
-  <li class="v-n-c pl-2 g-1r p-r" v-else>
-    <slot></slot>
-    <span class="fs-14">{{ title }}</span>
-  </li>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  title?: string;
-  to?: string;
+  title: string;
+  to: string;
+  icon: string;
 }>();
+
+const route = useRoute();
 </script>
 
 <style scoped lang="scss">
-a,
-li {
-  height: 34px;
-  transition: 0.1s;
-  border-radius: 5px;
-  color: #fff;
-  cursor: default;
+a {
+  height: 30px;
 
-  > :deep(img) {
-    width: 20px;
+  transition: 0.1s;
+
+  > span {
+    color: #9b9b9b;
   }
 
   &:hover {
-    background-color: #2d2d2d;
+    background-color: #2c2c2c;
   }
+}
 
-  &::before {
-    content: "";
-    width: 3.5px;
-    height: 45%;
-    display: block;
-    position: absolute;
-    left: 0;
-    border-radius: 3.5px;
-    transition: 0.1s;
+.active {
+  background-color: #2c2c2c;
+
+  > span {
+    color: rgba(#fff, 0.81);
   }
 }
 </style>

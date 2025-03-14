@@ -6,20 +6,16 @@
 import Info from "./index.vue";
 import { VideoInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
-import eventEmitter from "@/hooks/eventEmitter";
 
-const videoStore = useVideoStore();
+const { play } = useVideoStore();
 
 const props = defineProps<{
   data: VideoInfo;
-  remove?: boolean;
 }>();
 
 //处理点击
 const handlePlay = async () => {
-  videoStore.before(props.data.name);
-
-  eventEmitter.emit("video:show");
+  play(props.data.name);
 };
 </script>
 

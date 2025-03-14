@@ -4,21 +4,6 @@ import { ipcRenderer } from "../api/ipcRenderer";
 import { handlePlayUrl } from "../api/tools";
 
 const api = {
-  //最小化
-  minimize() {
-    ipcRenderer.send("minimize");
-  },
-
-  //最大化还原
-  maximize() {
-    ipcRenderer.send("maximize");
-  },
-
-  //关闭
-  close() {
-    ipcRenderer.send("close");
-  },
-
   //打开网页
   openUrl(url: string) {
     shell.openExternal(url);
@@ -64,13 +49,19 @@ const api = {
       (item: any) => item.type_name != "电影解说" && item.type_name != "预告片"
     );
 
-    return data.map(item => {
+    const res: {
+      name: string;
+      url: string[];
+      pic: string;
+    }[] = data.map(item => {
       return {
         name: item.vod_name,
         url: handlePlayUrl(item.vod_play_url),
         pic: item.vod_pic,
       };
     });
+
+    return res;
   },
 
   //写入
@@ -81,11 +72,6 @@ const api = {
   //读取
   async read() {
     return await ipcRenderer.invoke("readConfig");
-  },
-
-  //检查更新
-  async checkForUpdates() {
-    return await ipcRenderer.invoke("checkForUpdates");
   },
 };
 

@@ -3,6 +3,7 @@ import { writeFile, readFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 import { join } from "path";
 import { resources } from "./path";
+import { fetchWithRetry } from "./tools";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
@@ -30,7 +31,7 @@ ipcMain.handle("writeConfig", async (_, data) => {
 
 //获取图片
 ipcMain.handle("getImg", async (_, url) => {
-  const response = await fetch(url);
+  const response = await fetchWithRetry(url);
 
   const data = await response.arrayBuffer();
 
@@ -53,6 +54,7 @@ ipcMain.handle("getRecommend", async (_, option) => {
     return {
       name: item.title,
       pic: item.pic.normal,
+      sub: item.card_subtitle,
     };
   });
 });

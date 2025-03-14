@@ -1,35 +1,27 @@
 <template>
-  <TitleBar />
+  <div class="app w-screen h-screen" v-if="isOnline">
+    <TitleBar />
+    <ListBar />
 
-  <ListBar />
+    <RouterView />
 
-  <router-view v-slot="{ Component }">
-    <keep-alive :include="['Home', 'Movie', 'Tv', 'History']">
-      <component :is="Component" />
-    </keep-alive>
-  </router-view>
+    <Menu />
+  </div>
 
-  <Video />
-  <LineTip />
-  <NewTip />
+  <Disconnect v-else />
 </template>
 
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
-import TitleBar from "@/components/TitleBar.vue";
+import Disconnect from "@/views/Disconnect/index.vue";
+import TitleBar from "@/components/TitleBar/index.vue";
 import ListBar from "@/components/ListBar/index.vue";
-import Video from "@/Drawer/Video/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
-import LineTip from "./components/LineTip.vue";
-import NewTip from "./components/NewTip.vue";
-import { useVersionStore } from "@/stores/useVersionStore";
-
-const { checkForUpdates } = useVersionStore();
-
-checkForUpdates();
+import { Menu } from "@/lib/Menu";
 
 eventEmitter.on("error:show", (message: string) => {
   ElMessage({
+    plain: true,
     message,
     type: "error",
     grouping: true,
@@ -38,35 +30,38 @@ eventEmitter.on("error:show", (message: string) => {
 
 eventEmitter.on("success:show", (message: string) => {
   ElMessage({
+    plain: true,
     message,
     type: "success",
     grouping: true,
   });
 });
+
+// 网络是否可用
+const isOnline = ref(navigator.onLine);
+
+//处理断网事件
+window.addEventListener("offline", () => {
+  isOnline.value = false;
+});
+
+//处理网络恢复事件
+window.addEventListener("online", () => {
+  isOnline.value = true;
+});
 </script>
 
 <style lang="scss">
-#app {
-  width: 100vw;
-  height: 100vh;
+.app {
   display: grid;
-  grid-template-rows: 38px calc(100vh - 38px);
-  grid-template-columns: 320px calc(100vw - 320px);
-  background-color: #272727;
 
-  > *:nth-child(1) {
-    grid-row: 1/2;
-    grid-column: 2/3;
-  }
+  grid-template-rows: 44px calc(100vh - 44px);
+  grid-template-columns: 240px calc(100vw - 240px);
 
-  > *:nth-child(2) {
-    grid-row: 1/3;
-    grid-column: 1/2;
-  }
+  grid-template-areas:
+    "list-bar title-bar"
+    "list-bar content";
 
-  > *:nth-child(3) {
-    grid-row: 2/3;
-    grid-column: 2/3;
-  }
+  background-color: #191919;
 }
 </style>

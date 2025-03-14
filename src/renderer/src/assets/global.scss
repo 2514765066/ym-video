@@ -1,10 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
-  -webkit-app-region: no-drag;
+  margin: unset;
+  padding: unset;
+  box-sizing: border-box;
+  background-color: transparent;
   user-select: none;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-html:root {
-  --main-color: #ff8232;
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  object-fit: cover;
+  object-position: top;
 }
 
 .el-dialog {
@@ -12,115 +32,50 @@ html:root {
   box-shadow: 0 0 10px 5px rgba(#000, 0.4) !important;
 }
 
-.c-ccc {
-  color: #ccc;
-}
-
-.px-1r {
-  padding: 0 1rem;
-}
-
-.l-h-14 {
-  line-height: 14px;
-}
-
-.l-h-12 {
-  line-height: 12px;
-}
-
-.Drawer {
-  .el-drawer__header {
-    height: 38px;
-    padding: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  .el-drawer__body {
-    padding: 0 !important;
-  }
-}
-
 @font-face {
   font-family: "logo";
   src: url("./fonts/logo.ttf");
 }
 
-.fs-40 {
-  font-size: 40px;
+.text-color {
+  color: rgba(#fff, 0.81);
 }
 
-.button {
-  padding: 5px 12px;
-  border-radius: 6px;
-  background-color: #ff8232;
-  color: #000;
-  transition: 0.1s;
-  cursor: default;
-
-  &:hover {
-    background-color: #e97931;
-  }
-
-  &:active {
-    background-color: #d37033;
-  }
+.text-color-darken {
+  color: rgba(#fff, 0.282);
 }
 
-.button1 {
-  padding: 5px 12px;
-  border-radius: 6px;
-  background-color: #343434;
-  border: 1.5px solid #363636;
-  border-top-color: #3b3b3b;
-  transition: 0.1s;
-
-  &:hover {
-    background-color: #393939;
-  }
+//骨架屏颜色
+.el-skeleton {
+  --el-skeleton-color: #262626 !important;
+  --el-skeleton-to-color: #303030 !important;
 }
 
-.button2 {
-  $size: 30px;
+.el-popper {
+  --el-bg-color-overlay: #2f2f2f !important;
+  padding: 2px 8px !important;
+  border: none !important;
 
-  width: $size;
-  height: $size;
-  border-radius: 0.5rem;
-  transition: 0.15s;
-
-  &:hover {
-    background-color: #373737;
-  }
-
-  &:disabled {
-    cursor: default;
-
-    > svg {
-      fill: #6f6f6f;
-    }
-
-    &:hover {
-      background-color: transparent;
-    }
-  }
+  box-shadow: 0 0 4px 2px rgba(#000, 0.1);
 }
 
-.circular {
-  > * {
-    stroke: #fd8132 !important;
-  }
+//多行省略
+.line-ellipsis-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
-.loading {
-  animation: loading 800ms infinite linear;
+.line-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
-@keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.grid-list {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }

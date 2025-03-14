@@ -1,44 +1,20 @@
 import { join } from "path";
-import { createWindow, isDev } from "ym-electron.js";
-import { ipcMain } from "../api/ipcMain";
+import { isDev, onMounted } from "ym-electron.js";
+import { BrowserWindow } from "electron";
+import { browserWindows } from "../api/windows";
 
-export const mainWindow = createWindow(
-  async bw => {
-    bw.on("maximize", () => {
-      bw.webContents.send("isMaximize", true);
-    });
-
-    bw.on("unmaximize", () => {
-      bw.webContents.send("isMaximize", false);
-    });
-
-    ipcMain.on("minimize", () => {
-      bw.minimize();
-    });
-
-    ipcMain.on("maximize", () => {
-      bw.isMaximized() ? bw.restore() : bw.maximize();
-    });
-
-    ipcMain.on("close", () => {
-      bw.close();
-    });
-
-    if (isDev()) {
-      bw.webContents.openDevTools({ mode: "detach" });
-      await bw.loadURL(process.env["ELECTRON_RENDERER_URL"]!);
-    } else {
-      await bw.loadFile(join(__dirname, "../renderer/index.html"));
-    }
-
-    bw.show();
-  },
-  {
-    width: 1165,
+onMounted(async () => {
+  const bw = new BrowserWindow({
+    width: 1400,
     height: 900,
     minWidth: 1000,
     minHeight: 750,
-    frame: false,
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      symbolColor: "#d4d4d4",
+      color: "rgba(0,0,0,0)",
+      height: 44,
+    },
     show: false,
 
     webPreferences: {
@@ -46,5 +22,16 @@ export const mainWindow = createWindow(
       sandbox: false,
       devTools: isDev(),
     },
+  });
+
+  browserWindows.set("manage", bw);
+
+  if (isDev()) {
+    bw.webContents.openDevTools({ mode: "detach" });
+    await bw.loadURL(process.env["ELECTRON_RENDERER_URL"]!);
+  } else {
+    await bw.loadFile(join(__dirname, "../renderer/index.html"));
   }
-);
+
+  bw.show();
+});

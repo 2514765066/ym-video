@@ -1,10 +1,5 @@
 //ipc事件配置
 export type IpcEvent = {
-  minimize: () => void;
-  maximize: () => void;
-  isMaximize: (res: boolean) => void;
-  close: () => void;
-
   readConfig: () => any;
   writeConfig: (data: string) => void;
 
@@ -15,10 +10,6 @@ export type IpcEvent = {
   getRecommend: (option: { type: "tv" | "movie"; start?: number }) => MovieInfo;
 
   getUrl: (name: string) => string[];
-
-  checkForUpdates: () => string | undefined;
-
-  downloadProgress: (percent: number) => void;
 };
 
 //视频信息
@@ -27,18 +18,26 @@ export type VideoInfo = {
   history: number;
   url: string[];
   minVersion: string;
-  currentTime?: number;
+  currentTime: number;
+  pic: string;
+};
+
+//搜索信息
+export type SearchInfo = {
+  name: string;
+  url: string[];
   pic: string;
 };
 
 //电影信息
 export type MovieInfo = {
   name: string;
-  url?: string[];
   pic: string;
+  sub?: string;
 };
 
-//配置信息
-export type Config = {
-  historyCount: number;
+//文档信息
+export type DocInfo = {
+  name: string;
+  data: string[];
 };
