@@ -84,8 +84,8 @@ importers:
         specifier: ^3.2.1
         version: 3.2.1
       ym-video-player:
-        specifier: ^0.2.2
-        version: 0.2.2(typescript@5.4.5)
+        specifier: ^0.2.3
+        version: 0.2.3(typescript@5.4.5)
 
 packages:
 
@@ -1769,8 +1769,8 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
 
-  hls.js@1.5.18:
-    resolution: {integrity: sha512-znxR+2jecWluu/0KOBqUcvVyAB5tLff10vjMGrpAlz1eFY+ZhF1bY3r82V+Bk7WJdk03iTjtja9KFFz5BrqjSA==}
+  hls.js@1.5.20:
+    resolution: {integrity: sha512-uu0VXUK52JhihhnN/MVVo1lvqNNuhoxkonqgO3IpjvQiGpJBdIXMGkofjQb/j9zvV7a1SW8U9g1FslWx/1HOiQ==}
 
   hosted-git-info@4.1.0:
     resolution: {integrity: sha512-kyCuEOWjJqZuDbRHzL8V93NzQhwIB71oFWSyzVo+KPZI+pnQPPxucdkrOZvkLRnrf5URsQM+IJ09Dw29cRALIA==}
@@ -2929,8 +2929,8 @@ packages:
   ym-electron.js@3.2.1:
     resolution: {integrity: sha512-NfI8I1RJC4sYkFRqed7cEWo+v5O4H0q49WnHSEDRf6cm1hvblPjMNeYPAfhivMRqcD0GNIkbtJWdl25meV93Cg==}
 
-  ym-video-player@0.2.2:
-    resolution: {integrity: sha512-AVfRqL3Lz6ud+2frrnR9Fh3DnLe0gFjO54wiq1bYBnKyegDMo8CKQH3ByT+JL7XW1EnQ9DJu28P6v3gO+VLNaA==}
+  ym-video-player@0.2.3:
+    resolution: {integrity: sha512-ec38B64XPAHVCrW07ItdAQYUFAFVAI+X4830UGn41smvkf6gbVYp2RE7fKlkeEmOknuVXzYfGe15+pCOVPKwKg==}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -4787,7 +4787,7 @@ snapshots:
 
   he@1.2.0: {}
 
-  hls.js@1.5.18: {}
+  hls.js@1.5.20: {}
 
   hosted-git-info@4.1.0:
     dependencies:
@@ -5969,9 +5969,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ym-video-player@0.2.2(typescript@5.4.5):
+  ym-video-player@0.2.3(typescript@5.4.5):
     dependencies:
-      hls.js: 1.5.18
+      hls.js: 1.5.20
       vue: 3.5.13(typescript@5.4.5)
     transitivePeerDependencies:
       - typescript
