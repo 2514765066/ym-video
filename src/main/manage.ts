@@ -26,7 +26,7 @@ onMounted(async () => {
 
   browserWindows.set("manage", bw);
 
-  if (isDev()) {
+  if (isDev() && process.env["ELECTRON_RENDERER_URL"]) {
     bw.webContents.openDevTools({ mode: "detach" });
     await bw.loadURL(process.env["ELECTRON_RENDERER_URL"]!);
   } else {

@@ -81,8 +81,8 @@ importers:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.4.5)
       ym-electron.js:
-        specifier: ^3.2.1
-        version: 3.2.1
+        specifier: ^4.0.0
+        version: 4.0.0
       ym-video-player:
         specifier: ^0.2.3
         version: 0.2.3(typescript@5.4.5)
@@ -1495,11 +1495,6 @@ packages:
     peerDependenciesMeta:
       '@swc/core':
         optional: true
-
-  electron@29.4.6:
-    resolution: {integrity: sha512-fz8ndj8cmmf441t4Yh2FDP3Rn0JhLkVGvtUf2YVMbJ5SdJPlc0JWll9jYkhh60jDKVVCr/tBAmfxqRnXMWJpzg==}
-    engines: {node: '>= 12.20.55'}
-    hasBin: true
 
   electron@30.0.1:
     resolution: {integrity: sha512-iwxkI/n2wBd29NH7TH0ZY8aWGzCoKpzJz+D10u7aGSJi1TV6d4MSM3rWyKvT/UkAHkTKOEgYfUyCa2vWQm8L0g==}
@@ -2926,8 +2921,8 @@ packages:
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
-  ym-electron.js@3.2.1:
-    resolution: {integrity: sha512-NfI8I1RJC4sYkFRqed7cEWo+v5O4H0q49WnHSEDRf6cm1hvblPjMNeYPAfhivMRqcD0GNIkbtJWdl25meV93Cg==}
+  ym-electron.js@4.0.0:
+    resolution: {integrity: sha512-vNtbcG11ou0ms5DQXulP3/6EwSmAygFtESCIWb3tnNuAmUwQAminotEiT28mws96Zkb0VkNxmrZElQVRh6DdZg==}
 
   ym-video-player@0.2.3:
     resolution: {integrity: sha512-ec38B64XPAHVCrW07ItdAQYUFAFVAI+X4830UGn41smvkf6gbVYp2RE7fKlkeEmOknuVXzYfGe15+pCOVPKwKg==}
@@ -4417,14 +4412,6 @@ snapshots:
       magic-string: 0.30.10
       picocolors: 1.0.0
       vite: 5.2.10(@types/node@18.19.31)(sass@1.75.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  electron@29.4.6:
-    dependencies:
-      '@electron/get': 2.0.3
-      '@types/node': 20.12.7
-      extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
 
@@ -5963,11 +5950,7 @@ snapshots:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0
 
-  ym-electron.js@3.2.1:
-    dependencies:
-      electron: 29.4.6
-    transitivePeerDependencies:
-      - supports-color
+  ym-electron.js@4.0.0: {}
 
   ym-video-player@0.2.3(typescript@5.4.5):
     dependencies:
