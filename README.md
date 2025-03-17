@@ -10,4 +10,4 @@ ym-video 主要作用是免费观看部分影视作品。
 
 # 软件界面
 
-<img src="./images/home.png" title="" alt="" width="841">
+<img src="./images/home.png">

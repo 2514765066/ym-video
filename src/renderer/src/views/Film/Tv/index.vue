@@ -1,5 +1,5 @@
 <template>
-  <section class="flex gap-5">
+  <section class="flex gap-5 mb-4">
     <MovieCardInfo
       v-for="(item, index) of tvData.slice(0, cardCount)"
       v-model="tvData[index]"
@@ -8,19 +8,19 @@
     />
   </section>
 
-  <GroupTitle title="精选电视剧" class="mt-4" icon="star" />
-
-  <ul class="gap-4 h-fit grid grid-list" ref="container">
-    <MovieInfo
-      v-for="(item, index) of tvData.slice(cardCount, count)"
-      v-model="tvData[index + cardCount]"
-      :key="item.name"
-    />
-  </ul>
+  <Group title="精选电视剧" icon="star">
+    <ul class="gap-4 h-fit grid grid-list" ref="container">
+      <MovieInfo
+        v-for="(item, index) of tvData.slice(cardCount, count)"
+        v-model="tvData[index + cardCount]"
+        :key="item.name"
+      />
+    </ul>
+  </Group>
 </template>
 
 <script setup lang="ts">
-import GroupTitle from "@/components/GroupTitle.vue";
+import Group from "@/components/Group.vue";
 import MovieInfo from "@/components/Info/MovieInfo.vue";
 import MovieCardInfo from "@/components/Info/MovieCardInfo.vue";
 import { useTvStore } from "@/stores/useTvStore";

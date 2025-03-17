@@ -2,7 +2,7 @@
   <section class="title-bar flex items-center pl-3 gap-1">
     <ToolTip content="返回">
       <button
-        class="w-6 h-6 rounded-md"
+        class="w-6 h-6 rounded-md flex items-center justify-center"
         :class="{ active: canGoBack }"
         @click="back"
       >
@@ -16,7 +16,7 @@
 
     <ToolTip content="前进">
       <button
-        class="w-6 h-6 rounded-md"
+        class="w-6 h-6 rounded-md flex items-center justify-center"
         :class="{ active: canGoForward }"
         @click="forward"
       >
