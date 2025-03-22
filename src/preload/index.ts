@@ -28,7 +28,7 @@ const api = {
       return [];
     }
 
-    return handlePlayUrl(res.vod_play_url);
+    return handlePlayUrl(res.vod_play_url) as string[];
   },
 
   //搜索

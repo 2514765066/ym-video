@@ -4,9 +4,12 @@
     :class="{ active: route.path == '/play' && selectedName == data.name }"
     @click="clickHandler"
   >
-    <img :src="data.pic" class="rounded-full w-5 h-5" />
+    <img :src="data.pic" class="rounded-full w-5 h-5" v-if="data.pic" />
+    <div class="rounded-full w-5 h-5 shrink-0 bg-gray-700" v-else></div>
 
-    <span class="text-sm text-ellipsis overflow-hidden mr-auto">
+    <span
+      class="text-sm text-ellipsis overflow-hidden mr-auto whitespace-nowrap"
+    >
       {{ data.name }}
     </span>
 
@@ -71,6 +74,7 @@ const moreHandler = () => {
           {
             title: "更新集数",
             icon: "update",
+            hidden: !props.data.pic,
             async onSelect() {
               try {
                 await updateLoading(props.data.name);

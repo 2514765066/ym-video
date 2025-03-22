@@ -50,6 +50,7 @@ import eventEmitter from "@/hooks/eventEmitter";
 import { useAppStore } from "@/stores/useAppStore";
 
 const { data } = storeToRefs(useVideoStore());
+const { exportConfig, importConfig } = useVideoStore();
 const { version } = useAppStore();
 const router = useRouter();
 
@@ -71,8 +72,22 @@ const handleClick = () => {
   eventEmitter.emit("menu:show", {
     width: 220,
     x: rect.x + rect.width - 220,
-    y: rect.y - rect.height - 32 * 4,
+    y: rect.y - rect.height - 32 * 6,
     data: [
+      {
+        children: [
+          {
+            title: "导入记录",
+            icon: "import",
+            onSelect: importConfig,
+          },
+          {
+            title: "导出记录",
+            icon: "export",
+            onSelect: exportConfig,
+          },
+        ],
+      },
       {
         children: [
           {

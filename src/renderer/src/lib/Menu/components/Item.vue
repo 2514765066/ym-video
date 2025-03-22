@@ -1,5 +1,6 @@
 <template>
   <section
+    v-if="!data.hidden"
     class="menu-item flex items-center rounded-md pr-3 cursor-pointer pl-2 gap-1"
   >
     <div class="flex justify-center items-center mr-1.5" v-if="data.icon">

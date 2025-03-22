@@ -21,12 +21,17 @@
         <Icon name="more" color="#fff" size="20" />
       </section>
 
-      <img :src="data.pic" class="w-full h-full" />
+      <img :src="data.pic" class="w-full h-full" v-if="data.pic" />
+      <img src="@/assets/images/default.png" class="w-full h-full" v-else />
 
       <div
         class="absolute bottom-0 w-full p-2 flex justify-between items-end gap-1"
       >
-        <p class="text-sm text-color">{{ data.name }}</p>
+        <p
+          class="text-sm text-color whitespace-nowrap text-ellipsis overflow-hidden"
+        >
+          {{ data.name }}
+        </p>
 
         <Icon
           name="play"
@@ -93,6 +98,7 @@ const moreHandler = () => {
           {
             title: "更新集数",
             icon: "update",
+            hidden: !props.data.pic,
             async onSelect() {
               try {
                 await updateLoading(props.data.name);
@@ -157,6 +163,10 @@ li {
 
     > div:last-child {
       box-shadow: 0 -1px 50px 50px #252525;
+
+      > p {
+        white-space: initial !important;
+      }
 
       > i {
         display: block;

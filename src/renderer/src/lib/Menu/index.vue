@@ -26,14 +26,7 @@ import Grounp from "./components/Grounp.vue";
 import Item from "./components/Item.vue";
 import { onClickOutside } from "@vueuse/core";
 import eventEmitter from "@/hooks/eventEmitter";
-import { MenuGrounp } from "./type";
-
-type MenuOption = {
-  data: MenuGrounp[];
-  width: number;
-  x: number;
-  y: number;
-};
+import { MenuOption } from "./type";
 
 //菜单配置
 const menuOption = ref<MenuOption>({

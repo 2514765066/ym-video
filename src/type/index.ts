@@ -3,16 +3,16 @@ export type IpcEvent = {
   readConfig: () => string;
   writeConfig: (data: string) => void;
 
-  search: (keyword: string) => MovieInfo[];
-
   getImg: (url: string) => string;
+  getTitle: (url: string) => string;
 
   getRecommend: (option: {
     type: "tv" | "movie";
     start?: number;
   }) => MovieInfo[];
 
-  getUrl: (name: string) => string[];
+  exportConfig: (data: string) => void;
+  importConfig: () => string;
 };
 
 //视频信息

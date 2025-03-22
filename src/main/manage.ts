@@ -6,7 +6,7 @@ import { browserWindows } from "../api/windows";
 export const createMain = async () => {
   const bw = new BrowserWindow({
     show: false,
-    width: 1400,
+    width: 1250,
     height: 900,
     minWidth: 1000,
     minHeight: 750,
@@ -21,6 +21,7 @@ export const createMain = async () => {
       preload: join(__dirname, "../preload/index.mjs"),
       sandbox: false,
       devTools: isDev(),
+      webviewTag: true,
     },
   });
 

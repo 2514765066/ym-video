@@ -6,6 +6,7 @@
     <RouterView />
 
     <Menu />
+    <PushVideoDialog />
   </div>
 
   <Disconnect v-else />
@@ -16,6 +17,7 @@ import { ElMessage } from "element-plus";
 import Disconnect from "@/views/Disconnect/index.vue";
 import TitleBar from "@/components/TitleBar/index.vue";
 import ListBar from "@/components/ListBar/index.vue";
+import PushVideoDialog from "@/components/PushVideoDialog/index.vue";
 import eventEmitter from "./hooks/eventEmitter";
 import { Menu } from "@/lib/Menu";
 

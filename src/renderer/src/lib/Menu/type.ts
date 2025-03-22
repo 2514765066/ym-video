@@ -16,5 +16,13 @@ export type MenuItem = {
   title?: string;
   icon?: string;
   sub?: string;
+  hidden?: boolean;
   onSelect?: () => void;
+};
+
+export type MenuOption = {
+  data: MenuGrounp[];
+  width: number;
+  x: number;
+  y: number;
 };

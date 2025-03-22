@@ -29,23 +29,32 @@
       </button>
     </ToolTip>
 
-    <!-- <ToolTip content="播放第三方链接">
-      <button class="w-6 h-6 rounded-md active" @click="">
+    <ToolTip content="添加视频">
+      <button
+        class="w-6 h-6 rounded-md flex items-center justify-center active"
+        @click="handleAdd"
+      >
         <Icon name="add" color="#ffffffcf" size="18" />
       </button>
-    </ToolTip> -->
+    </ToolTip>
 
     <div
       class="h-6 rounded-md flex items-center gap-2 px-1.5"
       v-if="route.path == '/play'"
     >
-      <img :src="selectedVideo!?.pic" class="rounded-full shrink-0 w-5 h-5" />
+      <img
+        :src="selectedVideo.pic"
+        class="rounded-full shrink-0 w-5 h-5"
+        v-if="selectedVideo?.pic"
+      />
+      <div class="rounded-full shrink-0 w-5 h-5 bg-gray-700" v-else></div>
       <span class="text-sm text-color">{{ selectedVideo?.name }}</span>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import eventEmitter from "@/hooks/eventEmitter";
 import ToolTip from "@/lib/ToolTip/index.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 
@@ -68,6 +77,10 @@ const back = () => {
 
 const forward = () => {
   router.forward();
+};
+
+const handleAdd = () => {
+  eventEmitter.emit("add:show");
 };
 </script>
 

@@ -1,18 +1,10 @@
 import { dialog } from "electron";
 import { autoUpdater } from "electron-updater";
-// import { ipcMain } from "./ipcMain";
 // import { isDev } from "ym-electron.js";
 import { browserWindows } from "./windows";
 
 //开发模式测试更新
 // autoUpdater.forceDevUpdateConfig = isDev();
-
-//下载进度
-// autoUpdater.on("download-progress", ({ percent }) => {
-//   const win = browserWindows.get("manage")!;
-
-//   win.webContents.send("downloadProgress", percent);
-// });
 
 //下载完成
 autoUpdater.on("update-downloaded", async () => {
@@ -35,9 +27,3 @@ autoUpdater.on("update-downloaded", async () => {
 });
 
 autoUpdater.checkForUpdatesAndNotify();
-// //检查是否有更新
-// ipcMain.handle("checkForUpdates", async () => {
-//   const res = await autoUpdater.checkForUpdatesAndNotify();
-
-//   return res?.updateInfo.version;
-// });

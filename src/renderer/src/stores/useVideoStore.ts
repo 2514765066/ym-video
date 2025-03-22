@@ -21,10 +21,19 @@ export const useVideoStore = defineStore("list", () => {
   });
 
   //添加
-  const add = (info: VideoInfo) => {
-    data.value.unshift(info);
+  const add = (info: Partial<VideoInfo>) => {
+    const { name = "", url = [], pic = "" } = info;
 
-    selectedName.value = info.name;
+    data.value.unshift({
+      name,
+      url,
+      pic,
+      minVersion: version,
+      history: 0,
+      currentTime: 0,
+    });
+
+    selectedName.value = name;
   };
 
   //判断是否存在
@@ -67,10 +76,7 @@ export const useVideoStore = defineStore("list", () => {
     add({
       name,
       pic,
-      history: 0,
       url,
-      minVersion: version,
-      currentTime: 0,
     });
 
     router.push("/play");
@@ -81,6 +87,32 @@ export const useVideoStore = defineStore("list", () => {
     const item = data.value.find(item => item.name == name)!;
 
     item.url = await api.getUrl(name);
+  };
+
+  //导出
+  const exportConfig = () => {
+    ipcRenderer.send("exportConfig", JSON.stringify(data.value));
+  };
+
+  //导入
+  const importConfig = async () => {
+    const res = await ipcRenderer.invoke("importConfig");
+
+    if (!res) return;
+
+    const importData = JSON.parse(res);
+
+    if (!Array.isArray(importData)) {
+      eventEmitter.emit("error:show", "导入失败，无法导入修改后的记录");
+      return;
+    }
+
+    const filterData = importData.filter(item => {
+      return !has(item.name) && validateVersion(item.minVersion);
+    });
+
+    data.value.unshift(...filterData);
+    eventEmitter.emit("success:show", "导入成功");
   };
 
   //初始化
@@ -117,5 +149,7 @@ export const useVideoStore = defineStore("list", () => {
     before,
     play,
     update,
+    importConfig,
+    exportConfig,
   };
 });

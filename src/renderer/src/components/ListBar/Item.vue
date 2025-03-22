@@ -5,7 +5,9 @@
     :class="{ active: route.path.includes(to) }"
   >
     <Icon :name="icon" size="20" color="#989898" />
-    <span class="text-sm text-ellipsis overflow-hidden">{{ title }}</span>
+    <span class="text-sm text-ellipsis overflow-hidden whitespace-nowrap">
+      {{ title }}
+    </span>
   </RouterLink>
 </template>
 
