@@ -1,6 +1,6 @@
 {
   "name": "ym-video",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
@@ -16,12 +16,10 @@
     "release": "npm run build && electron-builder --win -p always"
   },
   "devDependencies": {
-    "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@types/node": "^18.19.9",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.21",
-    "colorthief": "^2.6.0",
     "electron": "^30.0.1",
     "electron-builder": "^25.1.8",
     "electron-updater": "^6.3.4",
@@ -40,7 +38,7 @@
     "vue": "^3.4.24",
     "vue-router": "^4.4.5",
     "vue-tsc": "^1.8.27",
-    "ym-electron.js": "^4.0.0",
+    "ym-electron.js": "^4.1.0",
     "ym-video-player": "^0.2.3"
   },
   "volta": {

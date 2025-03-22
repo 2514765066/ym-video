@@ -9,7 +9,12 @@ export const useSearchStore = defineStore("search", () => {
 
   //搜索数据
   const getSearchData = async (name: string) => {
+    if (keyword.value == name) {
+      return;
+    }
+
     keyword.value = name;
+
     searchData.value = await api.search(keyword.value.trim());
   };
 

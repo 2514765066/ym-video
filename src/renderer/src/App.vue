@@ -1,5 +1,5 @@
 <template>
-  <div class="app w-screen h-screen" v-if="isOnline">
+  <div class="app w-screen h-screen grid" v-if="isOnline">
     <TitleBar />
     <ListBar />
 
@@ -53,8 +53,6 @@ window.addEventListener("online", () => {
 
 <style lang="scss">
 .app {
-  display: grid;
-
   grid-template-rows: 44px calc(100vh - 44px);
   grid-template-columns: 240px calc(100vw - 240px);
 

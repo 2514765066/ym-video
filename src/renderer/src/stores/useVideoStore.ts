@@ -2,12 +2,12 @@ import { VideoInfo } from "@type";
 import { useLoading } from "@/utils/loading";
 import { validateVersion } from "@/utils/validate";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useVersionStore } from "@/stores/useVersionStore";
+import { useAppStore } from "@/stores/useAppStore";
 
 export const useVideoStore = defineStore("list", () => {
   const router = useRouter();
   const getUrl = useLoading(api.getUrl);
-  const { version } = useVersionStore();
+  const { version } = useAppStore();
 
   //数据
   const data = ref<VideoInfo[]>([]);
@@ -85,15 +85,19 @@ export const useVideoStore = defineStore("list", () => {
 
   //初始化
   const init = async () => {
-    const res: VideoInfo[] = await api.read();
+    const res = await ipcRenderer.invoke("readConfig");
 
-    data.value = res.filter(({ minVersion }) => validateVersion(minVersion));
+    if (!res) return;
+
+    const json: VideoInfo[] = JSON.parse(res);
+
+    data.value = json.filter(({ minVersion }) => validateVersion(minVersion));
 
     //监视更新值
     watch(
       data,
-      () => {
-        api.write(JSON.stringify(data.value));
+      val => {
+        ipcRenderer.send("writeConfig", JSON.stringify(val));
       },
       {
         deep: true,

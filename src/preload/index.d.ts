@@ -1,9 +1,9 @@
-import { ElectronAPI } from "@electron-toolkit/preload";
-import { IpcEventNames } from "../type";
-import { Api } from "./index";
+import type { Api } from "./index";
+import type { IpcRenderer } from "../api/ipcRenderer";
 
 declare global {
   const __APP_VERSION__: string;
-  const electron: ElectronAPI<IpcEventNames>;
+  const __APP_NAME__: string;
   const api: Api;
+  const ipcRenderer: IpcRenderer;
 }

@@ -73,7 +73,7 @@ const playHandler = () => {
 
 //初始化获取图片
 const getPic = async () => {
-  data.value.pic = await api.getImg(data.value.pic);
+  data.value.pic = await ipcRenderer.invoke("getImg", data.value.pic);
   loading.value = false;
 };
 

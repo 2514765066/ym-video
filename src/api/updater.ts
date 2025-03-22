@@ -1,11 +1,11 @@
 import { dialog } from "electron";
 import { autoUpdater } from "electron-updater";
 // import { ipcMain } from "./ipcMain";
-import { isDev } from "ym-electron.js";
+// import { isDev } from "ym-electron.js";
 import { browserWindows } from "./windows";
 
 //开发模式测试更新
-autoUpdater.forceDevUpdateConfig = isDev();
+// autoUpdater.forceDevUpdateConfig = isDev();
 
 //下载进度
 // autoUpdater.on("download-progress", ({ percent }) => {

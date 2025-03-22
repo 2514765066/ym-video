@@ -47,10 +47,10 @@ import TitleItem from "./TitleItem.vue";
 import MovieItem from "./MovieItem.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useVersionStore } from "@/stores/useVersionStore";
+import { useAppStore } from "@/stores/useAppStore";
 
 const { data } = storeToRefs(useVideoStore());
-const { version } = useVersionStore();
+const { version } = useAppStore();
 const router = useRouter();
 
 const btnRef = ref<HTMLElement>();

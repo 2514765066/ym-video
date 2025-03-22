@@ -3,7 +3,7 @@ import { defineConfig, externalizeDepsPlugin } from "electron-vite";
 import vue from "@vitejs/plugin-vue";
 import ElementPlus from "unplugin-element-plus/vite";
 import AutoImport from "unplugin-auto-import/vite";
-import { version } from "./package.json";
+import { version, name } from "./package.json";
 
 export default defineConfig({
   main: {
@@ -15,6 +15,7 @@ export default defineConfig({
   renderer: {
     define: {
       __APP_VERSION__: JSON.stringify(version),
+      __APP_NAME__: JSON.stringify(name),
     },
     build: {
       assetsInlineLimit: 0,
@@ -23,7 +24,6 @@ export default defineConfig({
       alias: {
         "@": resolve("src/renderer/src"),
         "@type": resolve("src/type/index"),
-        "@svg": resolve("src/renderer/src/assets/svg"),
       },
     },
     plugins: [

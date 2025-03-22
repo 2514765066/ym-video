@@ -73,6 +73,8 @@ const forward = () => {
 
 <style scoped lang="scss">
 .title-bar {
+  grid-area: title-bar;
+
   -webkit-app-region: drag;
 
   * {

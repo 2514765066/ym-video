@@ -6,15 +6,10 @@ export const useTvStore = defineStore("tv", () => {
 
   //获取电视剧数据
   const getTvData = async () => {
-    const option = {
+    const data = await ipcRenderer.invoke("getRecommend", {
       type: "tv",
       start: tvData.value.length,
-    };
-
-    const data: MovieInfo[] = await electron.ipcRenderer.invoke(
-      "getRecommend",
-      option
-    );
+    });
 
     tvData.value.push(...data);
   };

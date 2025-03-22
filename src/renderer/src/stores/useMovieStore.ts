@@ -6,15 +6,10 @@ export const useMovieStore = defineStore("movie", () => {
 
   //获取电影数据
   const getMovieData = async () => {
-    const option = {
+    const data = await ipcRenderer.invoke("getRecommend", {
       type: "movie",
       start: movieData.value.length,
-    };
-
-    const data: MovieInfo[] = await electron.ipcRenderer.invoke(
-      "getRecommend",
-      option
-    );
+    });
 
     movieData.value.push(...data);
   };

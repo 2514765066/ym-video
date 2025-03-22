@@ -10,16 +10,16 @@ ipcMain.handle("readConfig", async () => {
   const path = join(resources, "db.json");
 
   if (!existsSync(path)) {
-    return [];
+    return "";
   }
 
   const res = await readFile(path);
 
-  return JSON.parse(res.toString());
+  return res.toString();
 });
 
 //写入配置
-ipcMain.handle("writeConfig", async (_, data) => {
+ipcMain.on("writeConfig", async (_, data) => {
   if (!existsSync(resources)) {
     await mkdir(resources);
   }

@@ -1,13 +1,16 @@
 //ipc事件配置
 export type IpcEvent = {
-  readConfig: () => any;
+  readConfig: () => string;
   writeConfig: (data: string) => void;
 
   search: (keyword: string) => MovieInfo[];
 
   getImg: (url: string) => string;
 
-  getRecommend: (option: { type: "tv" | "movie"; start?: number }) => MovieInfo;
+  getRecommend: (option: {
+    type: "tv" | "movie";
+    start?: number;
+  }) => MovieInfo[];
 
   getUrl: (name: string) => string[];
 };

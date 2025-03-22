@@ -1,10 +1,11 @@
 import { join } from "path";
-import { isDev, onMounted } from "ym-electron.js";
+import { isDev } from "ym-electron.js";
 import { BrowserWindow } from "electron";
 import { browserWindows } from "../api/windows";
 
-onMounted(async () => {
+export const createMain = async () => {
   const bw = new BrowserWindow({
+    show: false,
     width: 1400,
     height: 900,
     minWidth: 1000,
@@ -15,7 +16,6 @@ onMounted(async () => {
       color: "rgba(0,0,0,0)",
       height: 44,
     },
-    show: false,
 
     webPreferences: {
       preload: join(__dirname, "../preload/index.mjs"),
@@ -34,4 +34,4 @@ onMounted(async () => {
   }
 
   bw.show();
-});
+};
