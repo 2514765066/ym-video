@@ -1,4 +1,8 @@
-import { isSecondeInstanceStart, onMounted } from "ym-electron.js";
+import {
+  isSecondeInstanceStart,
+  onMounted,
+  onSecondeInstanceMounted,
+} from "ym-electron.js";
 import { app } from "electron";
 import { createMain } from "./manage";
 import "../api/ipc";
@@ -9,6 +13,10 @@ if (isSecondeInstanceStart()) {
   app.exit();
 }
 
-onMounted(() => {
-  createMain();
+onMounted(async () => {
+  const win = await createMain();
+
+  onSecondeInstanceMounted(() => {
+    win.show();
+  });
 });

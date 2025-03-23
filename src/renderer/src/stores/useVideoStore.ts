@@ -34,6 +34,7 @@ export const useVideoStore = defineStore("list", () => {
     });
 
     selectedName.value = name;
+    router.push("/play");
   };
 
   //判断是否存在
@@ -78,8 +79,6 @@ export const useVideoStore = defineStore("list", () => {
       pic,
       url,
     });
-
-    router.push("/play");
   };
 
   //更新集数
@@ -113,6 +112,11 @@ export const useVideoStore = defineStore("list", () => {
 
     data.value.unshift(...filterData);
     eventEmitter.emit("success:show", "导入成功");
+  };
+
+  //删除所有记录
+  const removeConfig = () => {
+    data.value = [];
   };
 
   //初始化
@@ -151,5 +155,6 @@ export const useVideoStore = defineStore("list", () => {
     update,
     importConfig,
     exportConfig,
+    removeConfig,
   };
 });

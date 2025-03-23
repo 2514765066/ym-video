@@ -35,4 +35,6 @@ export const createMain = async () => {
   }
 
   bw.show();
+
+  return bw;
 };

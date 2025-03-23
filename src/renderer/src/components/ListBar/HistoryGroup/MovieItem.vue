@@ -16,7 +16,7 @@
     <ToolTip content="更多操作" placement="right">
       <button
         class="w-5 h-5 rounded flex items-center justify-center opacity-0"
-        @click.stop="moreHandler"
+        @click.stop="handleMore"
         ref="moreRef"
       >
         <Icon size="16" color="#8A8A8A" name="more" />
@@ -52,7 +52,7 @@ const clickHandler = () => {
 };
 
 //点击更多
-const moreHandler = () => {
+const handleMore = () => {
   if (!moreRef.value) {
     return;
   }

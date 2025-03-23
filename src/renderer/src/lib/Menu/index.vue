@@ -4,13 +4,13 @@
       <Transition>
         <section class="menu fixed rounded-lg" v-if="visible" ref="menuRef">
           <Grounp
-            v-for="{ title, children } of menuOption.data"
-            :key="title"
-            :title="title"
+            v-for="(group, index) of menuOption.data"
+            :key="index"
+            :data="group"
           >
             <Item
-              v-for="item of children"
-              :key="title"
+              v-for="(item, index) of group.children"
+              :key="index"
               :data="item"
               @click="handleClick(item.onSelect)"
             />

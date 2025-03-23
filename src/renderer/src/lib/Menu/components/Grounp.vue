@@ -1,7 +1,7 @@
 <template>
-  <section class="menu-group flex flex-col p-1">
-    <div class="px-3.5 flex items-center" v-if="title">
-      <span class="text-xs">{{ title }}</span>
+  <section class="menu-group flex flex-col p-1" v-if="!data.hidden">
+    <div class="px-3.5 flex items-center" v-if="data.title">
+      <span class="text-xs">{{ data.title }}</span>
     </div>
 
     <slot></slot>
@@ -9,8 +9,10 @@
 </template>
 
 <script setup lang="ts">
+import { MenuGrounp } from "../type";
+
 defineProps<{
-  title?: string;
+  data: MenuGrounp;
 }>();
 </script>
 

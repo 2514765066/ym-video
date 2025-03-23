@@ -9,6 +9,7 @@ export type MenuProps = {
 
 export type MenuGrounp = {
   title?: string;
+  hidden?: boolean;
   children: MenuItem[];
 };
 

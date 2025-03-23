@@ -1,17 +1,20 @@
 <template>
   <section
     class="cursor-pointer flex items-center px-2 gap-2 rounded-md w-full"
+    @click="handleClick"
   >
-    <span class="text-xs mr-auto">{{ title }}</span>
+    <Icon name="add" size="16" color="#989898" />
 
-    <slot></slot>
+    <span class="mr-auto">探索视频</span>
   </section>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  title: string;
-}>();
+const router = useRouter();
+
+const handleClick = () => {
+  router.push("/film");
+};
 </script>
 
 <style scoped lang="scss">
@@ -22,6 +25,7 @@ section {
 
   > span {
     color: #9b9b9b;
+    font-size: 13px;
   }
 
   &:hover {
