@@ -13,15 +13,18 @@
         v-model="searchData[index]"
       />
     </ul>
+
+    <Empty v-if="state == 'finish' && searchData.length == 0" />
   </Content>
 </template>
 
 <script setup lang="ts">
-import Content from "@/components/Content/index.vue";
+import Content from "@/components/Content.vue";
+import Empty from "@/components/Empty.vue";
 import MovieInfo from "@/components/Info/MovieInfo.vue";
 import { useSearchStore } from "@/stores/useSearchStore";
 
-const { searchData, keyword } = storeToRefs(useSearchStore());
+const { searchData, keyword, state } = storeToRefs(useSearchStore());
 </script>
 
 <style scoped lang="scss">

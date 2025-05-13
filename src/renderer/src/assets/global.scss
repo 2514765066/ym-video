@@ -3,28 +3,14 @@
 @tailwind utilities;
 
 * {
-  margin: unset;
-  padding: unset;
-  box-sizing: border-box;
-  background-color: transparent;
-  user-select: none;
-  border: none;
   outline: none;
+  user-select: none;
+  background-color: transparent;
   -webkit-tap-highlight-color: transparent;
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-a {
-  text-decoration: none;
 }
 
 img {
   object-fit: cover;
-  object-position: top;
 }
 
 @font-face {
@@ -46,13 +32,12 @@ img {
   --el-skeleton-to-color: #303030 !important;
 }
 
-.el-popper {
-  --el-bg-color-overlay: #2f2f2f !important;
-  padding: 2px 8px !important;
-  border: none !important;
-
-  box-shadow: 0 0 4px 2px rgba(#000, 0.1);
-}
+// .el-popper {
+//   --el-bg-color-overlay: #2f2f2f !important;
+//   padding: 2px 8px !important;
+//   border: none !important;
+//   box-shadow: 0 0 4px 2px rgba(#000, 0.1);
+// }
 
 //多行省略
 .line-ellipsis-3 {
@@ -73,4 +58,9 @@ img {
 
 .grid-list {
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.el-scrollbar__bar {
+  right: 4px !important;
+  bottom: 4px !important;
 }

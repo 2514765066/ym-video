@@ -4,7 +4,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { resources } from "./path";
 import { fetchWithRetry } from "./tools";
-import { BrowserWindow, dialog } from "electron";
+import { openConfig, openDir } from "@/utils/openDialog";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
@@ -70,46 +70,25 @@ ipcMain.handle("getRecommend", async (_, option) => {
 });
 
 //导出历史记录
-ipcMain.on("exportConfig", async ({ sender }, data) => {
-  const win = BrowserWindow.fromWebContents(sender)!;
+ipcMain.handle("exportConfig", async (_, data) => {
+  const path = await openDir("选择导出到的文件夹");
 
-  const res = await dialog.showOpenDialog(win, {
-    title: "选择导出到的文件夹",
+  if (path.length == 0) return false;
 
-    properties: ["openDirectory"],
-  });
+  const fullpath = join(path[0], "ym-video播放记录.yv");
 
-  if (res.canceled) {
-    return;
-  }
+  await writeFile(fullpath, data);
 
-  const path = join(res.filePaths[0], "ym-video-config.json");
-
-  writeFile(path, data);
+  return true;
 });
 
 //导入历史记录
-ipcMain.handle("importConfig", async ({ sender }) => {
-  const win = BrowserWindow.fromWebContents(sender)!;
+ipcMain.handle("importConfig", async () => {
+  const res = await openConfig("选择导入的文件");
 
-  const dialogOption = await dialog.showOpenDialog(win, {
-    title: "选择导入的文件",
-    properties: ["openFile"],
-    filters: [
-      {
-        name: "ym-video配置文件",
-        extensions: ["json"],
-      },
-    ],
-  });
+  if (res.length == 0) return "";
 
-  if (dialogOption.canceled) {
-    return "";
-  }
+  const buffer = await readFile(res[0]);
 
-  const path = dialogOption.filePaths[0];
-
-  const res = await readFile(path);
-
-  return res.toString();
+  return buffer.toString();
 });

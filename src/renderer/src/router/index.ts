@@ -5,7 +5,6 @@ import Movie from "@/views/Film/Movie/index.vue";
 import Tv from "@/views/Film/Tv/index.vue";
 import Search from "@/views/Search/index.vue";
 import Play from "@/views/Play/index.vue";
-import Doc from "@/views/Doc/index.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -43,10 +42,6 @@ const router = createRouter({
     {
       path: "/search",
       component: Search,
-    },
-    {
-      path: "/doc",
-      component: Doc,
     },
   ],
 });

@@ -1,6 +1,6 @@
 <template>
   <section class="menu-group flex flex-col p-1" v-if="!data.hidden">
-    <div class="px-3.5 flex items-center" v-if="data.title">
+    <div class="px-3 flex items-center" v-if="data.title">
       <span class="text-xs">{{ data.title }}</span>
     </div>
 

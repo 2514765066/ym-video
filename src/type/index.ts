@@ -11,7 +11,7 @@ export type IpcEvent = {
     start?: number;
   }) => MovieInfo[];
 
-  exportConfig: (data: string) => void;
+  exportConfig: (data: string) => boolean;
   importConfig: () => string;
 };
 
@@ -37,10 +37,4 @@ export type MovieInfo = {
   name: string;
   pic: string;
   sub?: string;
-};
-
-//文档信息
-export type DocInfo = {
-  name: string;
-  data: string[];
 };

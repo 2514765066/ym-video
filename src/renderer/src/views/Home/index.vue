@@ -11,7 +11,7 @@
     <Group title="最近更新内容" icon="book">
       <ul class="group-content rounded-xl px-5 py-3">
         <li
-          v-for="item of currentDocData.data"
+          v-for="item of docData"
           class="text-sm text-color-darken tracking-wide flex items-center"
         >
           {{ item }}
@@ -22,14 +22,14 @@
 </template>
 
 <script setup lang="ts">
-import Content from "@/components/Content/index.vue";
+import Content from "@/components/Content.vue";
 import TimeGreet from "./TimeGreet.vue";
 import HistoryInfo from "@/components/Info/HistoryInfo.vue";
 import Group from "@/components/Group.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 import { useDocStore } from "@/stores/useDocStore";
 
-const { currentDocData } = storeToRefs(useDocStore());
+const { docData } = storeToRefs(useDocStore());
 const { data } = storeToRefs(useVideoStore());
 </script>
 

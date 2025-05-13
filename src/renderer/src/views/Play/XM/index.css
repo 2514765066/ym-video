@@ -1,0 +1,31 @@
+#adv_wrap_hh {
+  display: none !important;
+}
+
+.art-contextmenu-info {
+  display: none !important;
+}
+
+.art-contextmenu-version {
+  display: none !important;
+}
+
+.art-contextmenu-aspectRatio {
+  display: none !important;
+}
+
+.art-contextmenu-flip {
+  display: none !important;
+}
+
+.broadside {
+  display: none !important;
+}
+
+.header {
+  display: none !important;
+}
+
+.dm-box {
+  display: none !important;
+}

@@ -1,83 +1,70 @@
 <template>
   <section class="title-bar flex items-center pl-3 gap-1">
-    <ToolTip content="返回">
-      <button
-        class="w-6 h-6 rounded-md flex items-center justify-center"
-        :class="{ active: canGoBack }"
-        @click="back"
-      >
-        <Icon
-          name="arrow1"
-          :color="canGoBack ? '#ffffffcf' : '#646464'"
-          size="18"
-        />
-      </button>
-    </ToolTip>
+    <Nav />
 
-    <ToolTip content="前进">
-      <button
-        class="w-6 h-6 rounded-md flex items-center justify-center"
-        :class="{ active: canGoForward }"
-        @click="forward"
-      >
-        <Icon
-          name="arrow1"
-          :color="canGoForward ? '#ffffffcf' : '#646464'"
-          size="18"
-          style="transform: rotate(180deg)"
-        />
-      </button>
-    </ToolTip>
-
-    <ToolTip content="添加视频">
+    <Tip content="添加视频">
       <button
         class="w-6 h-6 rounded-md flex items-center justify-center active"
         @click="handleAdd"
       >
         <Icon name="add" color="#ffffffcf" size="18" />
       </button>
-    </ToolTip>
+    </Tip>
 
-    <div
-      class="h-6 rounded-md flex items-center gap-2 px-1.5"
-      v-if="route.path == '/play'"
-    >
-      <img
-        :src="selectedVideo.pic"
-        class="rounded-full shrink-0 w-5 h-5"
-        v-if="selectedVideo?.pic"
-      />
-      <div class="rounded-full shrink-0 w-5 h-5 bg-gray-700" v-else></div>
-      <span class="text-sm text-color">{{ selectedVideo?.name }}</span>
-    </div>
+    <VideoTitle v-if="route.path.includes('/play')" />
+
+    <Menu :data="menu" placement="bottom" :offset="12">
+      <button
+        class="w-6 h-6 rounded-md flex items-center justify-center active ml-auto"
+      >
+        <Tip content="导入等操作..." placement="left">
+          <Icon name="more" size="18" color="#ffffffcf"></Icon>
+        </Tip>
+      </button>
+    </Menu>
   </section>
 </template>
 
 <script setup lang="ts">
+import Nav from "./Nav.vue";
+import VideoTitle from "./VideoTitle.vue";
 import eventEmitter from "@/hooks/eventEmitter";
-import ToolTip from "@/lib/ToolTip/index.vue";
+import { Tip, Menu } from "@/components/Tooltip";
 import { useVideoStore } from "@/stores/useVideoStore";
 
-const { selectedVideo } = storeToRefs(useVideoStore());
-const router = useRouter();
+const { exportConfig, importConfig, removeConfig } = useVideoStore();
 const route = useRoute();
 
-const canGoBack = ref(false);
-const canGoForward = ref(false);
-
-router.afterEach(() => {
-  canGoBack.value = history.length > 1 && history.state.position != 0;
-  canGoForward.value =
-    history.state && history.state.position < history.length - 1;
-});
-
-const back = () => {
-  router.back();
-};
-
-const forward = () => {
-  router.forward();
-};
+const menu = [
+  {
+    title: "更多操作",
+    children: [
+      {
+        title: "导入播放记录",
+        icon: "import",
+        onSelect: () => {
+          importConfig();
+        },
+      },
+      {
+        title: "导出所有播放记录",
+        icon: "export",
+        onSelect: () => {
+          exportConfig();
+        },
+      },
+      {
+        title: "清空所有播放记录",
+        icon: "remove",
+        hoverColor: "#EB5757",
+        onSelect() {
+          removeConfig();
+          eventEmitter.emit("success:show", "已清空所有播放记录");
+        },
+      },
+    ],
+  },
+];
 
 const handleAdd = () => {
   eventEmitter.emit("add:show");
@@ -87,27 +74,14 @@ const handleAdd = () => {
 <style scoped lang="scss">
 .title-bar {
   grid-area: title-bar;
+  padding-right: 140px;
 
   -webkit-app-region: drag;
-
   * {
     -webkit-app-region: no-drag;
   }
 
-  > button {
-    cursor: default;
-    transition: 0.1s;
-  }
-
-  > div {
-    transition: 0.1s;
-
-    &:hover {
-      background-color: #262626;
-    }
-  }
-
-  .active {
+  :deep(.active) {
     cursor: pointer;
     &:hover {
       background-color: #262626;

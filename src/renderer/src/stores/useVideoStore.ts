@@ -2,12 +2,10 @@ import { VideoInfo } from "@type";
 import { useLoading } from "@/utils/loading";
 import { validateVersion } from "@/utils/validate";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useAppStore } from "@/stores/useAppStore";
 
 export const useVideoStore = defineStore("list", () => {
   const router = useRouter();
   const getUrl = useLoading(api.getUrl);
-  const { version } = useAppStore();
 
   //数据
   const data = ref<VideoInfo[]>([]);
@@ -28,7 +26,7 @@ export const useVideoStore = defineStore("list", () => {
       name,
       url,
       pic,
-      minVersion: version,
+      minVersion: __APP_VERSION__,
       history: 0,
       currentTime: 0,
     });
@@ -85,12 +83,27 @@ export const useVideoStore = defineStore("list", () => {
   const update = async (name: string) => {
     const item = data.value.find(item => item.name == name)!;
 
-    item.url = await api.getUrl(name);
+    try {
+      item.url = await api.getUrl(name);
+      eventEmitter.emit("success:show", "更新成功");
+    } catch {
+      eventEmitter.emit("error:show", "更新失败");
+    }
   };
 
   //导出
-  const exportConfig = () => {
-    ipcRenderer.send("exportConfig", JSON.stringify(data.value));
+  const exportConfig = async (name?: string) => {
+    let exportData = JSON.stringify(data.value);
+
+    if (name) {
+      exportData = JSON.stringify([data.value.find(item => item.name == name)]);
+    }
+
+    const res = await ipcRenderer.invoke("exportConfig", exportData);
+
+    if (res) {
+      eventEmitter.emit("success:show", "导出成功");
+    }
   };
 
   //导入

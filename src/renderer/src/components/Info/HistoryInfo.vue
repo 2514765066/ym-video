@@ -1,5 +1,5 @@
 <template>
-  <Info :data="data" @play="handlePlay" remove />
+  <Info :data="data" @play="handlePlay" more />
 </template>
 
 <script setup lang="ts">

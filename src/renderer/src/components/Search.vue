@@ -21,6 +21,7 @@ const { movieData } = storeToRefs(useMovieStore());
 const { getSearchData } = useSearchStore();
 const router = useRouter();
 
+//关键词
 const keyword = ref("");
 
 //搜索提示词
@@ -37,7 +38,9 @@ const placeholder = computed(() => {
 //处理搜索
 const handleSubmit = () => {
   getSearchData(keyword.value);
+
   router.push("/search");
+
   keyword.value = "";
 };
 </script>

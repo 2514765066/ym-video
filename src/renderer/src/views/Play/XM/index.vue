@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { useVideoStore } from "@/stores/useVideoStore";
 import type { WebviewTag } from "electron";
+import Css from "./index.css?raw";
 
 const { selectedVideo } = storeToRefs(useVideoStore());
 
@@ -29,11 +30,9 @@ onMounted(() => {
   });
 
   webview.addEventListener("dom-ready", () => {
-    webview.insertCSS(`
-            #adv_wrap_hh{
-                display: none !important;
-            }
-    `);
+    webview.insertCSS(Css);
+
+    // webview.openDevTools();
   });
 });
 </script>

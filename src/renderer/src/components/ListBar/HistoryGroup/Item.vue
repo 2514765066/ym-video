@@ -2,7 +2,7 @@
   <section
     class="cursor-pointer flex items-center px-2 gap-2 rounded-md w-full"
     :class="{ active: route.path == '/play' && selectedName == data.name }"
-    @click="clickHandler"
+    @click="handleClick"
   >
     <img :src="data.pic" class="rounded-full w-5 h-5" v-if="data.pic" />
     <div class="rounded-full w-5 h-5 shrink-0 bg-gray-700" v-else></div>
@@ -13,26 +13,27 @@
       {{ data.name }}
     </span>
 
-    <ToolTip content="更多操作" placement="right">
+    <Menu :data="menu">
       <button
         class="w-5 h-5 rounded flex items-center justify-center opacity-0"
-        @click.stop="handleMore"
-        ref="moreRef"
+        @click.stop
       >
-        <Icon size="16" color="#8A8A8A" name="more" />
+        <Tip content="更多操作" placement="right">
+          <Icon size="16" color="#8A8A8A" name="more" />
+        </Tip>
       </button>
-    </ToolTip>
+    </Menu>
   </section>
 </template>
 
 <script setup lang="ts">
-import ToolTip from "@/lib/ToolTip/index.vue";
 import { VideoInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useLoading } from "@/utils/loading";
+import { Menu, Tip } from "@/components/Tooltip";
 
-const { remove, update } = useVideoStore();
+const { remove, update, exportConfig } = useVideoStore();
 const { selectedName } = storeToRefs(useVideoStore());
 const route = useRoute();
 const router = useRouter();
@@ -42,65 +43,44 @@ const props = defineProps<{
   data: VideoInfo;
 }>();
 
-const moreRef = ref<HTMLElement>();
-
 //点击元素
-const clickHandler = () => {
+const handleClick = () => {
   selectedName.value = props.data.name;
 
   router.push("/play");
 };
 
-//点击更多
-const handleMore = () => {
-  if (!moreRef.value) {
-    return;
-  }
-
-  const rect = moreRef.value.getBoundingClientRect();
-
-  eventEmitter.emit("menu:show", {
-    width: 250,
-    x: rect.x,
-    y: rect.y,
-    data: [
+const menu = [
+  {
+    title: "更多操作",
+    children: [
       {
-        children: [
-          {
-            title: "播放视频",
-            icon: "play1",
-            onSelect: clickHandler,
-          },
-          {
-            title: "更新集数",
-            icon: "update",
-            hidden: !props.data.pic,
-            async onSelect() {
-              try {
-                await updateLoading(props.data.name);
-                eventEmitter.emit("success:show", "更新成功");
-              } catch {
-                eventEmitter.emit("error:show", "更新失败");
-              }
-            },
-          },
-        ],
+        title: "更新集数",
+        icon: "update",
+        hidden: !props.data.pic,
+        onSelect() {
+          updateLoading(props.data.name);
+        },
       },
       {
-        children: [
-          {
-            title: "删除记录",
-            icon: "remove",
-            onSelect() {
-              remove(props.data.name);
-              eventEmitter.emit("success:show", "删除成功");
-            },
-          },
-        ],
+        title: "导出记录",
+        icon: "export",
+        onSelect() {
+          exportConfig(props.data.name);
+        },
+      },
+      {
+        title: "删除记录",
+        icon: "remove",
+        hoverColor: "#EB5757",
+        onSelect() {
+          remove(props.data.name);
+          eventEmitter.emit("success:show", "删除成功");
+        },
       },
     ],
-  });
-};
+  },
+];
 </script>
 
 <style scoped lang="scss">

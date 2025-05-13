@@ -12,14 +12,13 @@
     </template>
 
     <li class="flex flex-col relative overflow-hidden rounded-lg">
-      <section
-        class="w-6 h-6 absolute more top-2.5 right-2.5 rounded-full opacity-0 backdrop-blur-lg flex justify-center items-center cursor-pointer"
-        @click="moreHandler"
-        ref="moreRef"
-        v-if="remove"
-      >
-        <Icon name="more" color="#fff" size="20" />
-      </section>
+      <Menu :data="menu" v-if="more">
+        <section
+          class="w-6 h-6 absolute more top-2.5 right-2.5 rounded-full opacity-0 backdrop-blur-lg flex justify-center items-center cursor-pointer"
+        >
+          <Icon name="more" color="#fff" size="20" />
+        </section>
+      </Menu>
 
       <img :src="data.pic" class="w-full h-full" v-if="data.pic" />
       <img src="@/assets/images/default.png" class="w-full h-full" v-else />
@@ -51,19 +50,19 @@ import { VideoInfo, MovieInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useLoading } from "@/utils/loading";
+import { Menu } from "@/components/Tooltip";
 
-const videoStore = useVideoStore();
-const updateLoading = useLoading(videoStore.update);
+const { remove, update } = useVideoStore();
+const updateLoading = useLoading(update);
 
 const props = withDefaults(
   defineProps<{
     data: VideoInfo | MovieInfo;
     loading?: boolean;
-    remove?: boolean;
+    more?: boolean;
   }>(),
   {
     loading: false,
-    remove: false,
   }
 );
 
@@ -71,60 +70,30 @@ const emits = defineEmits<{
   play: [];
 }>();
 
-const moreRef = ref<HTMLElement>();
-
-//处理更多
-const moreHandler = () => {
-  if (!moreRef.value) {
-    return;
-  }
-
-  const rect = moreRef.value.getBoundingClientRect();
-
-  eventEmitter.emit("menu:show", {
-    width: 250,
-    x: rect.x + 250 > window.innerWidth ? rect.x - 250 + rect.width : rect.x,
-    y: rect.y,
-    data: [
+const menu = [
+  {
+    title: "更多操作",
+    children: [
       {
-        children: [
-          {
-            title: "播放视频",
-            icon: "play1",
-            onSelect() {
-              emits("play");
-            },
-          },
-          {
-            title: "更新集数",
-            icon: "update",
-            hidden: !props.data.pic,
-            async onSelect() {
-              try {
-                await updateLoading(props.data.name);
-                eventEmitter.emit("success:show", "更新成功");
-              } catch {
-                eventEmitter.emit("error:show", "更新失败");
-              }
-            },
-          },
-        ],
+        title: "更新集数",
+        icon: "update",
+        hidden: !props.data.pic,
+        onSelect() {
+          updateLoading(props.data.name);
+        },
       },
       {
-        children: [
-          {
-            title: "删除记录",
-            icon: "remove",
-            onSelect() {
-              videoStore.remove(props.data.name);
-              eventEmitter.emit("success:show", "删除成功");
-            },
-          },
-        ],
+        title: "删除记录",
+        icon: "remove",
+        hoverColor: "#EB5757",
+        onSelect() {
+          remove(props.data.name);
+          eventEmitter.emit("success:show", "删除成功");
+        },
       },
     ],
-  });
-};
+  },
+];
 
 //点击播放
 const handlePlay = () => {

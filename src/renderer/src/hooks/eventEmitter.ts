@@ -1,11 +1,8 @@
-import { MenuOption } from "@/lib/Menu";
-
 // 定义事件到函数类型的映射
 type EventMap = {
   "error:show": (message: string) => void;
   "success:show": (message: string) => void;
   "add:show": () => void;
-  "menu:show": (option: MenuOption) => void;
 };
 
 type EventNames = keyof EventMap;

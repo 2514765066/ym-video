@@ -8,6 +8,11 @@ import { version, name } from "./package.json";
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
+    resolve: {
+      alias: {
+        "@": resolve("src"),
+      },
+    },
   },
   preload: {
     plugins: [externalizeDepsPlugin()],

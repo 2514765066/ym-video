@@ -5,7 +5,7 @@
 
       <FilmNav to="/film/tv" hover-color="#2383e2" title="电视剧" />
 
-      <Search class="ml-auto"></Search>
+      <Search class="ml-auto" />
     </header>
 
     <RouterView></RouterView>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import Content from "@/components/Content/index.vue";
+import Content from "@/components/Content.vue";
 import Search from "@/components/Search.vue";
 import FilmNav from "@/components/FilmNav.vue";
 import { useMovieStore } from "@/stores/useMovieStore";
@@ -27,16 +27,12 @@ const route = useRoute();
 const isloading = ref(false);
 
 //滚动到底的时候添加内容
-const scrollHandler = debounce(async (e: Event) => {
-  if (isloading.value) {
+const scrollHandler = debounce(async (el?: HTMLDivElement) => {
+  if (!el || isloading.value) {
     return;
   }
 
-  const container = e.target as HTMLElement;
-
-  const nearBottom =
-    container.scrollHeight - container.scrollTop <=
-    container.clientHeight + 100;
+  const nearBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 200;
 
   if (!nearBottom) {
     return;
