@@ -1,5 +1,5 @@
 <template>
-  <Info :data="data" :loading="loading" @play="playHandler" />
+  <Info :data="data" :loading="loading" @play="handlePlay" />
 </template>
 
 <script setup lang="ts">
@@ -14,13 +14,18 @@ const data = defineModel<MovieInfo>({ required: true });
 //图片是否加载完成
 const loading = ref(true);
 
-const playHandler = () => {
+const handlePlay = () => {
   play(data.value.name, data.value.pic);
 };
 
 //初始化获取图片
 const getPic = async () => {
-  data.value.pic = await ipcRenderer.invoke("getImg", data.value.pic);
+  try {
+    data.value.pic = await ipcRenderer.invoke("getImg", data.value.pic);
+  } catch {
+    data.value.pic = "";
+  }
+
   loading.value = false;
 };
 

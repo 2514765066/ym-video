@@ -1,5 +1,11 @@
 //ipc事件配置
 export type IpcEvent = {
+  //有更新版本
+  updateAvailable: (version: string) => void;
+
+  //更新进度
+  downloadProgress: (percent: number) => void;
+
   readConfig: () => string;
   writeConfig: (data: string) => void;
 

@@ -17,6 +17,7 @@ export const useSearchStore = defineStore("search", () => {
     }
 
     keyword.value = name;
+    searchData.value = [];
 
     state.value = "loading";
 

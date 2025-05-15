@@ -24,20 +24,29 @@ const router = useRouter();
 //关键词
 const keyword = ref("");
 
-//搜索提示词
-const placeholder = computed(() => {
+//提示电影名称
+const tipkeyword = computed(() => {
   const index = Math.floor(Math.random() * movieData.value.length);
 
-  return `尝试搜索"${
-    movieData.value[index]
-      ? movieData.value[index].name.replaceAll('"', "")
-      : ""
-  }"`;
+  return movieData.value.length == 0 ? "" : movieData.value[index].name;
+});
+
+//搜索提示词
+const placeholder = computed(() => {
+  return `尝试搜索'${tipkeyword.value}''`;
 });
 
 //处理搜索
 const handleSubmit = () => {
-  getSearchData(keyword.value);
+  if (!keyword.value && !tipkeyword.value) {
+    return;
+  }
+
+  if (keyword.value) {
+    getSearchData(keyword.value);
+  } else {
+    getSearchData(tipkeyword.value);
+  }
 
   router.push("/search");
 

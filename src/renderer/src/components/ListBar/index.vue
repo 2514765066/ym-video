@@ -8,7 +8,7 @@
 
     <HistoryGroup class="mb-auto" />
 
-    <!-- <Updater /> -->
+    <Updater />
 
     <Bottom />
   </section>
@@ -19,7 +19,7 @@ import Logo from "./Logo.vue";
 import Item from "./Item.vue";
 import HistoryGroup from "./HistoryGroup/index.vue";
 import Bottom from "./Bottom/index.vue";
-// import Updater from "./Updater.vue";
+import Updater from "./Updater.vue";
 </script>
 
 <style scoped lang="scss">

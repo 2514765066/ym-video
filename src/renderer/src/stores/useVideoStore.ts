@@ -64,19 +64,23 @@ export const useVideoStore = defineStore("list", () => {
     }
 
     //获取url
-    const url = await getUrl(name);
+    try {
+      const url = await getUrl(name);
 
-    if (url.length == 0) {
-      eventEmitter.emit("error:show", "暂时没有资源");
-      return;
+      if (url.length == 0) {
+        eventEmitter.emit("error:show", "暂时没有资源");
+        return;
+      }
+
+      //不存在添加
+      add({
+        name,
+        pic,
+        url,
+      });
+    } catch {
+      eventEmitter.emit("error:show", "请求资源失败，请稍后再试");
     }
-
-    //不存在添加
-    add({
-      name,
-      pic,
-      url,
-    });
   };
 
   //更新集数

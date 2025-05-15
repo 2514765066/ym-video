@@ -1,5 +1,7 @@
 <template>
-  <Content>
+  <Loading v-if="state == 'loading'" />
+
+  <Content v-else>
     <header class="pt-8 gap-5 flex">
       <span class="text-3xl text-color font-bold">
         "{{ keyword }}"的所有搜索结果
@@ -21,6 +23,7 @@
 <script setup lang="ts">
 import Content from "@/components/Content.vue";
 import Empty from "@/components/Empty.vue";
+import Loading from "@/components/Loading.vue";
 import MovieInfo from "@/components/Info/MovieInfo.vue";
 import { useSearchStore } from "@/stores/useSearchStore";
 
