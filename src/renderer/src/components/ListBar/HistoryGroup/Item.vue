@@ -33,7 +33,7 @@ import eventEmitter from "@/hooks/eventEmitter";
 import { useLoading } from "@/utils/loading";
 import { Menu, Tip } from "@/components/Tooltip";
 
-const { remove, update, exportConfig } = useVideoStore();
+const { remove, update } = useVideoStore();
 const { selectedName } = storeToRefs(useVideoStore());
 const route = useRoute();
 const router = useRouter();
@@ -62,13 +62,7 @@ const menu = [
           updateLoading(props.data.name);
         },
       },
-      {
-        title: "导出记录",
-        icon: "export",
-        onSelect() {
-          exportConfig(props.data.name);
-        },
-      },
+
       {
         title: "删除记录",
         icon: "remove",

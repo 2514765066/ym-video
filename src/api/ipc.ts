@@ -1,31 +1,28 @@
 import { ipcMain } from "./ipcMain";
-import { writeFile, readFile, mkdir } from "fs/promises";
-import { existsSync } from "fs";
+import { writeFile, readFile } from "fs/promises";
 import { join } from "path";
 import { resources } from "./path";
 import { fetchWithRetry } from "./tools";
-import { openConfig, openDir } from "@/utils/openDialog";
+// import { openConfig, openDir } from "@/utils/openDialog";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
   const path = join(resources, "db.json");
 
-  if (!existsSync(path)) {
+  try {
+    const res = await readFile(path);
+
+    return res.toString();
+  } catch {
     return "";
   }
-
-  const res = await readFile(path);
-
-  return res.toString();
 });
 
 //写入配置
 ipcMain.on("writeConfig", async (_, data) => {
-  if (!existsSync(resources)) {
-    await mkdir(resources);
-  }
-
   const path = join(resources, `db.json`);
+
+  console.log(path);
 
   await writeFile(path, data);
 });
@@ -39,7 +36,7 @@ ipcMain.handle("getImg", async (_, url) => {
   return `data:image/jpeg;base64,${Buffer.from(data).toString("base64")}`;
 });
 
-//获取图片
+//获取标题
 ipcMain.handle("getTitle", async (_, url) => {
   const response = await fetch(url);
 
@@ -67,28 +64,4 @@ ipcMain.handle("getRecommend", async (_, option) => {
       sub: item.card_subtitle,
     };
   });
-});
-
-//导出历史记录
-ipcMain.handle("exportConfig", async (_, data) => {
-  const path = await openDir("选择导出到的文件夹");
-
-  if (path.length == 0) return false;
-
-  const fullpath = join(path[0], "ym-video播放记录.yv");
-
-  await writeFile(fullpath, data);
-
-  return true;
-});
-
-//导入历史记录
-ipcMain.handle("importConfig", async () => {
-  const res = await openConfig("选择导入的文件");
-
-  if (res.length == 0) return "";
-
-  const buffer = await readFile(res[0]);
-
-  return buffer.toString();
 });

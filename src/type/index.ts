@@ -16,9 +16,6 @@ export type IpcEvent = {
     type: "tv" | "movie";
     start?: number;
   }) => MovieInfo[];
-
-  exportConfig: (data: string) => boolean;
-  importConfig: () => string;
 };
 
 //视频信息

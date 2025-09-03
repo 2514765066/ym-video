@@ -3,10 +3,10 @@
 </template>
 
 <script setup lang="ts">
-// import "E:/Project/前端/ym-video-player/es/index.css";
-// import { YmVideoPlayer } from "E:/Project/前端/ym-video-player/es";
-import "ym-video-player/es/index.css";
-import { YmVideoPlayer } from "ym-video-player";
+import "E:/Project/前端/ym-video-player/es/index.css";
+import { YmVideoPlayer } from "E:/Project/前端/ym-video-player/es";
+// import "ym-video-player/es/index.css";
+// import { YmVideoPlayer } from "ym-video-player";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { selectedVideo } = storeToRefs(useVideoStore());

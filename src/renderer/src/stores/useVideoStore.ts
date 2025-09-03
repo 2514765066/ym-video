@@ -95,42 +95,6 @@ export const useVideoStore = defineStore("list", () => {
     }
   };
 
-  //导出
-  const exportConfig = async (name?: string) => {
-    let exportData = JSON.stringify(data.value);
-
-    if (name) {
-      exportData = JSON.stringify([data.value.find(item => item.name == name)]);
-    }
-
-    const res = await ipcRenderer.invoke("exportConfig", exportData);
-
-    if (res) {
-      eventEmitter.emit("success:show", "导出成功");
-    }
-  };
-
-  //导入
-  const importConfig = async () => {
-    const res = await ipcRenderer.invoke("importConfig");
-
-    if (!res) return;
-
-    const importData = JSON.parse(res);
-
-    if (!Array.isArray(importData)) {
-      eventEmitter.emit("error:show", "导入失败，无法导入修改后的记录");
-      return;
-    }
-
-    const filterData = importData.filter(item => {
-      return !has(item.name) && validateVersion(item.minVersion);
-    });
-
-    data.value.unshift(...filterData);
-    eventEmitter.emit("success:show", "导入成功");
-  };
-
   //删除所有记录
   const removeConfig = () => {
     data.value = [];
@@ -140,11 +104,11 @@ export const useVideoStore = defineStore("list", () => {
   const init = async () => {
     const res = await ipcRenderer.invoke("readConfig");
 
-    if (!res) return;
+    if (res) {
+      const json: VideoInfo[] = JSON.parse(res);
 
-    const json: VideoInfo[] = JSON.parse(res);
-
-    data.value = json.filter(({ minVersion }) => validateVersion(minVersion));
+      data.value = json.filter(({ minVersion }) => validateVersion(minVersion));
+    }
 
     //监视更新值
     watch(
@@ -170,8 +134,7 @@ export const useVideoStore = defineStore("list", () => {
     before,
     play,
     update,
-    importConfig,
-    exportConfig,
+
     removeConfig,
   };
 });
