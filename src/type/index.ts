@@ -9,6 +9,12 @@ export type IpcEvent = {
   readConfig: () => string;
   writeConfig: (data: string) => void;
 
+  getSearch: (keyword: string) => {
+    name: string;
+    sub: string;
+    pic: string;
+  }[];
+
   getImg: (url: string) => string;
   getTitle: (url: string) => string;
 
@@ -26,6 +32,7 @@ export type VideoInfo = {
   minVersion: string;
   currentTime: number;
   pic: string;
+  duration: number;
 };
 
 //搜索信息
@@ -33,6 +40,7 @@ export type SearchInfo = {
   name: string;
   url: string[];
   pic: string;
+  sub: string;
 };
 
 //电影信息

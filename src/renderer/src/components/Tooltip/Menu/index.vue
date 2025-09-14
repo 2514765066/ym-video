@@ -1,6 +1,7 @@
 <template>
   <ElTooltip
     trigger="click"
+    placement="bottom-start"
     effect="light"
     :show-arrow="false"
     :offset="6"
@@ -8,7 +9,6 @@
     popper-class="tooltip-menu "
     :popper-style="{ width: `${width}px` }"
     v-model:visible="visible"
-    placement="bottom-start"
     v-bind="$attrs"
   >
     <template #content>

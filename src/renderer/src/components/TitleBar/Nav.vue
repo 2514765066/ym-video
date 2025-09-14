@@ -1,38 +1,33 @@
 <template>
-  <section class="h-full flex items-center gap-1">
-    <Tip content="返回">
-      <button
-        class="w-6 h-6 rounded-md flex items-center justify-center"
-        :class="{ active: canGoBack }"
-        @click="back"
-      >
-        <Icon
-          name="arrow1"
-          :color="canGoBack ? '#ffffffcf' : '#646464'"
-          size="18"
-        />
-      </button>
-    </Tip>
+  <Tip content="返回">
+    <button
+      class="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
+      :disabled="!canGoBack"
+      @click="back"
+    >
+      <Icon name="arrow" color="#ffffffcf" size="18" />
+    </button>
+  </Tip>
 
-    <Tip content="前进">
-      <button
-        class="w-6 h-6 rounded-md flex items-center justify-center"
-        :class="{ active: canGoForward }"
-        @click="forward"
-      >
-        <Icon
-          name="arrow1"
-          :color="canGoForward ? '#ffffffcf' : '#646464'"
-          size="18"
-          style="transform: rotate(180deg)"
-        />
-      </button>
-    </Tip>
-  </section>
+  <Tip content="前进">
+    <button
+      class="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
+      :disabled="!canGoBack"
+      @click="forward"
+    >
+      <Icon
+        name="arrow"
+        color="#ffffffcf"
+        size="18"
+        style="transform: rotate(180deg)"
+      />
+    </button>
+  </Tip>
 </template>
 
 <script setup lang="ts">
-import Tip from "@/components/Tooltip/Tip.vue";
+import Icon from "@/components/Icon.vue";
+import { Tip } from "@/components/Tooltip";
 
 const router = useRouter();
 
@@ -55,9 +50,4 @@ const forward = () => {
 };
 </script>
 
-<style scoped lang="scss">
-button {
-  cursor: default;
-  transition: 0.1s;
-}
-</style>
+<style scoped lang="scss"></style>

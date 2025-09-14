@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import Icon from "@/components/Icon.vue";
 import { MenuItem } from "../type";
 
 const props = defineProps<{

@@ -2,7 +2,7 @@
 type EventMap = {
   "error:show": (message: string) => void;
   "success:show": (message: string) => void;
-  "add:show": () => void;
+  "search:show": () => void;
 };
 
 type EventNames = keyof EventMap;

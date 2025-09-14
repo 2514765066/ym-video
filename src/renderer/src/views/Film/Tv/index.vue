@@ -1,6 +1,6 @@
 <template>
   <section class="flex gap-5 mb-4">
-    <MovieCardInfo
+    <MovieCardTop
       v-for="(item, index) of tvData.slice(0, cardCount)"
       v-model="tvData[index]"
       color="#1A2735"
@@ -10,7 +10,7 @@
 
   <Group title="精选电视剧" icon="star">
     <ul class="gap-4 h-fit grid grid-list" ref="container">
-      <MovieInfo
+      <MovieCard
         v-for="(item, index) of tvData.slice(cardCount, count)"
         v-model="tvData[index + cardCount]"
         :key="item.name"
@@ -21,8 +21,8 @@
 
 <script setup lang="ts">
 import Group from "@/components/Group.vue";
-import MovieInfo from "@/components/Info/MovieInfo.vue";
-import MovieCardInfo from "@/components/Info/MovieCardInfo.vue";
+import MovieCard from "@/components/Card/MovieCard.vue";
+import MovieCardTop from "@/components/Card/MovieCardTop.vue";
 import { useTvStore } from "@/stores/useTvStore";
 import { useResize } from "@/hooks/useResize";
 

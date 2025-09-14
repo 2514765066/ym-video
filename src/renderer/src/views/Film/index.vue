@@ -1,13 +1,9 @@
 <template>
-  <Loading v-if="isloading" />
-
-  <Content @scroll="scrollHandler" v-else>
+  <Content @scroll="scrollHandler">
     <header class="pt-8 gap-5 flex">
       <FilmNav to="/film/movie" hover-color="#5a5a5a" title="电影" />
 
       <FilmNav to="/film/tv" hover-color="#2383e2" title="电视剧" />
-
-      <Search class="ml-auto" />
     </header>
 
     <RouterView></RouterView>
@@ -16,38 +12,21 @@
 
 <script setup lang="ts">
 import Content from "@/components/Content.vue";
-import Search from "@/components/Search.vue";
 import FilmNav from "@/components/FilmNav.vue";
 import { useMovieStore } from "@/stores/useMovieStore";
 import { useTvStore } from "@/stores/useTvStore";
 import { debounce } from "@/utils/debounce";
-import Loading from "@/components/Loading.vue";
 
 const { getMovieData } = useMovieStore();
-const { movieData } = storeToRefs(useMovieStore());
 const { getTvData } = useTvStore();
-const { tvData } = storeToRefs(useTvStore());
 const route = useRoute();
 
-//页面是否加载
-const isloading = computed(() => {
-  switch (route.path) {
-    case "/film/movie":
-      return movieData.value.length == 0;
-
-    case "/film/tv":
-      return tvData.value.length == 0;
-  }
-
-  return false;
-});
-
 //是否加载资源
-const loadData = ref(false);
+let loadData = false;
 
 //滚动到底的时候添加内容
 const scrollHandler = debounce(async (el?: HTMLDivElement) => {
-  if (!el || loadData.value) {
+  if (!el || loadData) {
     return;
   }
 
@@ -57,7 +36,7 @@ const scrollHandler = debounce(async (el?: HTMLDivElement) => {
     return;
   }
 
-  loadData.value = true;
+  loadData = true;
 
   switch (route.path) {
     case "/film/movie":
@@ -68,7 +47,7 @@ const scrollHandler = debounce(async (el?: HTMLDivElement) => {
       break;
   }
 
-  loadData.value = false;
+  loadData = false;
 });
 </script>
 

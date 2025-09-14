@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/renderer/src/*"],
+      "@player/*": ["src/renderer/src/components/Player/*"],
       "@type": ["src/type/index"]
     }
   }

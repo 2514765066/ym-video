@@ -11,11 +11,7 @@
 
 img {
   object-fit: cover;
-}
-
-@font-face {
-  font-family: "logo";
-  src: url("./fonts/logo.ttf");
+  -webkit-user-drag: none;
 }
 
 .text-color {
@@ -26,18 +22,22 @@ img {
   color: rgba(#fff, 0.282);
 }
 
+.tooltip-tip {
+  padding: 2px 8px !important;
+}
+
+.playrate-menu {
+  padding: unset !important;
+  border: unset !important;
+  border-radius: unset !important;
+  background-color: transparent !important;
+}
+
 //骨架屏颜色
 .el-skeleton {
   --el-skeleton-color: #262626 !important;
   --el-skeleton-to-color: #303030 !important;
 }
-
-// .el-popper {
-//   --el-bg-color-overlay: #2f2f2f !important;
-//   padding: 2px 8px !important;
-//   border: none !important;
-//   box-shadow: 0 0 4px 2px rgba(#000, 0.1);
-// }
 
 //多行省略
 .line-ellipsis-3 {

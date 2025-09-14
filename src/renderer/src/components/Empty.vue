@@ -5,7 +5,9 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import Icon from "@/components/Icon.vue";
+</script>
 
 <style scoped lang="scss">
 section {

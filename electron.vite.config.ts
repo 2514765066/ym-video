@@ -28,6 +28,7 @@ export default defineConfig({
     resolve: {
       alias: {
         "@": resolve("src/renderer/src"),
+        "@player": resolve("src/renderer/src/components/Player"),
         "@type": resolve("src/type/index"),
       },
     },

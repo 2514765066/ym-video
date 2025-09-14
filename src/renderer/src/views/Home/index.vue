@@ -1,10 +1,12 @@
 <template>
   <Content>
-    <TimeGreet class="mb-6"></TimeGreet>
+    <TimeGreet class="mb-6" />
 
-    <Group title="最近观看" icon="history" v-if="data.length != 0">
+    <Group title="最近观看" icon="history">
       <ul class="gap-4 h-fit grid grid-list">
-        <HistoryInfo v-for="item of data" :key="item.name" :data="item" />
+        <HistoryCard v-for="item of data" :key="item.name" :data="item" />
+
+        <Add v-if="data.length == 0" />
       </ul>
     </Group>
 
@@ -22,9 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import Add from "@/components/Card/Add.vue";
 import Content from "@/components/Content.vue";
 import TimeGreet from "./TimeGreet.vue";
-import HistoryInfo from "@/components/Info/HistoryInfo.vue";
+import HistoryCard from "@/components/Card/HistoryCard.vue";
 import Group from "@/components/Group.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 import { useDocStore } from "@/stores/useDocStore";

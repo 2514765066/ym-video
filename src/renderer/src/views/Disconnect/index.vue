@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import Tip from "@/components/Tip/index.vue";
+import Tip from "@/components/Tip.vue";
 </script>
 
 <style scoped lang="scss"></style>

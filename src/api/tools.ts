@@ -1,34 +1,48 @@
 export const handlePlayUrl = (url: string) => {
   const regex = /https?:\/\/[^\s#]+/g;
 
-  return url.match(regex)!;
+  const res: string[] = url.match(regex)!;
+
+  return res;
 };
 
-export const fetchWithRetry = async (
-  url: string,
-  maxRetries = 3,
-  delay = 1000
-) => {
-  let attempt = 0;
+//可以重试的fetch
+export const fetchWithRetry = async (url: string, maxRetries = 3) => {
+  while (maxRetries > 0) {
+    const response = await fetch(url);
 
-  // 尝试请求并重试
-  while (attempt < maxRetries) {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response; // 请求成功，返回响应
-    } catch (error) {
-      attempt++;
+    //请求失败重试
+    if (!response.ok) {
+      maxRetries--;
 
-      if (attempt >= maxRetries) {
-        throw new Error("Max retries reached. Request failed.");
+      if (maxRetries <= 0) {
+        throw new Error();
       }
 
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      continue;
     }
+
+    return response;
   }
 
   throw new Error();
 };
+
+//超时的fetch
+export async function fetchWithTimeout(url: string, timeout = 10000) {
+  const controller = new AbortController();
+
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+    });
+
+    return response;
+  } finally {
+    clearTimeout(id);
+  }
+}

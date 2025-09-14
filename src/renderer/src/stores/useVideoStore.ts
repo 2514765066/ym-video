@@ -1,11 +1,9 @@
 import { VideoInfo } from "@type";
-import { useLoading } from "@/utils/loading";
 import { validateVersion } from "@/utils/validate";
 import eventEmitter from "@/hooks/eventEmitter";
 
 export const useVideoStore = defineStore("list", () => {
   const router = useRouter();
-  const getUrl = useLoading(api.getUrl);
 
   //数据
   const data = ref<VideoInfo[]>([]);
@@ -14,24 +12,45 @@ export const useVideoStore = defineStore("list", () => {
   const selectedName = ref("");
 
   //当前选中video
-  const selectedVideo = computed(() => {
-    return data.value.find(item => item.name == selectedName.value);
+  const selectedVideo = computed<VideoInfo>(() => {
+    return (
+      data.value.find(item => item.name == selectedName.value) || {
+        name: "",
+        history: 0,
+        url: [],
+        minVersion: "",
+        currentTime: 0,
+        pic: "",
+        duration: 0,
+      }
+    );
+  });
+
+  //历史列表
+  const historyList = computed(() => {
+    return Array.from({ length: selectedVideo.value.url.length }, (_, i) => ({
+      label: i + 1,
+      value: i,
+    }));
   });
 
   //添加
-  const add = (info: Partial<VideoInfo>) => {
-    const { name = "", url = [], pic = "" } = info;
+  type AddOption = {
+    name: string;
+    pic: string;
+    url: string[];
+  };
 
+  const add = (option: AddOption) => {
     data.value.unshift({
-      name,
-      url,
-      pic,
+      ...option,
       minVersion: __APP_VERSION__,
       history: 0,
       currentTime: 0,
+      duration: 0,
     });
 
-    selectedName.value = name;
+    selectedName.value = option.name;
     router.push("/play");
   };
 
@@ -65,14 +84,14 @@ export const useVideoStore = defineStore("list", () => {
 
     //获取url
     try {
-      const url = await getUrl(name);
+      const url = await api.getUrl(name);
 
       if (url.length == 0) {
         eventEmitter.emit("error:show", "暂时没有资源");
         return;
       }
 
-      //不存在添加
+      //添加资源
       add({
         name,
         pic,
@@ -87,12 +106,7 @@ export const useVideoStore = defineStore("list", () => {
   const update = async (name: string) => {
     const item = data.value.find(item => item.name == name)!;
 
-    try {
-      item.url = await api.getUrl(name);
-      eventEmitter.emit("success:show", "更新成功");
-    } catch {
-      eventEmitter.emit("error:show", "更新失败");
-    }
+    item.url = await api.getUrl(name);
   };
 
   //删除所有记录
@@ -128,6 +142,7 @@ export const useVideoStore = defineStore("list", () => {
     data,
     selectedName,
     selectedVideo,
+    historyList,
     add,
     has,
     remove,

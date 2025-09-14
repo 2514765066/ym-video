@@ -1,6 +1,6 @@
 import { contextBridge, shell } from "electron";
 import { ipcRenderer } from "../api/ipcRenderer";
-import { handlePlayUrl } from "../api/tools";
+import { handlePlayUrl, fetchWithTimeout } from "../api/tools";
 
 const api = {
   //打开网页
@@ -12,15 +12,17 @@ const api = {
   async getUrl(name: string) {
     const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${name}`;
 
-    const response = await fetch(url);
+    const response = await fetchWithTimeout(url);
 
     const json = await response.json();
 
-    const data: {
+    type ResData = {
       vod_play_url: string;
       vod_id: string;
       vod_name: string;
-    }[] = json.posts;
+    };
+
+    const data: ResData[] = json.posts;
 
     const res = data.find(item => item.vod_name == name);
 
@@ -28,7 +30,7 @@ const api = {
       return [];
     }
 
-    return handlePlayUrl(res.vod_play_url) as string[];
+    return handlePlayUrl(res.vod_play_url);
   },
 
   //搜索
@@ -47,11 +49,13 @@ const api = {
       name: string;
       url: string[];
       pic: string;
+      sub: string;
     }[] = data.map(item => {
       return {
         name: item.vod_name,
         url: handlePlayUrl(item.vod_play_url),
         pic: item.vod_pic,
+        sub: item.vod_content,
       };
     });
 

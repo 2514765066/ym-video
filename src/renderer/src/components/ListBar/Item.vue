@@ -1,21 +1,25 @@
 <template>
-  <RouterLink
-    :to="to"
-    class="cursor-pointer flex items-center px-2 gap-2 rounded-md w-full"
-    :class="{ active: route.path.includes(to) }"
-  >
-    <Icon :name="icon" size="20" color="#989898" />
-    <span class="text-sm text-ellipsis overflow-hidden whitespace-nowrap">
-      {{ title }}
-    </span>
-  </RouterLink>
+  <Tip :content="data.title" placement="right">
+    <RouterLink
+      class="w-10 h-10 flex items-center justify-center rounded-xl cursor-pointer border border-transparent transition-all"
+      :class="{ active: route.path.includes(data.to) }"
+      :to="data.to"
+    >
+      <Icon :name="data.icon" size="24" color="#ffffffcf" />
+    </RouterLink>
+  </Tip>
 </template>
 
 <script setup lang="ts">
+import Icon from "@/components/Icon.vue";
+import { Tip } from "@/components/Tooltip";
+
 defineProps<{
-  title: string;
-  to: string;
-  icon: string;
+  data: {
+    title: string;
+    icon: string;
+    to: string;
+  };
 }>();
 
 const route = useRoute();
@@ -23,24 +27,20 @@ const route = useRoute();
 
 <style scoped lang="scss">
 a {
-  height: 30px;
-
-  transition: 0.1s;
-
-  > span {
-    color: #9b9b9b;
-  }
-
   &:hover {
-    background-color: #2c2c2c;
+    background-color: rgba(#fff, 0.81);
+
+    i {
+      background-color: #202020;
+    }
   }
 }
 
 .active {
-  background-color: #2c2c2c;
+  background-color: rgba(#fff, 0.81);
 
-  > span {
-    color: rgba(#fff, 0.81);
+  i {
+    background-color: #202020;
   }
 }
 </style>
