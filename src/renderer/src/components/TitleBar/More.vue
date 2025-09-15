@@ -1,8 +1,6 @@
 <template>
   <Menu :data="menu" width="250" placement="bottom">
-    <button
-      class="w-6 h-6 ml-auto rounded-md flex items-center justify-center hover:bg-stone-800"
-    >
+    <button class="w-6 h-6 ml-auto rounded-md flex-center hover:bg-stone-800">
       <Tip content="更多信息">
         <Icon name="more" color="#ffffffcf" size="18" />
       </Tip>

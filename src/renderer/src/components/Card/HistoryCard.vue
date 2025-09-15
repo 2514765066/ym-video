@@ -4,7 +4,7 @@
 
     <Menu :data="menu">
       <button
-        class="w-6 h-6 absolute top-2.5 right-2.5 p-1 rounded-full flex justify-center items-center"
+        class="w-6 h-6 absolute top-2.5 right-2.5 p-1 rounded-full flex-center"
       >
         <Icon name="more" size="20" />
       </button>

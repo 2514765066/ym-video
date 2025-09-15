@@ -3,14 +3,14 @@
     class="flex flex-col items-center gap-1 fixed top-1/2 left-3 -translate-y-1/2 p-1 rounded-xl z-50"
   >
     <Tip content="ym-video" placement="right">
-      <div class="w-10 h-10 flex items-center justify-center">
+      <div class="w-10 h-10 flex-center">
         <img src="@/assets/icon.png" class="w-6 h-6" />
       </div>
     </Tip>
 
     <Tip content="搜索 Ctrl+S" placement="right">
       <div
-        class="search w-10 h-10 flex items-center justify-center cursor-pointer rounded-xl transition-all"
+        class="search w-10 h-10 flex-center cursor-pointer rounded-xl transition-all"
         @click="handleSearch"
       >
         <Icon name="search" size="22" color="#ffffffcf" />

@@ -1,10 +1,10 @@
 <template>
   <section class="flex items-center gap-2">
-    <span class="text-sm text-color">{{ formatTime(videoCurrentTime) }}</span>
+    <span class="text-sm text-main">{{ formatTime(videoCurrentTime) }}</span>
 
     <Bar />
 
-    <span class="text-sm text-color">{{ formatTime(videoDuration) }}</span>
+    <span class="text-sm text-main">{{ formatTime(videoDuration) }}</span>
   </section>
 </template>
 

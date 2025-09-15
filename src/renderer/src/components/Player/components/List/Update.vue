@@ -1,7 +1,7 @@
 <template>
   <Tip content="更新集数" placement="left">
     <button
-      class="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-800"
+      class="w-6 h-6 rounded-md flex-center hover:bg-stone-800"
       @click="handleUpdate"
     >
       <Icon name="update" color="#ffffffcf" size="18" />

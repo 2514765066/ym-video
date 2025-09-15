@@ -1,6 +1,6 @@
 <template>
   <section class="mb-2">
-    <span class="text-4xl text-color">{{ selectedName }}</span>
+    <span class="text-4xl text-main">{{ selectedName }}</span>
   </section>
 </template>
 

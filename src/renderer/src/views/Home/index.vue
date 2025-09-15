@@ -14,7 +14,7 @@
       <ul class="group-content rounded-xl px-5 py-3">
         <li
           v-for="item of docData"
-          class="text-sm text-color-darken tracking-wide flex items-center"
+          class="text-sm text-main-darken tracking-wide flex items-center"
         >
           {{ item }}
         </li>

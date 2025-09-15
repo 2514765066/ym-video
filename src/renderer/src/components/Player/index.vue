@@ -59,10 +59,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-.player {
-  --main-color: #ffffffcf;
-}
-
 .cursor-none {
   cursor: none;
 }

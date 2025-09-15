@@ -13,7 +13,7 @@
   </section>
 
   <div
-    class="status-progress h-0.5 rounded-full absolute left-0 bottom-0"
+    class="status-progress h-0.5 rounded-full absolute left-0 bottom-0 bg-main"
     v-show="!controlVisible"
   ></div>
 </template>
@@ -33,7 +33,5 @@ import { videoDuration, videoCurrentTime } from "@player/hooks/useTime";
 
 .status-progress {
   width: calc(v-bind("videoCurrentTime/videoDuration") * 100%);
-
-  background-color: var(--main-color);
 }
 </style>

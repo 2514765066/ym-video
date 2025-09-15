@@ -7,7 +7,7 @@
       <img :src="data.pic" class="w-full h-full" />
 
       <div class="w-full p-2 flex items-center absolute bottom-0">
-        <p class="text-sm text-color text-ellipsis overflow-hidden">
+        <p class="text-sm text-main text-ellipsis overflow-hidden">
           {{ data.name }}
         </p>
       </div>

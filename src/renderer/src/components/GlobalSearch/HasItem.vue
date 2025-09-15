@@ -6,9 +6,9 @@
     <img :src="data.pic" class="aspect-square h-full rounded" />
 
     <div class="flex flex-col">
-      <span class="text-color">{{ data.name }}</span>
+      <span class="text-main">{{ data.name }}</span>
 
-      <span class="text-color-darken text-sm">
+      <span class="text-main-darken text-sm">
         已观看{{ Math.floor((data.currentTime / data.duration) * 100) || 0 }}%
       </span>
     </div>

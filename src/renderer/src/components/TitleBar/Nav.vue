@@ -1,7 +1,7 @@
 <template>
   <Tip content="返回">
     <button
-      class="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
+      class="w-6 h-6 rounded-md flex-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
       :disabled="!canGoBack"
       @click="back"
     >
@@ -11,7 +11,7 @@
 
   <Tip content="前进">
     <button
-      class="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
+      class="w-6 h-6 rounded-md flex-center hover:bg-stone-800 disabled:opacity-40 disabled:pointer-events-none"
       :disabled="!canGoBack"
       @click="forward"
     >

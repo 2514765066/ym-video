@@ -1,8 +1,8 @@
 <template>
-  <section class="tip w-full h-full relative flex justify-center items-center">
+  <section class="tip w-full h-full relative flex-center">
     <header class="w-full h-11 absolute top-0 left-0"></header>
 
-    <section class="text-color text-xl text-center flex flex-col items-center">
+    <section class="text-main text-xl text-center flex flex-col items-center">
       {{ msg }}
 
       <aside class="mt-8"></aside>

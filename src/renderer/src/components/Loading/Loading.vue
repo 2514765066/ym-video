@@ -1,9 +1,9 @@
 <template>
   <section
-    class="fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center gap-4"
+    class="fixed top-0 left-0 w-screen h-screen flex-center flex-col gap-4"
   >
     <Icon name="loading" size="50" color="#ffffffcf" />
-    <span class="text-color">{{ title }}</span>
+    <span class="text-main">{{ title }}</span>
   </section>
 </template>
 

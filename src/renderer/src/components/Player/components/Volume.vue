@@ -3,7 +3,7 @@
     class="w-2 h-40 flex items-end absolute top-1/2 right-3 -translate-y-1/2 rounded-full backdrop-blur-lg"
     v-show="visible"
   >
-    <div class="w-full rounded-full"></div>
+    <div class="w-full rounded-full bg-main"></div>
   </section>
 </template>
 
@@ -66,8 +66,6 @@ section {
 
   > div {
     height: calc(v-bind("volume") * 1%);
-
-    background-color: var(--main-color);
 
     transition: height 0.1s;
   }

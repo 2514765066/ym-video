@@ -7,10 +7,10 @@
       <img :src="src" class="aspect-square h-full rounded" />
 
       <div class="flex flex-col w-full overflow-hidden">
-        <span class="text-color">{{ data.name }}</span>
+        <span class="text-main">{{ data.name }}</span>
 
         <span
-          class="text-color-darken text-sm text-ellipsis whitespace-nowrap overflow-hidden"
+          class="text-main-darken text-sm text-ellipsis whitespace-nowrap overflow-hidden"
         >
           {{ data.sub }}
         </span>

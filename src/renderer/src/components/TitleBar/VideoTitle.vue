@@ -5,7 +5,7 @@
   >
     <img :src="selectedVideo?.pic" class="rounded-full w-5 h-5" />
 
-    <span class="text-sm text-color">{{ selectedName }}</span>
+    <span class="text-sm text-main">{{ selectedName }}</span>
   </section>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
-  <section class="flex flex-col justify-center items-center gap-4">
+  <section class="flex-center flex-col gap-4">
     <Icon name="box" size="120" color="#5A5A5A" />
-    <span class="text-color-darken text-lg">暂无更多内容...</span>
+    <span class="text-main-darken text-lg">暂无更多内容...</span>
   </section>
 </template>
 

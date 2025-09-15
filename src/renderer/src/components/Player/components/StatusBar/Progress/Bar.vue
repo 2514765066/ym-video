@@ -19,9 +19,9 @@
 
     <div class="progress-buffer h-full absolute rounded-full" />
 
-    <div class="progress-play h-full absolute rounded-full" />
+    <div class="progress-play h-full absolute rounded-full bg-main" />
 
-    <div class="progress-thumb w-1 h-2.5 absolute rounded-sm" />
+    <div class="progress-thumb w-1 h-2.5 absolute rounded-sm bg-main" />
   </section>
 </template>
 
@@ -92,13 +92,10 @@ const handleMouseMove = (e: MouseEvent) => {
 
   .progress-play {
     width: calc(v-bind("progressWidth") * 1%);
-    background-color: var(--main-color);
   }
 
   .progress-thumb {
     left: calc(v-bind("progressWidth") * 1%);
-
-    background-color: var(--main-color);
   }
 }
 </style>

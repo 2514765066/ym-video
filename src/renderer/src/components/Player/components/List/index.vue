@@ -1,7 +1,7 @@
 <template>
   <section class="w-36 h-full flex flex-col flex-shrink-0">
     <header class="px-2 pb-2 flex justify-between items-center gap-2">
-      <span class="text-color text-sm">
+      <span class="text-main text-sm">
         共{{ selectedVideo.url.length }} 集
       </span>
 
@@ -13,7 +13,7 @@
       ref="scrollbarRef"
     >
       <button
-        class="w-full h-8 rounded-md"
+        class="w-full h-8 rounded-md hover:bg-main"
         v-for="{ label, value } of currentList"
         :class="{ active: value == selectedVideo.history }"
         @click="handleClick(value)"
@@ -80,7 +80,6 @@ onMounted(() => {
 
     &:hover {
       color: #222;
-      background-color: var(--main-color);
     }
   }
 

@@ -10,7 +10,7 @@
 
         <input
           type="text"
-          class="text-color w-full"
+          class="text-main w-full"
           placeholder="在全局中搜索..."
           v-model="keyword"
           ref="inputRef"
@@ -28,7 +28,7 @@
           v-if="state == 'loading'"
         />
 
-        <span class="text-color" v-if="state == 'empty'">暂无搜索内容....</span>
+        <span class="text-main" v-if="state == 'empty'">暂无搜索内容....</span>
 
         <HasItem
           v-if="state == 'finish'"
@@ -47,11 +47,11 @@
         />
 
         <li
-          class="h-8 mt-2 px-4 flex justify-center items-center rounded cursor-pointer"
+          class="h-8 mt-2 px-4 flex-center rounded cursor-pointer"
           v-if="searchData.length > 5"
           @click="handleMore"
         >
-          <span class="text-color text-sm">查看更多...</span>
+          <span class="text-main text-sm">查看更多...</span>
         </li>
       </ul>
     </main>

@@ -15,21 +15,21 @@
         <div class="gap-1.5 flex items-center">
           <Icon name="video" size="16" color="#ffffffcf" />
 
-          <span class="text-color-darken text-xs">推荐</span>
+          <span class="text-main-darken text-xs">推荐</span>
         </div>
 
         <span
-          class="text-3xl font-bold text-color tracking-widest text-wrap line-ellipsis-2"
+          class="text-3xl font-bold text-main tracking-widest text-wrap line-ellipsis-2"
         >
           {{ data.name }}
         </span>
 
-        <span class="text-sm text-wrap text-color line-ellipsis-3">
+        <span class="text-sm text-wrap text-main line-ellipsis-3">
           {{ data.sub }}
         </span>
 
         <div class="mt-auto flex items-center gap-2">
-          <span class="text-sm text-color">播放</span>
+          <span class="text-sm text-main">播放</span>
 
           <Icon
             name="arrow"

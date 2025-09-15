@@ -14,12 +14,12 @@ img {
   -webkit-user-drag: none;
 }
 
-.text-color {
-  color: rgba(#fff, 0.81);
+.app {
+  --main-color: rgba(255, 255, 255, 0.81);
 }
 
-.text-color-darken {
-  color: rgba(#fff, 0.282);
+.flex-center {
+  @apply flex justify-center items-center;
 }
 
 .tooltip-tip {

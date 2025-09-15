@@ -5,19 +5,19 @@
     :class="{ hover: data.hoverColor }"
     @click="handleClick"
   >
-    <div class="flex justify-center items-center mr-1.5" v-if="data.icon">
+    <div class="flex-center mr-1.5" v-if="data.icon">
       <Icon :name="data.icon" size="18" color="#ffffffcf"></Icon>
     </div>
 
     <span
-      class="text-sm text-color mr-auto whitespace-nowrap text-ellipsis overflow-hidden"
+      class="text-sm text-main mr-auto whitespace-nowrap text-ellipsis overflow-hidden"
       v-if="data.title"
     >
       {{ data.title }}
     </span>
 
     <span
-      class="text-xs text-color-darken whitespace-nowrap text-ellipsis overflow-hidden"
+      class="text-xs text-main-darken whitespace-nowrap text-ellipsis overflow-hidden"
       v-if="data.sub"
     >
       {{ data.sub }}

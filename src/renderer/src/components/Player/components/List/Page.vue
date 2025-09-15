@@ -1,8 +1,8 @@
 <template>
-  <section class="p-2 flex justify-center items-center gap-2">
+  <section class="p-2 flex-center gap-2">
     <Tip content="上一页">
       <button
-        class="w-6 h-6 flex justify-center items-center rounded hover:bg-stone-800"
+        class="w-6 h-6 flex-center rounded hover:bg-stone-800"
         @click="handlePre"
       >
         <Icon name="arrow1" size="20" color="#ffffffcf" />
@@ -10,14 +10,15 @@
     </Tip>
 
     <input
-      class="w-full h-6 px-2 rounded text-sm text-color text-center"
+      class="w-full h-6 px-2 rounded text-sm text-main text-center"
       type="number"
-      v-model.number="currentPage"
+      ref="inputRef"
+      v-model.number.lazy="currentPage"
     />
 
     <Tip content="下一页">
       <button
-        class="w-6 h-6 flex justify-center items-center rounded hover:bg-stone-800"
+        class="w-6 h-6 flex-center rounded hover:bg-stone-800"
         @click="handleNext"
       >
         <Icon name="arrow1" size="20" color="#ffffffcf" class="rotate-180" />
@@ -40,12 +41,24 @@ const props = withDefaults(
   }
 );
 
+const inputRef = ref<HTMLInputElement>();
+
 //当前页数
 const currentPage = defineModel<number>({
   default: 1,
   set(value) {
-    if (value > pageCount.value) return pageCount.value;
-    if (value < 1) return 1;
+    if (value > pageCount.value) {
+      inputRef.value!.value = String(pageCount.value);
+
+      return pageCount.value;
+    }
+
+    if (value < 1) {
+      inputRef.value!.value = String(1);
+
+      return 1;
+    }
+
     return value;
   },
 });
@@ -57,19 +70,11 @@ const pageCount = computed(() => {
 
 //上一页
 const handlePre = () => {
-  if (currentPage.value == 1) {
-    return;
-  }
-
   currentPage.value--;
 };
 
 //下一页
 const handleNext = () => {
-  if (currentPage.value == pageCount.value) {
-    return;
-  }
-
   currentPage.value++;
 };
 </script>

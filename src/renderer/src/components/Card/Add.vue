@@ -1,10 +1,10 @@
 <template>
   <li
-    class="flex flex-col justify-center items-center gap-2 rounded-lg cursor-pointer"
+    class="flex-center flex-col gap-2 rounded-lg cursor-pointer"
     @click="handleClick"
   >
     <Icon name="add" size="40" color="#74716C" />
-    <span class="text-sm text-color-darken">发现影视</span>
+    <span class="text-sm text-main-darken">发现影视</span>
   </li>
 </template>
 

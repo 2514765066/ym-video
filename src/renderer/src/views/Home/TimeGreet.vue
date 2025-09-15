@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full flex justify-center items-center pt-6">
+  <header class="w-full flex-center pt-6">
     <strong class="text-3xl">{{ greet }}好呀，亲爱的用户😊</strong>
   </header>
 </template>

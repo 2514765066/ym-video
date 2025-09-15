@@ -3,7 +3,7 @@
 
   <Content v-else>
     <header class="pt-8 gap-5 flex">
-      <span class="text-3xl text-color font-bold">
+      <span class="text-3xl text-main font-bold">
         "{{ copyKeyword }}"的所有搜索结果
       </span>
     </header>

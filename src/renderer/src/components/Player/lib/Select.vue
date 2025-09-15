@@ -15,7 +15,7 @@
     <template #content>
       <section class="w-32 p-1 rounded-md flex flex-col gap-1">
         <button
-          class="w-full h-8 flex justify-center items-center rounded-md text-color text-base"
+          class="w-full h-8 flex-center rounded-md text-main text-base"
           :class="{ active: value == model }"
           v-for="{ label, value } of data"
           :key="value"

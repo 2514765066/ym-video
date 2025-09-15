@@ -1,7 +1,7 @@
 <template>
   <Tip :content="data.title" placement="right">
     <RouterLink
-      class="w-10 h-10 flex items-center justify-center rounded-xl cursor-pointer border border-transparent transition-all"
+      class="w-10 h-10 flex-center rounded-xl cursor-pointer border border-transparent transition-all"
       :class="{ active: route.path.includes(data.to) }"
       :to="data.to"
     >
