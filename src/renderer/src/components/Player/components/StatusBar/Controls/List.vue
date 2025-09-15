@@ -1,5 +1,9 @@
 <template>
-  <Select :data="data" v-model="selectedVideo.history">
+  <Select
+    :data="data"
+    v-model="selectedVideo.history"
+    v-if="historyList.length > 1"
+  >
     <button>
       <Tip content="选集" :append-to="playerRef">
         <Icon name="list" size="26" color="#ffffffcf" />

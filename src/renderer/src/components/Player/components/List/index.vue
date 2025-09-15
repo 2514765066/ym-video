@@ -23,6 +23,7 @@
     </ElScrollbar>
 
     <Page
+      v-if="historyList.length > 1"
       :pageSize="pageSize"
       :totle="selectedVideo.url.length"
       v-model.number="currentPage"
