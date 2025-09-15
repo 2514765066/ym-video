@@ -6,22 +6,12 @@
     :show-arrow="false"
     :offset="6"
     :hide-after="0"
-    popper-class="tooltip-menu "
-    :popper-style="{ width: `${width}px` }"
+    popper-class="menu"
     v-model:visible="visible"
     v-bind="$attrs"
   >
     <template #content>
-      <ElScrollbar max-height="40vh">
-        <Group v-for="(group, index) of data" :key="index" :data="group">
-          <Item
-            v-for="(item, index) of group.children"
-            :key="index"
-            :data="item"
-            @click="handleClose"
-          />
-        </Group>
-      </ElScrollbar>
+      <BaseMenu :data="data" :width="width"></BaseMenu>
     </template>
 
     <slot></slot>
@@ -29,11 +19,9 @@
 </template>
 
 <script setup lang="ts">
-import { ElScrollbar } from "element-plus";
-import Group from "./components/Group.vue";
-import Item from "./components/Item.vue";
+import { BaseMenu, MenuGrounp } from "./BaseMenu/index";
+
 import { ElTooltip } from "element-plus";
-import { MenuGrounp } from "./type";
 
 withDefaults(
   defineProps<{
@@ -48,19 +36,16 @@ withDefaults(
 const visible = defineModel({
   default: false,
 });
-
-const handleClose = () => {
-  visible.value = false;
-};
 </script>
 
 <style lang="scss">
-.tooltip-menu {
-  --el-bg-color-overlay: #252525 !important;
+.menu {
   --el-popper-border-radius: 8px !important;
+  --el-bg-color-overlay: transparent !important;
 
   padding: unset !important;
   border: unset !important;
+  overflow: unset !important;
 
   box-shadow: rgba(0, 0, 0, 0.2) 0px 14px 28px -6px,
     rgba(0, 0, 0, 0.12) 0px 2px 4px -1px,

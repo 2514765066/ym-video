@@ -1,22 +1,15 @@
 <template>
-  <section class="history-info relative overflow-hidden rounded-lg">
-    <Info :data="data" @play="handlePlay" />
+  <ContextMenu :data="menu">
+    <section class="history-info relative overflow-hidden rounded-lg">
+      <Info :data="data" @play="handlePlay" />
 
-    <Menu :data="menu">
-      <button
-        class="w-6 h-6 absolute top-2.5 right-2.5 p-1 rounded-full flex-center"
-      >
-        <Icon name="more" size="20" />
-      </button>
-    </Menu>
-
-    <div class="absolute bottom-0 left-0 h-1 rounded-full max-w-full"></div>
-  </section>
+      <div class="absolute bottom-0 left-0 h-1 rounded-full max-w-full"></div>
+    </section>
+  </ContextMenu>
 </template>
 
 <script setup lang="ts">
-import Icon from "@/components/Icon.vue";
-import { Menu } from "@/components/Tooltip";
+import { ContextMenu } from "@/components/Tooltip";
 import Info from "./index.vue";
 import { VideoInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
@@ -37,14 +30,9 @@ const playPercent = computed(() => {
   return (item.currentTime / item.duration) * 100 || 0;
 });
 
-//处理点击
-const handlePlay = () => {
-  play(props.data.name);
-};
-
 const menu = [
   {
-    title: "更多操作",
+    title: "菜单",
     children: [
       {
         title: "删除记录",
@@ -58,6 +46,11 @@ const menu = [
     ],
   },
 ];
+
+//处理播放
+const handlePlay = () => {
+  play(props.data.name);
+};
 </script>
 
 <style scoped lang="scss">

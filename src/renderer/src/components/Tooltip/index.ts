@@ -1,4 +1,5 @@
 import Tip from "./Tip.vue";
-export * from "./Menu/index";
+import ContextMenu from "./ContextMenu.vue";
+import Menu from "./Menu.vue";
 
-export { Tip };
+export { Tip, ContextMenu, Menu };
