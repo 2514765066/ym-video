@@ -13,7 +13,7 @@
       ref="scrollbarRef"
     >
       <button
-        class="w-full h-8 rounded-md hover:bg-main"
+        class="w-full h-8 rounded-md"
         v-for="{ label, value } of currentList"
         :class="{ active: value == selectedVideo.history }"
         @click="handleClick(value)"
@@ -80,6 +80,7 @@ onMounted(() => {
 
     &:hover {
       color: #222;
+      background-color: var(--main-color);
     }
   }
 
