@@ -45,14 +45,15 @@ const scrollbarRef = ref<ScrollbarInstance>();
 const pageSize = 25;
 
 //当前页数
-const currentPage = ref(Math.ceil(selectedVideo.value.history / pageSize));
+const currentPage = ref(
+  Math.ceil((selectedVideo.value.history + 1) / pageSize)
+);
 
 //当前页的选集
 const currentList = computed(() => {
-  return historyList.value.slice(
-    (currentPage.value - 1) * pageSize,
-    (currentPage.value - 1) * pageSize + pageSize
-  );
+  const start = (currentPage.value - 1) * pageSize;
+
+  return historyList.value.slice(start, start + pageSize);
 });
 
 //点击切换集数
