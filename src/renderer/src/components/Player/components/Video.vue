@@ -17,23 +17,18 @@
 <script setup lang="ts">
 import { videoRef } from "@player/hooks/useEl";
 import { toggle, play, pause } from "@player/hooks/usePlay";
-import {
-  videoDuration,
-  videoCurrentTime,
-  videoBufferedTime,
-} from "@player/hooks/useTime";
+import { videoBufferedTime } from "@player/hooks/useTime";
 import { useVideoStore } from "@/stores/useVideoStore";
 
-const { selectedVideo } = storeToRefs(useVideoStore());
+const { selectedVideo, selectEpisode } = storeToRefs(useVideoStore());
 
 //下一集
 const next = () => {
-  if (!(selectedVideo.value.history < selectedVideo.value.url.length - 1)) {
+  if (selectedVideo.value.history == selectedVideo.value.url.length - 1) {
     return;
   }
 
   selectedVideo.value.history++;
-  selectedVideo.value.currentTime = 0;
 };
 
 //获取播放事件
@@ -42,7 +37,7 @@ const handleTimeUpdate = () => {
     return;
   }
 
-  videoCurrentTime.value = videoRef.value.currentTime;
+  selectEpisode.value.currentTime = videoRef.value.currentTime;
 };
 
 //更新缓冲区的事件
@@ -64,9 +59,11 @@ const handleLoad = () => {
     return;
   }
 
-  videoDuration.value = videoRef.value.duration;
-  videoCurrentTime.value = selectedVideo.value.currentTime;
-  videoRef.value.currentTime = selectedVideo.value.currentTime;
+  //设置播放器的时长
+  selectEpisode.value.duration = videoRef.value.duration;
+
+  //设置播放器的播放进度
+  videoRef.value.currentTime = selectEpisode.value.currentTime;
 };
 </script>
 

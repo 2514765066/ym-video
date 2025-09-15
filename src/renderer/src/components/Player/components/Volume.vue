@@ -1,6 +1,6 @@
 <template>
   <section
-    class="w-2 h-40 flex items-end absolute top-1/2 right-3 -translate-y-1/2 rounded-full backdrop-blur-lg"
+    class="w-2 h-40 flex items-end absolute top-1/2 right-3 -translate-y-1/2 rounded-full"
     v-show="visible"
   >
     <div class="w-full rounded-full bg-main"></div>
@@ -62,7 +62,10 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 section {
-  background-color: rgba(#fff, 0.3);
+  backdrop-filter: blur(100px);
+  background-color: rgba(#000, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.48) 0px 24px 48px -8px,
+    rgba(0, 0, 0, 0.24) 0px 4px 12px -1px;
 
   > div {
     height: calc(v-bind("volume") * 1%);

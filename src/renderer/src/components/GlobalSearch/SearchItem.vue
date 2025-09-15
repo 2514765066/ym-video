@@ -60,7 +60,8 @@ const handlePlay = async () => {
 
   openLoading();
 
-  await play(props.data.name, src.value);
+  await play(props.data.name);
+  // await play(props.data.name, src.value);
 
   closeLoading();
 };

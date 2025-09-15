@@ -1,37 +1,38 @@
 <template>
-  <Skeleton :loading="loading">
-    <li
-      class="flex flex-col relative overflow-hidden rounded-lg cursor-pointer"
-      @click="emits('play')"
-    >
-      <img :src="data.pic" class="w-full h-full" />
+  <Skeleton :loading="loading" />
 
-      <div class="w-full p-2 flex items-center absolute bottom-0">
-        <p class="text-sm text-main text-ellipsis overflow-hidden">
-          {{ data.name }}
-        </p>
-      </div>
-    </li>
-  </Skeleton>
+  <li
+    class="flex flex-col relative overflow-hidden rounded-lg cursor-pointer"
+    @click="emits('play')"
+    v-show="!loading"
+  >
+    <img :src="data.pic" class="w-full h-full" @load="handleLoad" />
+
+    <div class="w-full p-2 flex items-center absolute bottom-0">
+      <p class="text-sm text-main text-ellipsis overflow-hidden">
+        {{ data.name }}
+      </p>
+    </div>
+  </li>
 </template>
 
 <script setup lang="ts">
 import Skeleton from "./Skeleton.vue";
 import { VideoInfo, MovieInfo } from "@type";
 
-withDefaults(
-  defineProps<{
-    data: VideoInfo | MovieInfo;
-    loading?: boolean;
-  }>(),
-  {
-    loading: false,
-  }
-);
+defineProps<{
+  data: VideoInfo | MovieInfo;
+}>();
 
 const emits = defineEmits<{
   play: [];
 }>();
+
+const loading = ref(true);
+
+const handleLoad = () => {
+  loading.value = false;
+};
 </script>
 
 <style scoped lang="scss">

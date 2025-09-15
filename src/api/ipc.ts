@@ -2,7 +2,7 @@ import { ipcMain } from "./ipcMain";
 import { writeFile, readFile } from "fs/promises";
 import { join } from "path";
 import { resources } from "./path";
-import { fetchWithRetry } from "./tools";
+import { getBase64 } from "./tools";
 
 //读取配置
 ipcMain.handle("readConfig", async () => {
@@ -24,34 +24,9 @@ ipcMain.on("writeConfig", async (_, data) => {
   await writeFile(path, data);
 });
 
-//获取豆瓣搜索
-// ipcMain.handle("getSearch", async (_, keyword) => {
-//   const response = await fetch(
-//     `https://movie.douban.com/j/subject_suggest?q=${keyword}`
-//   );
-
-//   const json = await response.json();
-
-//   return json.map((item: any) => {
-//     return {
-//       name: item.title,
-//       sub: item.sub_title,
-//       pic: item.img,
-//     };
-//   });
-// });
-
 //获取图片
 ipcMain.handle("getImg", async (_, url) => {
-  try {
-    const response = await fetchWithRetry(url);
-
-    const data = await response.arrayBuffer();
-
-    return `data:image/jpeg;base64,${Buffer.from(data).toString("base64")}`;
-  } catch {
-    return "";
-  }
+  return await getBase64(url);
 });
 
 //获取热门电影

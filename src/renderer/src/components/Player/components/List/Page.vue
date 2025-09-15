@@ -1,8 +1,17 @@
 <template>
   <section class="p-2 flex-center gap-2">
+    <Tip content="跳到第一页">
+      <button
+        class="w-6 h-6 px-2 flex-center rounded bg-stone-800 flex-shrink-0"
+        @click="handleToStart"
+      >
+        <Icon name="arrow2" size="20" color="#ffffffcf" />
+      </button>
+    </Tip>
+
     <Tip content="上一页">
       <button
-        class="w-6 h-6 flex-center rounded hover:bg-stone-800"
+        class="w-6 h-6 flex-center rounded bg-stone-800 flex-shrink-0"
         @click="handlePre"
       >
         <Icon name="arrow1" size="20" color="#ffffffcf" />
@@ -18,10 +27,19 @@
 
     <Tip content="下一页">
       <button
-        class="w-6 h-6 flex-center rounded hover:bg-stone-800"
+        class="w-6 h-6 flex-center rounded bg-stone-800 flex-shrink-0"
         @click="handleNext"
       >
         <Icon name="arrow1" size="20" color="#ffffffcf" class="rotate-180" />
+      </button>
+    </Tip>
+
+    <Tip content="跳到最后一页">
+      <button
+        class="w-6 h-6 px-2 flex-center rounded bg-stone-800 flex-shrink-0"
+        @click="handleToEnd"
+      >
+        <Icon name="arrow2" size="20" color="#ffffffcf" class="rotate-180" />
       </button>
     </Tip>
   </section>
@@ -76,6 +94,16 @@ const handlePre = () => {
 //下一页
 const handleNext = () => {
   currentPage.value++;
+};
+
+//跳到第一页
+const handleToStart = () => {
+  currentPage.value = 1;
+};
+
+//跳到最后一页
+const handleToEnd = () => {
+  currentPage.value = pageCount.value;
 };
 </script>
 

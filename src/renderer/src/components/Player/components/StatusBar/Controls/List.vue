@@ -2,7 +2,7 @@
   <Select
     :data="data"
     v-model="selectedVideo.history"
-    v-if="historyList.length > 1"
+    v-if="selectedVideo.url.length > 1"
   >
     <button>
       <Tip content="选集" :append-to="playerRef">
@@ -19,14 +19,23 @@ import Select from "@player/lib/Select.vue";
 import { Tip } from "@/components/Tooltip";
 import { useVideoStore } from "@/stores/useVideoStore";
 
-const { selectedVideo, historyList } = storeToRefs(useVideoStore());
+const { selectedVideo } = storeToRefs(useVideoStore());
 
 const data = computed(() => {
-  return historyList.value.filter(
-    (_, index) =>
-      index >= selectedVideo.value.history - 1 &&
-      index <= selectedVideo.value.history + 1
-  );
+  const res = selectedVideo.value.url
+    .filter(
+      item =>
+        item.value >= selectedVideo.value.history - 1 &&
+        item.value <= selectedVideo.value.history + 1
+    )
+    .map(item => {
+      return {
+        label: `第${item.value + 1}集`,
+        value: item.value,
+      };
+    });
+
+  return res;
 });
 </script>
 

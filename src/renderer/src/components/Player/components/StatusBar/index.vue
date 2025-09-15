@@ -23,7 +23,9 @@ import Title from "./Title.vue";
 import Progress from "./Progress/index.vue";
 import Controls from "./Controls/index.vue";
 import { isHover, controlVisible } from "@player/hooks/useBottom";
-import { videoDuration, videoCurrentTime } from "@player/hooks/useTime";
+import { useVideoStore } from "@/stores/useVideoStore";
+
+const { selectEpisode } = storeToRefs(useVideoStore());
 </script>
 
 <style scoped lang="scss">
@@ -32,6 +34,8 @@ import { videoDuration, videoCurrentTime } from "@player/hooks/useTime";
 }
 
 .status-progress {
-  width: calc(v-bind("videoCurrentTime/videoDuration") * 100%);
+  width: calc(
+    v-bind("(selectEpisode.currentTime/selectEpisode.duration) || 0") * 100%
+  );
 }
 </style>

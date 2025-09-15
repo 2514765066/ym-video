@@ -1,12 +1,13 @@
-import { toggle } from "./usePlay";
 import { playrate } from "./usePlayrate";
 import { back, forward, reset } from "./useTime";
 import Hls from "hls.js";
 import { play } from "./usePlay";
 import { videoRef } from "./useEl";
-import { VideoInfo } from "@type";
+import { useVideoStore } from "@/stores/useVideoStore";
 
-export const useInit = (data: ComputedRef<VideoInfo>) => {
+export const useInit = () => {
+  const { selectEpisode } = storeToRefs(useVideoStore());
+
   //hls实例
   const hls = new Hls({
     startFragPrefetch: true,
@@ -29,10 +30,6 @@ export const useInit = (data: ComputedRef<VideoInfo>) => {
   //键盘抬起事件
   const handleKeyUp = (e: KeyboardEvent) => {
     switch (e.key) {
-      //空格
-      case " ":
-        toggle();
-        return;
       //右方向键
       case "ArrowRight":
         clearTimeout(holdTimeout);
@@ -72,7 +69,8 @@ export const useInit = (data: ComputedRef<VideoInfo>) => {
 
   //切换播放链接
   watchEffect(() => {
-    hls.loadSource(data.value.url[data.value.history]);
+    hls.loadSource(selectEpisode.value.url);
+
     reset();
   });
 

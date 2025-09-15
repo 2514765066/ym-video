@@ -32,15 +32,13 @@ const props = defineProps<{
 
 //播放百分比
 const playPercent = computed(() => {
-  if (!props.data.duration || !props.data.duration) {
-    return 0;
-  }
+  const item = props.data.url[props.data.history];
 
-  return (props.data.currentTime / props.data.duration) * 100;
+  return (item.currentTime / item.duration) * 100 || 0;
 });
 
 //处理点击
-const handlePlay = async () => {
+const handlePlay = () => {
   play(props.data.name);
 };
 

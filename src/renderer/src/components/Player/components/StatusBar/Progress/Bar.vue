@@ -28,12 +28,10 @@
 <script setup lang="ts">
 import ProgressTip from "@player/lib/ProgressTip.vue";
 import { formatTime } from "@/utils/time";
-import {
-  videoDuration,
-  videoBufferedTime,
-  go,
-  videoCurrentTime,
-} from "@player/hooks/useTime";
+import { videoBufferedTime, go } from "@player/hooks/useTime";
+import { useVideoStore } from "@/stores/useVideoStore";
+
+const { selectEpisode } = storeToRefs(useVideoStore());
 
 //进度条元素实例
 const progressRef = ref<HTMLDivElement>();
@@ -54,12 +52,12 @@ const offset = ref([0, 0]);
 
 //播放进度
 const progressWidth = computed(
-  () => (videoCurrentTime.value / videoDuration.value) * 100
+  () => (selectEpisode.value.currentTime / selectEpisode.value.duration) * 100
 );
 
 //缓冲进度
 const bufferedWidth = computed(
-  () => (videoBufferedTime.value / videoDuration.value) * 100
+  () => (videoBufferedTime.value / selectEpisode.value.duration) * 100
 );
 
 //处理鼠标移动
@@ -73,7 +71,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
   seconde.value =
     ((e.clientX - rect.left) / progressRef.value.clientWidth) *
-    videoDuration.value;
+    selectEpisode.value.duration;
 };
 </script>
 

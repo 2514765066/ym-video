@@ -14,6 +14,21 @@ import { Tip } from "@/components/Tooltip";
 import { isPlay, toggle } from "@player/hooks/usePlay";
 
 const content = computed(() => (isPlay.value ? "暂停" : "播放"));
+
+//键盘抬起事件
+const handleKeyUp = (e: KeyboardEvent) => {
+  if (e.key == " ") {
+    toggle();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keyup", handleKeyUp);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keyup", handleKeyUp);
+});
 </script>
 
 <style scoped lang="scss"></style>

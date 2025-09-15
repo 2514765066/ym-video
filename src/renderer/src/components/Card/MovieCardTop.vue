@@ -67,7 +67,8 @@ const loading = ref(true);
 const handlePlay = async () => {
   openLoading();
 
-  await play(data.value.name, data.value.pic);
+  // await play(data.value.name, data.value.pic);
+  await play(data.value.name);
 
   closeLoading();
 };

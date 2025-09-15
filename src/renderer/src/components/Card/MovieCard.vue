@@ -1,6 +1,6 @@
 <template>
   <section class="movie-info">
-    <Info :data="data" :loading="loading" @play="handlePlay" />
+    <Info :data="data" @play="handlePlay" />
   </section>
 </template>
 
@@ -14,25 +14,17 @@ const { play } = useVideoStore();
 
 const data = defineModel<MovieInfo>({ required: true });
 
-//图片是否加载完成
-const loading = ref(true);
-
 const handlePlay = async () => {
   openLoading();
 
-  await play(data.value.name, data.value.pic);
+  await play(data.value.name);
 
   closeLoading();
 };
 
-//初始化获取图片
-const getPic = async () => {
+onMounted(async () => {
   data.value.pic = await ipcRenderer.invoke("getImg", data.value.pic);
-
-  loading.value = false;
-};
-
-getPic();
+});
 
 onUnmounted(() => {
   closeLoading();

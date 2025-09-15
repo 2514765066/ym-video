@@ -19,26 +19,26 @@ export const useVideoStore = defineStore("list", () => {
         history: 0,
         url: [],
         minVersion: "",
-        currentTime: 0,
         pic: "",
-        duration: 0,
       }
     );
   });
 
-  //历史列表
-  const historyList = computed(() => {
-    return Array.from({ length: selectedVideo.value.url.length }, (_, i) => ({
-      label: i + 1,
-      value: i,
-    }));
+  //当前选中的集数
+  const selectEpisode = computed(() => {
+    return selectedVideo.value.url[selectedVideo.value.history];
   });
 
   //添加
   type AddOption = {
     name: string;
     pic: string;
-    url: string[];
+    url: {
+      value: number;
+      url: string;
+      duration: number;
+      currentTime: number;
+    }[];
   };
 
   const add = (option: AddOption) => {
@@ -46,8 +46,8 @@ export const useVideoStore = defineStore("list", () => {
       ...option,
       minVersion: __APP_VERSION__,
       history: 0,
-      currentTime: 0,
-      duration: 0,
+      // currentTime: 0,
+      // duration: 0,
     });
 
     selectedName.value = option.name;
@@ -74,7 +74,7 @@ export const useVideoStore = defineStore("list", () => {
   };
 
   //播放
-  const play = async (name: string, pic: string = "") => {
+  const play = async (name: string) => {
     //存在直接播放
     if (has(name)) {
       before(name);
@@ -84,19 +84,15 @@ export const useVideoStore = defineStore("list", () => {
 
     //获取url
     try {
-      const url = await api.getUrl(name);
+      const res = await api.getFilm(name);
 
-      if (url.length == 0) {
+      if (!res) {
         eventEmitter.emit("error:show", "暂时没有资源");
         return;
       }
 
       //添加资源
-      add({
-        name,
-        pic,
-        url,
-      });
+      add(res);
     } catch {
       eventEmitter.emit("error:show", "请求资源失败，请稍后再试");
     }
@@ -106,12 +102,9 @@ export const useVideoStore = defineStore("list", () => {
   const update = async (name: string) => {
     const item = data.value.find(item => item.name == name)!;
 
-    item.url = await api.getUrl(name);
-  };
+    const res = await api.getFilm(name);
 
-  //删除所有记录
-  const removeConfig = () => {
-    data.value = [];
+    item.url = res!.url;
   };
 
   //初始化
@@ -121,7 +114,11 @@ export const useVideoStore = defineStore("list", () => {
     if (res) {
       const json: VideoInfo[] = JSON.parse(res);
 
-      data.value = json.filter(({ minVersion }) => validateVersion(minVersion));
+      const result = json.filter(({ minVersion }) =>
+        validateVersion(minVersion)
+      );
+
+      data.value = result;
     }
 
     //监视更新值
@@ -142,14 +139,12 @@ export const useVideoStore = defineStore("list", () => {
     data,
     selectedName,
     selectedVideo,
-    historyList,
+    selectEpisode,
     add,
     has,
     remove,
     before,
     play,
     update,
-
-    removeConfig,
   };
 });

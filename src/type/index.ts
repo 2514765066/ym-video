@@ -28,11 +28,16 @@ export type IpcEvent = {
 export type VideoInfo = {
   name: string;
   history: number;
-  url: string[];
+  url: {
+    value: number;
+    url: string;
+    duration: number;
+    currentTime: number;
+  }[];
   minVersion: string;
-  currentTime: number;
+  // currentTime: number;
   pic: string;
-  duration: number;
+  // duration: number;
 };
 
 //搜索信息

@@ -1,29 +1,19 @@
 <template>
-  <section class="w-36 h-full flex flex-col flex-shrink-0">
+  <section class="w-48 h-full flex flex-col flex-shrink-0">
     <header class="px-2 pb-2 flex justify-between items-center gap-2">
       <span class="text-main text-sm">
-        共{{ selectedVideo.url.length }} 集
+        选集 共{{ selectedVideo.url.length }} 集
       </span>
 
       <Update />
     </header>
 
-    <ElScrollbar
-      view-class="list-content px-2 flex flex-col gap-1"
-      ref="scrollbarRef"
-    >
-      <button
-        class="w-full h-8 rounded-md"
-        v-for="{ label, value } of currentList"
-        :class="{ active: value == selectedVideo.history }"
-        @click="handleClick(value)"
-      >
-        {{ label }}
-      </button>
+    <ElScrollbar view-class="px-2 flex flex-col gap-1" ref="scrollbarRef">
+      <Item v-for="item of currentList" :key="item.value" :data="item" />
     </ElScrollbar>
 
     <Page
-      v-if="historyList.length > 1"
+      v-if="selectedVideo.url.length > 1"
       :pageSize="pageSize"
       :totle="selectedVideo.url.length"
       v-model.number="currentPage"
@@ -32,12 +22,13 @@
 </template>
 
 <script setup lang="ts">
+import Item from "./Item.vue";
 import Page from "./Page.vue";
 import Update from "./Update.vue";
 import { ElScrollbar, ScrollbarInstance } from "element-plus";
 import { useVideoStore } from "@/stores/useVideoStore";
 
-const { selectedVideo, historyList } = storeToRefs(useVideoStore());
+const { selectedVideo } = storeToRefs(useVideoStore());
 
 //滚动条实例
 const scrollbarRef = ref<ScrollbarInstance>();
@@ -54,13 +45,8 @@ const currentPage = ref(
 const currentList = computed(() => {
   const start = (currentPage.value - 1) * pageSize;
 
-  return historyList.value.slice(start, start + pageSize);
+  return selectedVideo.value.url.slice(start, start + pageSize);
 });
-
-//点击切换集数
-const handleClick = (index: number) => {
-  selectedVideo.value.history = index;
-};
 
 //滚动到对应的集数
 onMounted(() => {
@@ -71,24 +57,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss">
-.list-content {
-  > button {
-    background-color: rgba(#fff, 0.06);
-
-    transition: 0.1s;
-
-    &:hover {
-      color: #222;
-      background-color: var(--main-color);
-    }
-  }
-
-  .active {
-    color: #222;
-    background-color: var(--main-color);
-
-    transform: scale(1.05);
-  }
-}
-</style>
+<style scoped lang="scss"></style>

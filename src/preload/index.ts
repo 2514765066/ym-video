@@ -8,8 +8,8 @@ const api = {
     shell.openExternal(url);
   },
 
-  //获取url
-  async getUrl(name: string) {
+  //获取电影信息
+  async getFilm(name: string) {
     const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${name}`;
 
     const response = await fetchWithTimeout(url);
@@ -19,19 +19,45 @@ const api = {
     type ResData = {
       vod_play_url: string;
       vod_id: string;
+      vod_pic: string;
       vod_name: string;
     };
 
     const data: ResData[] = json.posts;
 
-    const res = data.find(item => item.vod_name == name);
+    const res = data.find(item => item.vod_name == name)!;
 
     if (!res) {
-      return [];
+      return;
     }
 
-    return handlePlayUrl(res.vod_play_url);
+    return {
+      name,
+      pic: res.vod_pic,
+      url: handlePlayUrl(res.vod_play_url),
+    };
   },
+
+  //更新集数
+  // async updateFilm(name: string) {
+  //   const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${name}`;
+
+  //   const response = await fetchWithTimeout(url);
+
+  //   const json = await response.json();
+
+  //   type ResData = {
+  //     vod_play_url: string;
+  //     vod_id: string;
+  //     vod_name: string;
+  //   };
+
+  //   const data: ResData[] = json.posts;
+
+  //   const res = data.find(item => item.vod_name == name)!;
+
+  //   return handlePlayUrl(res.vod_play_url);
+  // },
 
   //搜索
   async search(keyword: string) {
