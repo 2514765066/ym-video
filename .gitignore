@@ -5,4 +5,4 @@ out
 .DS_Store
 *.log*
 dev-app-update.yml
-test/db.json
+test/*

@@ -1,5 +1,4 @@
-import { VideoInfo } from "@type";
-import { validateVersion } from "@/utils/validate";
+import { SearchInfo, VideoInfo } from "@type";
 import eventEmitter from "@/hooks/eventEmitter";
 
 export const useVideoStore = defineStore("list", () => {
@@ -18,8 +17,8 @@ export const useVideoStore = defineStore("list", () => {
         name: "",
         history: 0,
         url: [],
-        minVersion: "",
         pic: "",
+        time: Date.now(),
       }
     );
   });
@@ -29,26 +28,17 @@ export const useVideoStore = defineStore("list", () => {
     return selectedVideo.value.url[selectedVideo.value.history];
   });
 
-  //添加
-  type AddOption = {
-    name: string;
-    pic: string;
-    url: {
-      value: number;
-      url: string;
-      duration: number;
-      currentTime: number;
-    }[];
-  };
-
-  const add = (option: AddOption) => {
-    data.value.unshift({
+  const add = (option: SearchInfo) => {
+    const insertData = {
       ...option,
-      minVersion: __APP_VERSION__,
+      time: Date.now(),
       history: 0,
-      // currentTime: 0,
-      // duration: 0,
-    });
+    };
+
+    //插入
+    ipcRenderer.send("insert", insertData.name, JSON.stringify(insertData));
+
+    data.value.unshift(insertData);
 
     selectedName.value = option.name;
     router.push("/play");
@@ -61,14 +51,26 @@ export const useVideoStore = defineStore("list", () => {
 
   //放在最前面
   const before = (name: string) => {
-    const item = remove(name);
+    const item = remove(name, false);
+
+    item.time = Date.now();
+
+    //修改
+    ipcRenderer.send("update", item.name, JSON.stringify(item));
+
     data.value.unshift(item);
+
     selectedName.value = name;
   };
 
   //移除
-  const remove = (name: string) => {
+  const remove = (name: string, isRemove: boolean = true) => {
     const index = data.value.findIndex(item => item.name == name);
+
+    if (isRemove) {
+      //删除
+      ipcRenderer.send("remove", name);
+    }
 
     return data.value.splice(index, 1)[0];
   };
@@ -105,27 +107,28 @@ export const useVideoStore = defineStore("list", () => {
     const res = await api.getFilm(name);
 
     item.url = res!.url;
+
+    //修改
+    ipcRenderer.send("update", item.name, JSON.stringify(item));
   };
 
   //初始化
   const init = async () => {
-    const res = await ipcRenderer.invoke("readConfig");
+    const res = await ipcRenderer.invoke("select");
 
-    if (res) {
-      const json: VideoInfo[] = JSON.parse(res);
-
-      const result = json.filter(({ minVersion }) =>
-        validateVersion(minVersion)
-      );
-
-      data.value = result;
-    }
+    data.value = res
+      .map(item => JSON.parse(item))
+      .sort((a, b) => b.time - a.time);
 
     //监视更新值
     watch(
-      data,
-      val => {
-        ipcRenderer.send("writeConfig", JSON.stringify(val));
+      selectedVideo,
+      (val, old) => {
+        if (val.name != old.name) {
+          return;
+        }
+
+        ipcRenderer.send("update", val.name, JSON.stringify(val));
       },
       {
         deep: true,

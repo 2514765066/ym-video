@@ -32,7 +32,7 @@ export const useSearchStore = defineStore("search", () => {
 
     searchData.value = [];
 
-    searchData.value = await api.search(keyword.value.trim());
+    searchData.value = await api.searchFilm(keyword.value.trim());
 
     if (!searchData.value.length && !hasData.value.length) {
       state.value = "empty";

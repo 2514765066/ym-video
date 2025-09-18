@@ -1,7 +1,7 @@
 import { join } from "path";
 import { isDev } from "ym-electron.js";
 import { BrowserWindow } from "electron";
-import { browserWindows } from "../api/windows";
+import { browserWindows } from "./windows";
 
 export const createMain = async () => {
   const bw = new BrowserWindow({

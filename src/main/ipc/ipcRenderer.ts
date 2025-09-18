@@ -1,5 +1,5 @@
 import { IpcRendererWrapper } from "ym-electron.js";
-import { IpcEvent } from "../type";
+import { IpcEvent } from "@type";
 
 export const ipcRenderer = new IpcRendererWrapper<IpcEvent>();
 

@@ -10,8 +10,17 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()],
     resolve: {
       alias: {
-        "@": resolve("src"),
+        "@": resolve("src/main"),
+        "@type": resolve("src/type/index"),
       },
+    },
+    build: {
+      rollupOptions: {
+        external: ["better-sqlite3"],
+      },
+    },
+    define: {
+      __APP_VERSION__: JSON.stringify(version),
     },
   },
   preload: {

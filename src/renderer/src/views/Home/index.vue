@@ -6,7 +6,7 @@
       <ul class="gap-4 h-fit grid grid-list">
         <HistoryCard v-for="item of data" :key="item.name" :data="item" />
 
-        <Add v-if="data.length == 0" />
+        <AddCard v-if="data.length == 0" />
       </ul>
     </Group>
 
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import Add from "@/components/Card/Add.vue";
+import AddCard from "@/components/Card/AddCard.vue";
 import Content from "@/components/Content.vue";
 import TimeGreet from "./TimeGreet.vue";
 import HistoryCard from "@/components/Card/HistoryCard.vue";

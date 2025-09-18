@@ -6,7 +6,15 @@
     @click="emits('play')"
     v-show="!loading"
   >
-    <img :src="data.pic" class="w-full h-full" @load="handleLoad" />
+    <img
+      :src="src"
+      class="w-full h-full"
+      @load="handleLoad"
+      @error="handleError"
+      v-if="src"
+    />
+
+    <img src="@/assets/images/default.png" class="w-full h-full" v-else />
 
     <div class="w-full p-2 flex items-center absolute bottom-0">
       <p class="text-sm text-main text-ellipsis overflow-hidden">
@@ -17,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import Skeleton from "./Skeleton.vue";
+import Skeleton from "./Skeleton/CardSkeleton.vue";
 import { VideoInfo, MovieInfo } from "@type";
 
-defineProps<{
+const props = defineProps<{
   data: VideoInfo | MovieInfo;
 }>();
 
@@ -28,10 +36,22 @@ const emits = defineEmits<{
   play: [];
 }>();
 
+//图片资源
+const src = ref(props.data.pic);
+
+//是否在加载
 const loading = ref(true);
 
+//加载完成
 const handleLoad = () => {
   loading.value = false;
+};
+
+//加载出错
+const handleError = async () => {
+  src.value = await ipcRenderer.invoke("getImg", props.data.pic);
+
+  handleLoad();
 };
 </script>
 

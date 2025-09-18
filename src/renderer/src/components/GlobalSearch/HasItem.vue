@@ -8,26 +8,27 @@
     <div class="flex flex-col">
       <span class="text-main">{{ data.name }}</span>
 
-      <span class="text-main-darken text-sm">
-        已观看{{ Math.floor((data.currentTime / data.duration) * 100) || 0 }}%
-      </span>
+      <span class="text-main-darken text-sm"> 已观看{{ playPercent }}% </span>
     </div>
   </li>
 </template>
 
 <script setup lang="ts">
+import { VideoInfo } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { play } = useVideoStore();
 
 const props = defineProps<{
-  data: {
-    name: string;
-    currentTime: number;
-    duration: number;
-    pic: string;
-  };
+  data: VideoInfo;
 }>();
+
+//播放百分比
+const playPercent = computed(() => {
+  const item = props.data.url[props.data.history];
+
+  return Math.ceil((item.currentTime / item.duration) * 100 || 0);
+});
 
 const handlePlay = async () => {
   play(props.data.name);

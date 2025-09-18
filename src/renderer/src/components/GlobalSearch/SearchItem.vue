@@ -23,6 +23,7 @@
 import Skeleton from "./Skeleton.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
 import { closeLoading, openLoading } from "@/components/Loading";
+import { SearchInfo } from "@type";
 
 const { play } = useVideoStore();
 
@@ -30,11 +31,7 @@ const emits = defineEmits(["click"]);
 
 const props = withDefaults(
   defineProps<{
-    data: {
-      name: string;
-      sub: string;
-      pic: string;
-    };
+    data: SearchInfo;
     loading?: boolean;
   }>(),
   {

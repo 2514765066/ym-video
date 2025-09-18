@@ -1,6 +1,8 @@
 import { contextBridge, shell } from "electron";
-import { ipcRenderer } from "../api/ipcRenderer";
-import { handlePlayUrl, fetchWithTimeout } from "../api/tools";
+import { ipcRenderer } from "../main/ipc/ipcRenderer";
+import { handlePlayUrl } from "../main/utils/tools";
+import { fetchWithTimeout } from "../main/utils/fetch";
+import { SearchInfo } from "@type";
 
 const api = {
   //打开网页
@@ -38,29 +40,8 @@ const api = {
     };
   },
 
-  //更新集数
-  // async updateFilm(name: string) {
-  //   const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${name}`;
-
-  //   const response = await fetchWithTimeout(url);
-
-  //   const json = await response.json();
-
-  //   type ResData = {
-  //     vod_play_url: string;
-  //     vod_id: string;
-  //     vod_name: string;
-  //   };
-
-  //   const data: ResData[] = json.posts;
-
-  //   const res = data.find(item => item.vod_name == name)!;
-
-  //   return handlePlayUrl(res.vod_play_url);
-  // },
-
   //搜索
-  async search(keyword: string) {
+  async searchFilm(keyword: string) {
     const url = `https://search.bfzyapi.com/json-api/?dname=baofeng&key=${keyword}&count=50`;
 
     const response = await fetch(url);
@@ -71,12 +52,7 @@ const api = {
       (item: any) => item.type_name != "电影解说" && item.type_name != "预告片"
     );
 
-    const res: {
-      name: string;
-      url: string[];
-      pic: string;
-      sub: string;
-    }[] = data.map(item => {
+    const res: SearchInfo[] = data.map(item => {
       return {
         name: item.vod_name,
         url: handlePlayUrl(item.vod_play_url),

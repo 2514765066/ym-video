@@ -25,10 +25,6 @@ const handlePlay = async () => {
 onMounted(async () => {
   data.value.pic = await ipcRenderer.invoke("getImg", data.value.pic);
 });
-
-onUnmounted(() => {
-  closeLoading();
-});
 </script>
 
 <style scoped lang="scss">

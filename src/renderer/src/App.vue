@@ -32,7 +32,7 @@ eventEmitter.on("error:show", (message: string) => {
 eventEmitter.on("success:show", (message: string) => {
   ElMessage({
     message,
-    type: "info",
+    type: "success",
     grouping: true,
   });
 });

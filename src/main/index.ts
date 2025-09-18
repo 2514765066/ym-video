@@ -4,9 +4,9 @@ import {
   onSecondeInstanceMounted,
 } from "ym-electron.js";
 import { app } from "electron";
-import { createMain } from "./manage";
-import "../api/ipc";
-import "../api/updater";
+import { createMain } from "@/bw/manage";
+import "@/ipc/index";
+import "@/updater";
 
 //禁止多开
 if (isSecondeInstanceStart()) {

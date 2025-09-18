@@ -1,51 +1,51 @@
 //ipc事件配置
 export type IpcEvent = {
-  //有更新版本
-  updateAvailable: (version: string) => void;
+  //查询
+  select: () => string[];
 
-  //更新进度
-  downloadProgress: (percent: number) => void;
+  //修改
+  update: (name: string, data: string) => void;
 
-  readConfig: () => string;
-  writeConfig: (data: string) => void;
+  //插入
+  insert: (name: string, data: string) => void;
 
-  getSearch: (keyword: string) => {
-    name: string;
-    sub: string;
-    pic: string;
-  }[];
+  //删除
+  remove: (name: string) => void;
 
+  //获取图片
   getImg: (url: string) => string;
-  getTitle: (url: string) => string;
 
+  //获取资源
   getRecommend: (option: {
     type: "tv" | "movie";
     start?: number;
   }) => MovieInfo[];
 };
 
+//选集
+export type Episode = {
+  label: string;
+  value: number;
+  url: string;
+  duration: number;
+  currentTime: number;
+};
+
 //视频信息
 export type VideoInfo = {
   name: string;
   history: number;
-  url: {
-    value: number;
-    url: string;
-    duration: number;
-    currentTime: number;
-  }[];
-  minVersion: string;
-  // currentTime: number;
+  url: Episode[];
   pic: string;
-  // duration: number;
+  time: number;
 };
 
 //搜索信息
 export type SearchInfo = {
   name: string;
-  url: string[];
+  url: Episode[];
   pic: string;
-  sub: string;
+  sub?: string;
 };
 
 //电影信息

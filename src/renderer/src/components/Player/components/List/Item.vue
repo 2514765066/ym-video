@@ -4,24 +4,20 @@
     :class="{ active: data.value == selectedVideo.history }"
     @click="handleClick()"
   >
-    <span class="text-base">第{{ data.value + 1 }}集</span>
+    <span class="text-base">{{ data.label }}</span>
 
     <span class="text-sm text-main-darken"> 已观看{{ precent }}%</span>
   </section>
 </template>
 
 <script setup lang="ts">
+import { Episode } from "@type";
 import { useVideoStore } from "@/stores/useVideoStore";
 
 const { selectedVideo } = storeToRefs(useVideoStore());
 
 const props = defineProps<{
-  data: {
-    value: number;
-    url: string;
-    duration: number;
-    currentTime: number;
-  };
+  data: Episode;
 }>();
 
 const precent = computed(() => {
