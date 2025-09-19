@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      better-sqlite3:
+        specifier: ^12.2.0
+        version: 12.2.0
     devDependencies:
       '@electron-toolkit/tsconfig':
         specifier: ^1.0.1
@@ -29,9 +33,6 @@ importers:
       axios:
         specifier: ^1.12.2
         version: 1.12.2
-      better-sqlite3:
-        specifier: ^12.2.0
-        version: 12.2.0
       electron:
         specifier: ^30.0.1
         version: 30.0.1

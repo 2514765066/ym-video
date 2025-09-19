@@ -29,6 +29,12 @@ export const useVideoStore = defineStore("list", () => {
   });
 
   const add = (option: SearchInfo) => {
+    if (has(option.name)) {
+      selectedName.value = option.name;
+      router.push("/play");
+      return;
+    }
+
     const insertData = {
       ...option,
       time: Date.now(),

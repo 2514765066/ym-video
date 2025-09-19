@@ -22,10 +22,9 @@
 <script setup lang="ts">
 import Skeleton from "./Skeleton.vue";
 import { useVideoStore } from "@/stores/useVideoStore";
-import { closeLoading, openLoading } from "@/components/Loading";
 import { SearchInfo } from "@type";
 
-const { play } = useVideoStore();
+const { add } = useVideoStore();
 
 const emits = defineEmits(["click"]);
 
@@ -55,19 +54,10 @@ const getPic = async () => {
 const handlePlay = async () => {
   emits("click");
 
-  openLoading();
-
-  await play(props.data.name);
-  // await play(props.data.name, src.value);
-
-  closeLoading();
+  add(props.data);
 };
 
 getPic();
-
-onUnmounted(() => {
-  closeLoading();
-});
 </script>
 
 <style scoped lang="scss"></style>
