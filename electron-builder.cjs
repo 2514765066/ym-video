@@ -24,10 +24,4 @@ module.exports = {
     createDesktopShortcut: "always",
     deleteAppDataOnUninstall: true,
   },
-  publish: {
-    provider: "github",
-    owner: "2514765066",
-    repo: "ym-video",
-    releaseType: "release",
-  },
 };

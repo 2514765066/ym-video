@@ -14,13 +14,11 @@ type Assets = {
 //读取文件
 app.get("/:filename", async (req, res) => {
   try {
-    const url = `https://gitee.com/api/v5/repos/yxingyus/ym-video/releases`;
+    const url = `https://gitee.com/api/v5/repos/yxingyus/ym-video/releases/latest`;
 
     const response = await fetch(url);
 
-    const releases = await response.json();
-
-    const latest = releases.at(-1);
+    const latest = await response.json();
 
     const assets: Assets[] = latest.assets;
 

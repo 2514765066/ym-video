@@ -13,7 +13,9 @@
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
-    "release": "npm run build && electron-builder --win -p always"
+    "release-gitee": "node ./scripts/publish-gitee.cjs",
+    "release-github": "node ./scripts/publish-github.cjs",
+    "release": "npm run build:win && npm run release-github && npm run release-gitee"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",
@@ -22,6 +24,7 @@
     "@types/node": "^18.19.9",
     "@vitejs/plugin-vue": "^5.0.3",
     "autoprefixer": "^10.4.21",
+    "axios": "^1.12.2",
     "better-sqlite3": "^12.2.0",
     "electron": "^30.0.1",
     "electron-builder": "^25.1.8",
@@ -30,6 +33,7 @@
     "electron-vite": "^2.2.0",
     "element-plus": "^2.7.6",
     "express": "^5.1.0",
+    "form-data": "^4.0.4",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "postcss": "^8.5.3",
