@@ -8,17 +8,15 @@ module.exports = {
   asar: false,
   electronLanguages: ["zh-CN"],
   directories: {
-    output: "dist/app",
+    output: "dist",
   },
+  icon: "src/renderer/src/assets/icon.png",
 
-  win: {
-    icon: "src/renderer/src/assets/icon.png",
-  },
   nsis: {
     differentialPackage: false,
     oneClick: false,
     allowToChangeInstallationDirectory: true,
-    artifactName: "../installer/${name}-${version}-setup.${ext}",
+    artifactName: "${productName}-${version}-setup.${ext}",
     shortcutName: "${productName}",
     uninstallDisplayName: "${productName}",
     createDesktopShortcut: "always",

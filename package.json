@@ -33,7 +33,6 @@
     "element-plus": "^2.7.6",
     "express": "^5.1.0",
     "form-data": "^4.0.4",
-    "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "postcss": "^8.5.3",
     "sass": "^1.75.0",
@@ -46,8 +45,7 @@
     "vue": "^3.4.24",
     "vue-router": "^4.4.5",
     "vue-tsc": "^1.8.27",
-    "ym-electron.js": "^4.1.0",
-    "ym-video-player": "^0.2.8"
+    "ym-electron.js": "^4.1.0"
   },
   "volta": {
     "node": "20.11.1"

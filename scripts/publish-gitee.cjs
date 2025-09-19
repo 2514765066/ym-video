@@ -75,10 +75,10 @@ const main = async () => {
 
   await uploadAsset(
     releaseId,
-    path.join(__dirname, `../dist/installer/ym-video-${version}-setup.exe`)
+    path.join(__dirname, `../dist/ym-video-${version}-setup.exe`)
   );
 
-  await uploadAsset(releaseId, path.join(__dirname, "../dist/app/latest.yml"));
+  await uploadAsset(releaseId, path.join(__dirname, "../dist/latest.yml"));
 
   console.log("✅ 文件上传成功：");
 };

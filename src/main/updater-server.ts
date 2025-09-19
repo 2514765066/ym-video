@@ -22,6 +22,8 @@ app.get("/:filename", async (req, res) => {
 
     const assets: Assets[] = latest.assets;
 
+    console.log(assets, req.params.filename);
+
     const asset = assets.find(item => item.name == req.params.filename)!;
 
     res.redirect(asset.browser_download_url);
