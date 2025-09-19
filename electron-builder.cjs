@@ -10,10 +10,12 @@ module.exports = {
   directories: {
     output: "dist/app",
   },
+
   win: {
     icon: "src/renderer/src/assets/icon.png",
   },
   nsis: {
+    differentialPackage: false,
     oneClick: false,
     allowToChangeInstallationDirectory: true,
     artifactName: "../installer/${name}-${version}-setup.${ext}",

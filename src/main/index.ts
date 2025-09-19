@@ -6,6 +6,7 @@ import {
 import { app } from "electron";
 import { createMain } from "@/bw/manage";
 import "@/ipc/index";
+
 import "@/updater";
 
 //禁止多开

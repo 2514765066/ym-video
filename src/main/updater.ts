@@ -1,10 +1,19 @@
 import { dialog } from "electron";
 import { autoUpdater } from "electron-updater";
-// import { isDev } from "ym-electron.js";
 import { browserWindows } from "@/bw/windows";
+import { ADDRESS } from "@/updater-server";
 
 //开发模式测试更新
-// autoUpdater.forceDevUpdateConfig = isDev();
+// autoUpdater.forceDevUpdateConfig = true;
+
+//设置自定义服务端
+autoUpdater.setFeedURL(ADDRESS);
+
+//关闭web安装器
+autoUpdater.disableWebInstaller = true;
+
+//关闭差异下载
+autoUpdater.disableDifferentialDownload = true;
 
 //下载完成
 autoUpdater.on("update-downloaded", async () => {
