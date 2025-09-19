@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { resources } from "@/utils/path";
 import { join } from "path";
-import { getVersion, minVersion } from "@/utils/version";
+import { version, minVersion } from "@/utils/version";
 
 const dbPath = join(resources, `db.sqlite`);
 
@@ -34,7 +34,7 @@ export const insert = (name: string, data: string) => {
     "insert into info (name, version,data) values (?, ?, ?)"
   );
 
-  insert.run(name, getVersion(), data);
+  insert.run(name, version, data);
 };
 
 //修改
