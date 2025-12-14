@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  node-abi: latest
+
 importers:
 
   .:
@@ -40,8 +43,8 @@ importers:
         specifier: ^1.11.19
         version: 1.11.19
       electron:
-        specifier: ^38.7.0
-        version: 38.7.0
+        specifier: ^38.6.0
+        version: 38.6.0
       electron-builder:
         specifier: ^25.1.8
         version: 25.1.8(electron-builder-squirrel-windows@25.1.8)
@@ -1297,8 +1300,8 @@ packages:
       '@swc/core':
         optional: true
 
-  electron@38.7.0:
-    resolution: {integrity: sha512-ZHrhfzceUgZwdi6Cd8VS/A10ljIjiHOY5KwZ4iJ5D+JuUYMeS/Uvxbrr1WqjnZUwGe9aUjQHFsxeS3gBWGalOw==}
+  electron@38.6.0:
+    resolution: {integrity: sha512-68OFNxJlrEStA+t8k5atzf4frJddvRR1N1oalr49Ll8YZ0+0nEsDhw4UNhTCoZKTjSYcxFF/4rt+sco+OlnB3g==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -2021,10 +2024,6 @@ packages:
 
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
-
-  node-abi@3.71.0:
-    resolution: {integrity: sha512-SZ40vRiy/+wRTf21hxkkEjPJZpARzUMVcJoQse2EF8qkUWbbO2z7vd5oA/H6bVH6SZQ5STGcu0KRDS7biNRfxw==}
-    engines: {node: '>=10'}
 
   node-abi@4.24.0:
     resolution: {integrity: sha512-u2EC1CeNe25uVtX3EZbdQ275c74zdZmmpzrHEQh2aIYqoVjlglfUpOX9YY85x1nlBydEKDVaSmMNhR7N82Qj8A==}
@@ -3057,7 +3056,7 @@ snapshots:
       detect-libc: 2.0.3
       fs-extra: 10.1.0
       got: 11.8.6
-      node-abi: 3.71.0
+      node-abi: 4.24.0
       node-api-version: 0.2.0
       node-gyp: 9.4.1
       ora: 5.4.1
@@ -3458,7 +3457,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 20.11.1
+      '@types/node': 22.18.6
     optional: true
 
   '@vitejs/plugin-vue@6.0.1(vite@7.2.2(@types/node@22.18.6)(jiti@1.21.7)(sass@1.75.0)(yaml@2.7.0))(vue@3.5.24(typescript@5.9.2))':
@@ -4228,7 +4227,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  electron@38.7.0:
+  electron@38.6.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.18.6
@@ -5002,10 +5001,6 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  node-abi@3.71.0:
-    dependencies:
-      semver: 7.6.3
-
   node-abi@4.24.0:
     dependencies:
       semver: 7.7.3
@@ -5225,7 +5220,7 @@ snapshots:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 2.0.0
-      node-abi: 3.71.0
+      node-abi: 4.24.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1

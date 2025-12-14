@@ -14,11 +14,6 @@ export default defineConfig({
         "@type": resolve("src/type/index"),
       },
     },
-    build: {
-      rollupOptions: {
-        external: ["better-sqlite3"],
-      },
-    },
     define: {
       __APP_VERSION__: JSON.stringify(version),
     },
