@@ -4,10 +4,8 @@ import {
   onSecondeInstanceMounted,
 } from "ym-electron.js";
 import { app } from "electron";
-import { createMain } from "@/bw/manage";
+import { createManage } from "@/bw/manager";
 import "@/ipc/index";
-
-import "@/updater";
 
 //禁止多开
 if (isSecondeInstanceStart()) {
@@ -15,7 +13,7 @@ if (isSecondeInstanceStart()) {
 }
 
 onMounted(async () => {
-  const win = await createMain();
+  const win = await createManage();
 
   onSecondeInstanceMounted(() => {
     win.show();

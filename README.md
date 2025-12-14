@@ -1,15 +1,25 @@
-# ym-video 软件的说明
+## 📺 ym-video
 
-ym-video 主要作用是免费观看部分影视作品。
+ym-video 是一款简洁、无广的视频聚合播放器应用
+支持多种源接口、播放内核自由切换
 
-此软件为我个人学习开发，仅供学习参考，禁止商用。
+## 📦 安装
 
-如果有问题请联系我 2514765066@qq.com
+从 Releases 页面下载最新的 ym-video 安装包即可
 
-# 下载安装
+### 🟢 Android 安装包
 
-在发行版里面下载 ym-video-版本号-setup.exe 的文件后，双击安装即可使用。
+- [GitHub 下载](https://github.com/2514765066/ym-video-app/releases)
+- [Gitee 下载](https://gitee.com/yxingyus/ym-video-app/releases)
 
-# 软件界面
+### 🟣 Windows 安装包
 
-<img src="./images/home.png">
+- [GitHub 下载](https://github.com/2514765066/ym-video/releases)
+- [Gitee 下载](https://gitee.com/yxingyus/ym-video/releases)
+
+## ⚠️ 免责声明
+
+本软件仅供学习与技术交流使用，不得用于任何商业或非法用途。  
+本项目 **不提供任何视频内容或接口资源**，所有数据均来自第三方来源。  
+开发者对使用本软件所引发的任何后果、风险或法律责任不承担任何责任。  
+请在遵守当地法律法规的前提下使用本软件。

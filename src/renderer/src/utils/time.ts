@@ -1,5 +1,7 @@
+import dayjs, { Dayjs } from "dayjs";
+
 //获取当前时间
-export const getTimeOfDay = () => {
+export const getTimePeriod = () => {
   const hours = new Date().getHours();
 
   if (hours >= 5 && hours < 11) {
@@ -13,26 +15,10 @@ export const getTimeOfDay = () => {
   }
 };
 
-//格式化时间
-export const formatTime = (seconde: number) => {
-  if (seconde < 0) {
-    return "00:00";
-  }
+//获取时间差
+export const getDayDiff = (start: number | Dayjs, end: number | Dayjs) => {
+  const d1 = dayjs(start);
+  const d2 = dayjs(end);
 
-  const hours = Math.floor(seconde / 3600);
-
-  const minutes = Math.floor((seconde % 3600) / 60);
-
-  const seconds = Math.floor(seconde % 60);
-
-  // 返回格式化的字符串（始终两位数字）
-  if (hours == 0) {
-    return `${pad(minutes)}:${pad(seconds)}`;
-  }
-
-  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-};
-
-const pad = (num: number | string) => {
-  return num.toString().padStart(2, "0");
+  return d2.diff(d1, "day");
 };

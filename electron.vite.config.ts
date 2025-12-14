@@ -24,21 +24,26 @@ export default defineConfig({
     },
   },
   preload: {
-    plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        input: {
+          manager: resolve(__dirname, "src/preload/manager.ts"),
+          player: resolve(__dirname, "src/preload/player.ts"),
+        },
+      },
+    },
   },
   renderer: {
     define: {
       __APP_VERSION__: JSON.stringify(version),
       __APP_NAME__: JSON.stringify(name),
     },
-    build: {
-      assetsInlineLimit: 0,
-    },
     resolve: {
       alias: {
         "@": resolve("src/renderer/src"),
-        "@player": resolve("src/renderer/src/components/Player"),
         "@type": resolve("src/type/index"),
+        "@manager": resolve("src/renderer/src/browser-windows/manager"),
+        "@player": resolve("src/renderer/src/browser-windows/player"),
       },
     },
     plugins: [

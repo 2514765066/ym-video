@@ -1,65 +1,107 @@
-import { ipcMain } from "./ipcMain";
-import { select, insert, update, remove } from "@/sql";
-import { fetchWithRetry } from "@/utils/fetch";
+import { browserWindows } from "@/bw";
+import { createPlayer } from "@/bw/player";
+import { ipcMain } from "@/ipc/ipcMain";
+import * as db from "@/services/db";
+import { update, updatePath } from "@/services/path";
+import { getMd5 } from "@/utils/md5";
+import { BrowserWindow } from "electron";
+import { existsSync } from "fs";
+import { mkdir } from "fs/promises";
+import { checkUpdate, downloadUpdate, installUpdate } from "ym-publish";
 
 //查询
-ipcMain.handle("select", () => {
-  return select();
-});
-
-//修改
-ipcMain.on("update", (_, name, data) => {
-  update(name, data);
+ipcMain.handle("db:select", () => {
+  return db.select();
 });
 
 //插入
-ipcMain.on("insert", (_, name, data) => {
-  insert(name, data);
+ipcMain.handle("db:insert", (_, data) => {
+  db.insert(data);
+});
+
+//修改
+ipcMain.handle("db:update", (_, data) => {
+  const win = browserWindows.get("manager")!;
+
+  db.update(data);
+
+  win.webContents.send("db:update", data);
 });
 
 //删除
-ipcMain.on("remove", (_, name) => {
-  remove(name);
+ipcMain.handle("db:remove", (_, id) => {
+  db.remove(id);
 });
 
-//获取图片
-ipcMain.handle("getImg", async (_, url) => {
-  try {
-    const response = await fetchWithRetry(url);
+//清空
+ipcMain.handle("db:reset", () => {
+  db.reset();
+});
 
-    const data = await response.arrayBuffer();
+//请求
+ipcMain.handle("request", async (_, url) => {
+  const response = await fetch(url);
 
-    return `data:image/jpeg;base64,${Buffer.from(data).toString("base64")}`;
-  } catch {
-    return "";
+  return await response.json();
+});
+
+//播放视频
+ipcMain.handle("openPlayer", async (_, data, isReset) => {
+  const win = await createPlayer();
+
+  win.setTitle(data.name);
+
+  win.webContents.send("openPlayer", data, isReset);
+});
+
+let checkUpdateInfo = {
+  md5: "",
+  version: "",
+  url: "",
+};
+
+//检查更新
+ipcMain.handle("checkUpdata", async (_, url) => {
+  const res = await checkUpdate(url, __APP_VERSION__);
+
+  if (res == false) {
+    return false;
   }
+
+  checkUpdateInfo = res;
+
+  return res.version;
 });
 
-//获取资源
-ipcMain.handle("getRecommend", async (_, { type, start }) => {
-  const option = {
-    start: String(start || 0),
-    count: "20",
-    playable: "true",
-    sort: "U",
-    // tags: "喜剧",
-  };
+//下载并安装
+ipcMain.handle("downloadUpdate", async e => {
+  const win = BrowserWindow.fromWebContents(e.sender)!;
 
-  const query = new URLSearchParams(option).toString();
+  //不存在更新文件夹就创建
+  if (!existsSync(update)) {
+    await mkdir(update, { recursive: true });
+  }
 
-  const url = `https://m.douban.com/rexxar/api/v2/${type}/recommend?${query}`;
+  //如果下载完成就安装
+  const md5 = await getMd5(updatePath);
 
-  const response = await fetch(url, {
-    referrer: "https://movie.douban.com/explore",
-  });
+  if (md5 == checkUpdateInfo.md5) {
+    return true;
+  }
 
-  const data = await response.json();
+  //下载
+  try {
+    await downloadUpdate(checkUpdateInfo.url, updatePath, percent => {
+      win.webContents.send("updateProgress", Math.floor(percent));
+    });
+  } catch {
+    return false;
+  }
 
-  return data.items.map((item: any) => {
-    return {
-      name: item.title,
-      pic: item.pic.normal,
-      sub: item.card_subtitle,
-    };
-  });
+  return true;
+});
+
+//安装
+ipcMain.handle("installUpdate", () => {
+  installUpdate(updatePath, true);
 });
