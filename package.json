@@ -1,6 +1,6 @@
 {
   "name": "ym-video",
-  "version": "4.6.1",
+  "version": "5.0.0",
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
