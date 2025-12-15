@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { iconPacks, IconName } from "./index";
+import { iconPacks, IconName } from "./icon";
 import { Icon } from "@iconify/vue";
 
 withDefaults(

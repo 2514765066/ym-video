@@ -8,7 +8,7 @@
 
     <SearchBar />
 
-    <ContextMenu :data="historyMenu" ref="historyContextMenu" />
+    <MenuContext :data="historyMenu" ref="historyContextMenu" />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import TitleBar from "@manager/components/title-bar/index.vue";
 import { useConfigStore } from "@manager/stores/useConfigStore";
 import { useMovieStore } from "@manager/stores/useMovieStore";
 import { useLatestMovieStore } from "@manager/stores/useLatestMovieStore";
-import { ContextMenu, MenuGroup } from "@/components/ui/menu";
+import { MenuContext, MenuGroup } from "@/components/ui/menu";
 import eventEmitter from "@/hooks/eventEmitter";
 import { useHistoryStore } from "./stores/useHistoryStore";
 import { HistoryInfo } from "@type";

@@ -54,6 +54,8 @@ const createConfig = () => {
   };
 };
 
+type Config = ReturnType<typeof createConfig>;
+
 //初始化配置
 const initConfig = () => {
   try {
@@ -64,7 +66,7 @@ const initConfig = () => {
 };
 
 export const useConfigStore = defineStore("config", () => {
-  const config = ref(initConfig());
+  const config = ref<Config>(initConfig());
 
   //切换自动更新
   const toggleAutoUpdate = () => {
@@ -98,8 +100,8 @@ export const useConfigStore = defineStore("config", () => {
   //自动保存配置
   watch(
     config,
-    () => {
-      localStorage.setItem("settings", JSON.stringify(config.value));
+    val => {
+      localStorage.setItem("settings", JSON.stringify(val));
     },
     {
       deep: true,

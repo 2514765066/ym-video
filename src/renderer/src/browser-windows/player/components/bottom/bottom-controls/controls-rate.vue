@@ -1,5 +1,5 @@
 <template>
-  <TipMenu
+  <MenuTooltip
     :width="140"
     :data="data"
     trigger="hover"
@@ -10,11 +10,11 @@
     <Buttom>
       <Icon icon="rate" size="24" />
     </Buttom>
-  </TipMenu>
+  </MenuTooltip>
 </template>
 
 <script setup lang="ts">
-import { MenuGroup, TipMenu } from "@/components/ui/menu";
+import { MenuGroup, MenuTooltip } from "@/components/ui/menu";
 import Icon from "@/components/ui/icon/index.vue";
 import Buttom from "./controls-button.vue";
 import { rate, setRate, rateTip } from "@player/stores/useVideoStore";

@@ -13,14 +13,14 @@
     </main>
   </ElScrollbar>
 
-  <ContextMenu :data="menu" ref="searchHistoryMenuRef" />
+  <MenuContext :data="menu" ref="searchHistoryMenuRef" />
 </template>
 
 <script setup lang="ts">
 import { useSearchHistoryStore } from "@manager/stores/useSearchHistoryStore";
 import Item from "./content-item.vue";
 import { ElScrollbar } from "element-plus";
-import { MenuGroup, ContextMenu } from "@/components/ui/menu";
+import { MenuGroup, MenuContext } from "@/components/ui/menu";
 import eventEmitter from "@/hooks/eventEmitter";
 
 const { searchHistorys } = storeToRefs(useSearchHistoryStore());

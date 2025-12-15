@@ -1,13 +1,12 @@
 <template>
   <Item label="远程数据源" icon="globe" sub="远程更新数据源">
     <Select
-      class="ym-select"
       style="width: 120px"
       v-model="config.selectedRepo"
       value-key="label"
     >
       <ElOption
-        v-for="item in repos.values()"
+        v-for="item in repos"
         :key="item.label"
         :label="item.label"
         :value="item"
