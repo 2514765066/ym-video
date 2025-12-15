@@ -1,5 +1,5 @@
 <template>
-  <Item label="检查更新" icon="update">
+  <Item label="检查更新" icon="update" sub="检查是否有版本更新">
     <Button
       type="primary"
       @click="checkUpdate"
