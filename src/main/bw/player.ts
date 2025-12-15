@@ -5,7 +5,7 @@ import Store from "electron-store";
 
 const store = new Store();
 
-const lastSize = store.get("player-window-size", {
+let lastSize = store.get("player-window-size", {
   width: 1024,
   height: 768,
 }) as Electron.Size;
@@ -45,7 +45,14 @@ export const createPlayer = async (id: string = "player") => {
   const handleResized = () => {
     const [width, height] = bw.getSize();
 
-    store.set("player-window-size", { width, height });
+    const option = {
+      width,
+      height,
+    };
+
+    lastSize = option;
+
+    store.set("player-window-size", option);
   };
 
   //处理窗口关闭

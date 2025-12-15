@@ -5,7 +5,7 @@ import Store from "electron-store";
 
 const store = new Store();
 
-const lastSize = store.get("manager-window-size", {
+let lastSize = store.get("manager-window-size", {
   width: 1024,
   height: 768,
 }) as Electron.Size;
@@ -36,7 +36,14 @@ export const createManage = async () => {
   const handleResized = () => {
     const [width, height] = bw.getSize();
 
-    store.set("manager-window-size", { width, height });
+    const option = {
+      width,
+      height,
+    };
+
+    lastSize = option;
+
+    store.set("manager-window-size", option);
   };
 
   //处理窗口准备关闭
