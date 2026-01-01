@@ -4,12 +4,12 @@
 
     <Repo />
 
-    <Remove />
+    <Reset />
   </Group>
 </template>
 
 <script setup lang="ts">
-import Remove from "./general-remove.vue";
+import Reset from "./general-reset.vue";
 import Group from "../setting-group.vue";
 import AutoUpdate from "./general-autoUpdate.vue";
 import Repo from "./general-repo.vue";

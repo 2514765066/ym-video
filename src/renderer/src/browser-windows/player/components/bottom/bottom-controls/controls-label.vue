@@ -1,7 +1,7 @@
 <template>
   <span class="text-3xl text-main text-shadow ellipsis">
     {{ history.name }} ·
-    {{ formatRemarks(episodeLabel) }}
+    {{ episodeLabel }}
   </span>
 </template>
 
@@ -12,7 +12,7 @@ import { useHistoryStore } from "@player/stores/useHistoryStore";
 const { selectedEpisode, history } = storeToRefs(useHistoryStore());
 
 const episodeLabel = computed(() => {
-  return selectedEpisode.value?.label || "";
+  return formatRemarks(selectedEpisode.value?.label || "");
 });
 </script>
 

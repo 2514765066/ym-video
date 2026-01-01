@@ -1,13 +1,18 @@
 <template>
   <section class="w-full flex items-center">
-    <ElTooltip effect="light" popper-class="p-unset" v-if="pageCount > 3">
+    <ElTooltip
+      effect="light"
+      :show-arrow="false"
+      trigger="click"
+      popper-class="episode-list-page p-unset"
+      v-if="pageCount > 1"
+    >
       <button class="px-2 shrink-0 text-main">全部</button>
 
       <template #content>
         <ElScrollbar
           max-height="40vh"
-          view-class="py-2 flex flex-col items-center gap-1"
-          view-style="width:140px"
+          view-class="p-2 flex flex-col items-center gap-1"
         >
           <ListItem
             v-for="item in pageList"
@@ -60,4 +65,8 @@ watchEffect(() => {
 });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.episode-list-page {
+  --el-bg-color-overlay: var(--list-color);
+}
+</style>

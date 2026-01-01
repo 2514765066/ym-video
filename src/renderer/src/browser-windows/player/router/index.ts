@@ -1,9 +1,9 @@
 import { RouteRecordRaw } from "vue-router";
-import Root from "@player/root.vue";
+import Layout from "@player/layout/index.vue";
 
 const route: RouteRecordRaw = {
   path: "/player",
-  component: Root,
+  component: Layout,
 };
 
 export default route;

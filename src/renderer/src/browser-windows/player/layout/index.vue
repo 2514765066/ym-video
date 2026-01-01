@@ -3,7 +3,7 @@
     <TitleBar />
 
     <div class="flex">
-      <Content />
+      <VideoContent />
 
       <EpisodeList />
     </div>
@@ -11,16 +11,15 @@
 </template>
 
 <script setup lang="ts">
-import EpisodeList from "@player/components/episode-list/index.vue";
-import TitleBar from "@player/components/title-bar/index.vue";
-import Content from "@player/views/index.vue";
+import EpisodeList from "@player/layout/episode-list/index.vue";
+import TitleBar from "@player/layout/title-bar/index.vue";
+import VideoContent from "@player/layout/video-content/index.vue";
 import { useHistoryStore } from "@player/stores/useHistoryStore";
+import { useEventListener } from "@vueuse/core";
 
 const { saveHistory } = useHistoryStore();
 
-onMounted(() => {
-  window.addEventListener("beforeunload", saveHistory);
-});
+useEventListener("beforeunload", saveHistory);
 </script>
 
 <style scoped lang="scss">

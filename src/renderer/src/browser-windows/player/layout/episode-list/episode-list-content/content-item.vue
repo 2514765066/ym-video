@@ -1,6 +1,6 @@
 <template>
   <button
-    class="h-8 px-2 flex-center rounded-md hover:bg-primary transition-colors"
+    class="h-10 px-4 flex-center rounded-md hover:bg-primary transition-colors"
     :class="`${active ? 'bg-primary' : 'bg-hover'}`"
     :title="data.label"
   >

@@ -1,5 +1,6 @@
 import { getValue } from "@/utils/value";
 import { playerRef, videoRef } from "./useEl";
+import { useStorage } from "@vueuse/core";
 
 //播放状态
 export const isPlay = ref(true);
@@ -8,7 +9,7 @@ export const isPlay = ref(true);
 export const isLoading = ref(false);
 
 //音量
-export const volume = ref(Number(localStorage.getItem("volume")) ?? 100);
+export const volume = useStorage("volume", 100);
 
 //倍速
 export const rate = ref(1);
@@ -51,9 +52,6 @@ export const setVolume = (value: number | ((volume: number) => number)) => {
 
   //设置视频音量
   videoRef.value.volume = volume.value / 100;
-
-  //存储
-  localStorage.setItem("volume", String(volume.value));
 };
 
 //设置倍速

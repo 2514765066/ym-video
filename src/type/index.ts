@@ -12,6 +12,9 @@ export type IpcEvent = {
 
   openPlayer: (data: HistoryInfo, isReset?: boolean) => void;
 
+  //保存数据
+  saveHistory: (data: HistoryInfo) => void;
+
   request: (url: string) => any;
 
   //更新进度

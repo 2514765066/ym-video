@@ -25,7 +25,8 @@ import { setSeek } from "@/browser-windows/player/stores/useProgressStore";
 import { setPlay } from "@player/stores/useVideoStore";
 import { openRate, resetRate } from "@player/stores/useVideoStore";
 import { useHistoryStore } from "@player/stores/useHistoryStore";
-import { showControl } from "../stores/useControlStore";
+import { showControl } from "@player/stores/useControlStore";
+import { useEventListener } from "@vueuse/core";
 
 const { saveHistory } = useHistoryStore();
 
@@ -100,17 +101,9 @@ const handleKeyup = ({ key }: KeyboardEvent) => {
   }
 };
 
-onMounted(() => {
-  window.addEventListener("keydown", handleKeydown);
-  window.addEventListener("keyup", handleKeyup);
-  window.addEventListener("beforeunload", saveHistory);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("keydown", handleKeydown);
-  window.removeEventListener("keyup", handleKeyup);
-  window.removeEventListener("beforeunload", saveHistory);
-});
+useEventListener("keydown", handleKeydown);
+useEventListener("keyup", handleKeyup);
+useEventListener("beforeunload", saveHistory);
 </script>
 
 <style scoped lang="scss">

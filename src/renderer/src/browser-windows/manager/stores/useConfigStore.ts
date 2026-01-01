@@ -1,5 +1,6 @@
 import { appName } from "@/services/info";
 import { Source } from "@type";
+import { useStorage } from "@vueuse/core";
 
 //创建配置
 const createConfig = () => {
@@ -54,19 +55,8 @@ const createConfig = () => {
   };
 };
 
-type Config = ReturnType<typeof createConfig>;
-
-//初始化配置
-const initConfig = () => {
-  try {
-    return JSON.parse(localStorage.getItem("settings") ?? "");
-  } catch {
-    return createConfig();
-  }
-};
-
 export const useConfigStore = defineStore("config", () => {
-  const config = ref<Config>(initConfig());
+  const config = useStorage("settings", createConfig());
 
   //切换自动更新
   const toggleAutoUpdate = () => {
@@ -96,17 +86,6 @@ export const useConfigStore = defineStore("config", () => {
   const resetConfig = () => {
     config.value = createConfig();
   };
-
-  //自动保存配置
-  watch(
-    config,
-    val => {
-      localStorage.setItem("settings", JSON.stringify(val));
-    },
-    {
-      deep: true,
-    }
-  );
 
   return {
     config,

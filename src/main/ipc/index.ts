@@ -25,7 +25,7 @@ ipcMain.handle("db:update", (_, data) => {
 
   db.update(data);
 
-  win.webContents.send("db:update", data);
+  win.webContents.send("saveHistory", data);
 });
 
 //删除

@@ -4,6 +4,7 @@
     :title="data.label"
     align-center
     v-model="data.visible"
+    @closed="data.onCancel"
   >
     <span class="text-base">{{ data.content }}</span>
 
@@ -34,7 +35,6 @@ const handleConfirm = () => {
 
 //处理取消
 const handleCancel = () => {
-  data.onCancel();
   data.visible = false;
 };
 </script>

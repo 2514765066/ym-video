@@ -47,7 +47,7 @@ export const useHistoryStore = defineStore("history", () => {
     ipcRenderer.invoke("db:reset");
   };
 
-  //更新事件
+  //更新时间
   const updateTime = (id: string) => {
     historys.value.get(id)!.time = Date.now();
   };
@@ -96,12 +96,12 @@ export const useHistoryStore = defineStore("history", () => {
   };
 
   //监听修改
-  ipcRenderer.on("db:update", (_, info: HistoryInfo) => {
-    if (!historys.value.has(info.id)) {
+  ipcRenderer.on("saveHistory", (_, data: HistoryInfo) => {
+    if (!hasHistory(data.id)) {
       return;
     }
 
-    historys.value.set(info.id, info);
+    historys.value.set(data.id, data);
   });
 
   init();

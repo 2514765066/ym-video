@@ -89,9 +89,13 @@ html {
   margin: unset !important;
 }
 
+.el-scrollbar__bar {
+  right: 4px !important;
+}
+
 .el-tooltip {
-  padding: 2px 8px !important;
-  background: #2c2c2b !important;
+  padding: 2px 8px;
+  --el-bg-color-overlay: #2c2c2b;
 }
 
 .el-select__popper {
