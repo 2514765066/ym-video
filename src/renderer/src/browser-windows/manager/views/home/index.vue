@@ -1,6 +1,6 @@
 <template>
   <Content :label="`${getTimePeriod()}好，亲爱的用户😊`" position="center">
-    <main class="py-6 flex-1">
+    <main class="py-6 flex flex-col flex-1">
       <ContentGroup label="最近观看" v-if="historyData.length">
         <div class="grid grid-list gap-x-4 gap-y-6">
           <CardHistory
