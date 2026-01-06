@@ -17,10 +17,7 @@
 <script setup lang="ts">
 import { formatSeconde } from "@/utils/format";
 import ProgressBar from "./progress-bar.vue";
-import {
-  currentTime,
-  duration,
-} from "@/browser-windows/player/stores/useProgressStore";
+import { currentTime, duration } from "@player/stores/useProgressStore";
 </script>
 
 <style scoped lang="scss"></style>

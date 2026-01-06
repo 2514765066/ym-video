@@ -1,19 +1,49 @@
-export const controlVisible = ref(true);
+export const useControlStore = defineStore("player-control", () => {
+  //控件是否可见
+  const controlVisible = ref(true);
 
-let timer: number;
+  let timer: number | null;
 
-//展示控件模块
-export const showControl = (delay: number = 1000) => {
-  controlVisible.value = true;
+  //设置控件是否可见
+  const setControlVisible = (value: boolean) => {
+    controlVisible.value = value;
+  };
 
-  clearTimeout(timer);
+  //清空计时器
+  const clearTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
 
-  timer = window.setTimeout(() => {
+  //显示控件
+  const showControl = () => {
+    setControlVisible(true);
+
+    clearTimer();
+  };
+
+  //隐藏控件
+  const hideControl = () => {
+    clearTimer();
+
+    timer = window.setTimeout(() => {
+      controlVisible.value = false;
+    }, 2000);
+  };
+
+  //显示自动隐藏控件
+  const showAndHideControl = () => {
+    setControlVisible(true);
+
     hideControl();
-  }, delay);
-};
+  };
 
-//隐藏控件模块
-const hideControl = () => {
-  controlVisible.value = false;
-};
+  return {
+    controlVisible,
+    hideControl,
+    showControl,
+    showAndHideControl,
+  };
+});

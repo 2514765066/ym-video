@@ -1,5 +1,10 @@
 <template>
-  <section class="w-full absolute bottom-0 left-0 z-30">
+  <section
+    class="w-full absolute bottom-0 left-0 z-30"
+    @mouseenter="showControl"
+    @mouseleave="hideControl"
+    @mousemove.stop
+  >
     <div
       class="px-4 flex flex-col gap-3"
       v-if="!isFullscreen || controlVisible"
@@ -19,11 +24,13 @@ import Progress from "./bottom-progress/index.vue";
 import {
   seekVisible,
   currentTimePrecent,
-} from "@/browser-windows/player/stores/useProgressStore";
-import { controlVisible } from "@player/stores/useControlStore";
+} from "@player/stores/useProgressStore";
+import { useControlStore } from "@player/stores/useControlStore";
 import { useVideoStore } from "@player/stores/useVideoStore";
 
 const { isFullscreen } = storeToRefs(useVideoStore());
+const { controlVisible } = storeToRefs(useControlStore());
+const { showControl, hideControl } = useControlStore();
 </script>
 
 <style scoped lang="scss">

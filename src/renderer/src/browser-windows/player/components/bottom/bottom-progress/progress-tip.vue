@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { seekVisible } from "@/browser-windows/player/stores/useProgressStore";
+import { seekVisible } from "@player/stores/useProgressStore";
 
 defineProps<{
   x: number;

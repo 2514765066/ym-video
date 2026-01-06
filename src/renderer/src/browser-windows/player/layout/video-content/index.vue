@@ -2,7 +2,7 @@
   <main
     class="content wh-full flex-center relative overflow-hidden bg-black"
     ref="playerRef"
-    @mousemove="showControl()"
+    @mousemove="showAndHideControl"
   >
     <Tip />
 
@@ -20,15 +20,15 @@ import Bottom from "@player/components/bottom/index.vue";
 import { playerRef } from "@player/stores/useEl";
 import { useInit } from "@player/hooks/useInit";
 import eventEmitter from "@/hooks/eventEmitter";
-import { setSeek } from "@/browser-windows/player/stores/useProgressStore";
+import { setSeek } from "@player/stores/useProgressStore";
 import { useHistoryStore } from "@player/stores/useHistoryStore";
-import { showControl } from "@player/stores/useControlStore";
+import { useControlStore } from "@player/stores/useControlStore";
 import { useEventListener } from "@vueuse/core";
 import { useVideoStore } from "@player/stores/useVideoStore";
 
 const { openRate, resetRate, setPlay, setVolume } = useVideoStore();
-
 const { saveHistory } = useHistoryStore();
+const { showAndHideControl } = useControlStore();
 
 useInit();
 

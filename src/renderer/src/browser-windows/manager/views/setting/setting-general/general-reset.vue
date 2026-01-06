@@ -9,7 +9,7 @@ import Item from "../setting-item.vue";
 import { useConfigStore } from "@manager/stores/useConfigStore";
 import Button from "@/components/ui/button.vue";
 import MessageBox from "@/components/ui/message-box";
-import { useHistoryStore } from "@/browser-windows/manager/stores/useHistoryStore";
+import { useHistoryStore } from "@manager/stores/useHistoryStore";
 
 const { resetConfig } = useConfigStore();
 const { resetHistory } = useHistoryStore();
