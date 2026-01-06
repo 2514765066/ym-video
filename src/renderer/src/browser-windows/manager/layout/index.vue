@@ -13,18 +13,18 @@
 </template>
 
 <script setup lang="ts">
-import SearchBar from "@manager/components/search-bar/index.vue";
-import NavBar from "@manager/components/nav-bar/index.vue";
-import TitleBar from "@manager/components/title-bar/index.vue";
+import SearchBar from "./search-bar/index.vue";
+import NavBar from "./nav-bar/index.vue";
+import TitleBar from "./title-bar/index.vue";
 import { useConfigStore } from "@manager/stores/useConfigStore";
 import { useMovieStore } from "@manager/stores/useMovieStore";
 import { useLatestMovieStore } from "@manager/stores/useLatestMovieStore";
 import { MenuContext, MenuGroup } from "@/components/ui/menu";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useHistoryStore } from "./stores/useHistoryStore";
+import { useHistoryStore } from "@manager/stores/useHistoryStore";
 import { HistoryInfo } from "@type";
 import { formatSeconde } from "@/utils/format";
-import { useUpdateStore } from "./stores/useUpdateStore";
+import { useUpdateStore } from "@manager/stores/useUpdateStore";
 
 //解决不会自动检查更新的bug
 useUpdateStore();
