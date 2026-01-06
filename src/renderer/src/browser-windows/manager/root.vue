@@ -24,7 +24,10 @@ import eventEmitter from "@/hooks/eventEmitter";
 import { useHistoryStore } from "./stores/useHistoryStore";
 import { HistoryInfo } from "@type";
 import { formatSeconde } from "@/utils/format";
+import { useUpdateStore } from "./stores/useUpdateStore";
 
+//解决不会自动检查更新的bug
+useUpdateStore();
 const { config } = storeToRefs(useConfigStore());
 const movieStore = useMovieStore();
 const latestMovieStore = useLatestMovieStore();

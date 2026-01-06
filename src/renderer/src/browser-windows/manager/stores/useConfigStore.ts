@@ -56,7 +56,9 @@ const createConfig = () => {
 };
 
 export const useConfigStore = defineStore("config", () => {
-  const config = useStorage("settings", createConfig());
+  const config = useStorage("settings", createConfig(), localStorage, {
+    mergeDefaults: true,
+  });
 
   //切换自动更新
   const toggleAutoUpdate = () => {
