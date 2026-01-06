@@ -6,22 +6,23 @@
     @timeupdate="handleTimeUpdate"
     @waiting="setLoading(true)"
     @canplay="setLoading(false)"
-    @loadstart="resetProgress"
+    @loadstart="handleLoadStart"
     @loadedmetadata="handleLoad"
   />
 </template>
 
 <script setup lang="ts">
 import { videoRef } from "@player/stores/useEl";
-import { setLoading, setPlay } from "@player/stores/useVideoStore";
+import { useVideoStore } from "@player/stores/useVideoStore";
 import { useHistoryStore } from "@player/stores/useHistoryStore";
 import {
   currentTime,
   duration,
   resetProgress,
   setSeek,
-} from "@/browser-windows/player/stores/useProgressStore";
+} from "@player/stores/useProgressStore";
 
+const { setLoading, setPlay } = useVideoStore();
 const { progress } = storeToRefs(useHistoryStore());
 const { setProgress } = useHistoryStore();
 
@@ -36,6 +37,11 @@ const handleTimeUpdate = () => {
   });
 
   currentTime.value = videoRef.value.currentTime;
+};
+
+//处理开始加载
+const handleLoadStart = () => {
+  resetProgress();
 };
 
 //处理加载完成

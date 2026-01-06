@@ -14,8 +14,11 @@
 import Tooltip from "@/components/ui/tooltip.vue";
 import Icon from "@/components/ui/icon/index.vue";
 import Buttom from "./controls-button.vue";
-import { isFullscreen, setFullscreen } from "@player/stores/useVideoStore";
 import { playerRef } from "@player/stores/useEl";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { isFullscreen } = storeToRefs(useVideoStore());
+const { setFullscreen } = useVideoStore();
 </script>
 
 <style scoped lang="scss"></style>

@@ -5,7 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { rateTip } from "@player/stores/useVideoStore";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { rateTip } = storeToRefs(useVideoStore());
 </script>
 
 <style scoped lang="scss">

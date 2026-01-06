@@ -17,8 +17,11 @@
 import { MenuGroup, MenuTooltip } from "@/components/ui/menu";
 import Icon from "@/components/ui/icon/index.vue";
 import Buttom from "./controls-button.vue";
-import { rate, setRate, rateTip } from "@player/stores/useVideoStore";
 import { playerRef } from "@player/stores/useEl";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { rate, rateTip } = storeToRefs(useVideoStore());
+const { setRate } = useVideoStore();
 
 const rateList = [
   {

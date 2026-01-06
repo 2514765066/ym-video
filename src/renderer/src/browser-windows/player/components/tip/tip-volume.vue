@@ -5,8 +5,10 @@
 <script setup lang="ts">
 import eventEmitter from "@/hooks/eventEmitter";
 import TipBase from "./tip-base.vue";
-import { volume } from "@player/stores/useVideoStore";
 import useVisible from "@/hooks/useVisible";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { volume } = storeToRefs(useVideoStore());
 
 const { visible, show } = useVisible(1000);
 

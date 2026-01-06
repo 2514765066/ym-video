@@ -24,7 +24,11 @@ export const useInit = () => {
     async val => {
       if (!val) return;
 
+      //解决点击不能快速切换的bug
+      hls.loadSource("");
+
       const url = await getSource(val.url);
+
       hls.loadSource(url);
     },
     {

@@ -1,110 +1,128 @@
 import { getValue } from "@/utils/value";
 import { playerRef, videoRef } from "./useEl";
-import { useStorage } from "@vueuse/core";
+import { useEventListener, useStorage } from "@vueuse/core";
 
-//播放状态
-export const isPlay = ref(true);
+export const useVideoStore = defineStore("player-video", () => {
+  //播放状态
+  const isPlay = ref(true);
 
-//是否加载
-export const isLoading = ref(false);
+  //是否加载
+  const isLoading = ref(false);
 
-//音量
-export const volume = useStorage("volume", 100);
+  //音量
+  const volume = useStorage("volume", 100);
 
-//倍速
-export const rate = ref(1);
+  //倍速
+  const rate = ref(1);
 
-//倍速提示
-export const rateTip = ref(false);
+  //倍速提示
+  const rateTip = ref(false);
 
-//是否全屏
-export const isFullscreen = ref(false);
+  //是否全屏
+  const isFullscreen = ref(false);
 
-//设置播放
-export const setPlay = (value?: boolean) => {
-  if (!videoRef.value) {
-    return;
-  }
+  //设置播放
+  const setPlay = (value?: boolean) => {
+    if (!videoRef.value) {
+      return;
+    }
 
-  isPlay.value = value ?? !isPlay.value;
+    isPlay.value = value ?? !isPlay.value;
 
-  if (isPlay.value) {
-    videoRef.value.play();
-    return;
-  }
+    if (isPlay.value) {
+      videoRef.value.play();
+      return;
+    }
 
-  videoRef.value.pause();
-};
+    videoRef.value.pause();
+  };
 
-//设置加载
-export const setLoading = (value: boolean) => {
-  isLoading.value = value;
-};
-
-//设置音量
-export const setVolume = (value: number | ((volume: number) => number)) => {
-  if (!videoRef.value) {
-    return;
-  }
+  //设置加载
+  const setLoading = (value: boolean) => {
+    isLoading.value = value;
+  };
 
   //设置音量
-  volume.value = Math.min(100, Math.max(0, getValue(value, volume.value)));
+  const setVolume = (value: number | ((volume: number) => number)) => {
+    if (!videoRef.value) {
+      return;
+    }
 
-  //设置视频音量
-  videoRef.value.volume = volume.value / 100;
-};
+    //设置音量
+    volume.value = Math.min(100, Math.max(0, getValue(value, volume.value)));
 
-//设置倍速
-export const setRate = (value: number | ((rate: number) => number)) => {
-  if (!videoRef.value) {
-    return;
-  }
+    //设置视频音量
+    videoRef.value.volume = volume.value / 100;
+  };
 
-  rate.value = getValue(value, rate.value);
+  //设置倍速
+  const setRate = (value: number | ((rate: number) => number)) => {
+    if (!videoRef.value) {
+      return;
+    }
 
-  videoRef.value.playbackRate = rate.value;
-};
+    rate.value = getValue(value, rate.value);
 
-//开启倍速
-export const openRate = () => {
-  if (rateTip.value) {
-    return;
-  }
+    videoRef.value.playbackRate = rate.value;
+  };
 
-  rateTip.value = true;
+  //开启倍速
+  const openRate = () => {
+    if (rateTip.value) {
+      return;
+    }
 
-  setRate(rate => rate * 3);
-};
+    rateTip.value = true;
 
-//重置倍速
-export const resetRate = () => {
-  if (!rateTip.value) {
-    return;
-  }
+    setRate(rate => rate * 3);
+  };
 
-  rateTip.value = false;
+  //重置倍速
+  const resetRate = () => {
+    if (!rateTip.value) {
+      return;
+    }
 
-  setRate(rate => rate / 3);
-};
+    rateTip.value = false;
 
-//设置全屏
-export const setFullscreen = (value?: boolean) => {
-  if (!playerRef.value) {
-    return;
-  }
+    setRate(rate => rate / 3);
+  };
 
-  const shouldEnter = value ?? !isFullscreen.value;
+  //设置全屏
+  const setFullscreen = (value?: boolean) => {
+    if (!playerRef.value) {
+      return;
+    }
 
-  if (shouldEnter) {
-    playerRef.value.requestFullscreen();
+    const shouldEnter = value ?? !isFullscreen.value;
 
-    return;
-  }
+    if (shouldEnter) {
+      playerRef.value.requestFullscreen();
 
-  document.exitFullscreen();
-};
+      return;
+    }
 
-//监视全屏状态
-document.addEventListener("fullscreenchange", () => {
-  isFullscreen.value = Boolean(document.fullscreenElement);
+    document.exitFullscreen();
+  };
+
+  //监视全屏状态
+  useEventListener(document, "fullscreenchange", () => {
+    isFullscreen.value = Boolean(document.fullscreenElement);
+  });
+
+  return {
+    isPlay,
+    isLoading,
+    volume,
+    rate,
+    rateTip,
+    isFullscreen,
+    setPlay,
+    setLoading,
+    setVolume,
+    setRate,
+    openRate,
+    resetRate,
+    setFullscreen,
+  };
 });

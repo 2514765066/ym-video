@@ -24,8 +24,10 @@ import {
   setSeek,
   currentTimePrecent,
   duration,
-} from "@/browser-windows/player/stores/useProgressStore";
-import { setPlay } from "@player/stores/useVideoStore";
+} from "@player/stores/useProgressStore";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { setPlay } = useVideoStore();
 
 const progressRef = useTemplateRef("progress-bar");
 

@@ -10,7 +10,9 @@
 
 <script setup lang="ts">
 import Icon from "@/components/ui/icon/index.vue";
-import { isPlay } from "@player/stores/useVideoStore";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { isPlay } = storeToRefs(useVideoStore());
 </script>
 
 <style scoped lang="scss">

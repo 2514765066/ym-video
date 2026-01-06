@@ -19,14 +19,14 @@ import Bottom from "@player/components/bottom/index.vue";
 //@ts-ignore
 import { playerRef } from "@player/stores/useEl";
 import { useInit } from "@player/hooks/useInit";
-import { setVolume } from "@player/stores/useVideoStore";
 import eventEmitter from "@/hooks/eventEmitter";
 import { setSeek } from "@/browser-windows/player/stores/useProgressStore";
-import { setPlay } from "@player/stores/useVideoStore";
-import { openRate, resetRate } from "@player/stores/useVideoStore";
 import { useHistoryStore } from "@player/stores/useHistoryStore";
 import { showControl } from "@player/stores/useControlStore";
 import { useEventListener } from "@vueuse/core";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { openRate, resetRate, setPlay, setVolume } = useVideoStore();
 
 const { saveHistory } = useHistoryStore();
 

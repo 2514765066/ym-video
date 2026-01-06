@@ -21,7 +21,9 @@ import {
   currentTimePrecent,
 } from "@/browser-windows/player/stores/useProgressStore";
 import { controlVisible } from "@player/stores/useControlStore";
-import { isFullscreen } from "@player/stores/useVideoStore";
+import { useVideoStore } from "@player/stores/useVideoStore";
+
+const { isFullscreen } = storeToRefs(useVideoStore());
 </script>
 
 <style scoped lang="scss">

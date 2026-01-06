@@ -1,5 +1,7 @@
 import { HistoryInfo, Progress } from "@type";
 import { setSeek } from "./useProgressStore";
+import { getValue } from "@/utils/value";
+import { useVideoStore } from "./useVideoStore";
 
 //更新进度
 interface UpdateProgressOption {
@@ -8,6 +10,8 @@ interface UpdateProgressOption {
 }
 
 export const useHistoryStore = defineStore("player-history", () => {
+  const { setPlay } = useVideoStore();
+
   //当前历史
   const history = ref<HistoryInfo>({
     name: "",
@@ -45,16 +49,6 @@ export const useHistoryStore = defineStore("player-history", () => {
     },
   });
 
-  //上一集
-  const preEpisode = () => {
-    history.value.history--;
-  };
-
-  //下一集
-  const nextEpisode = () => {
-    history.value.history++;
-  };
-
   //设置进度
   const setProgress = ({ currentTime, duration }: UpdateProgressOption) => {
     if (!progress.value) {
@@ -71,8 +65,13 @@ export const useHistoryStore = defineStore("player-history", () => {
   };
 
   //设置集数
-  const setHistory = (value: number) => {
-    history.value.history = value;
+  const setHistory = (value: number | ((history: number) => number)) => {
+    //需要暂停解决进度条继承到其他集的bug
+    setPlay(false);
+
+    const res = getValue(value, history.value.history);
+
+    history.value.history = res;
   };
 
   //保存数据
@@ -103,8 +102,6 @@ export const useHistoryStore = defineStore("player-history", () => {
     history,
     progress,
     selectedEpisode,
-    preEpisode,
-    nextEpisode,
     setProgress,
     saveHistory,
     setHistory,

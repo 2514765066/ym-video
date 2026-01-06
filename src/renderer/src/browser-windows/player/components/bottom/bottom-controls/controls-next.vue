@@ -14,12 +14,17 @@ import { useHistoryStore } from "@player/stores/useHistoryStore";
 import { playerRef } from "@player/stores/useEl";
 
 const { history } = storeToRefs(useHistoryStore());
-const { nextEpisode } = useHistoryStore();
+const { setHistory } = useHistoryStore();
 
 //是否有下一集
 const visible = computed(() => {
   return history.value.history != history.value.episodes.length - 1;
 });
+
+//下一集
+const nextEpisode = () => {
+  setHistory(history => history + 1);
+};
 </script>
 
 <style scoped lang="scss"></style>
