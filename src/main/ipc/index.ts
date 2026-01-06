@@ -52,6 +52,11 @@ ipcMain.handle("openPlayer", async (_, data, isReset) => {
   win.setTitle(data.name);
 
   win.webContents.send("openPlayer", data, isReset);
+
+  //隐藏主页面
+  const managerWin = browserWindows.get("manager")!;
+
+  managerWin.hide();
 });
 
 let checkUpdateInfo = {

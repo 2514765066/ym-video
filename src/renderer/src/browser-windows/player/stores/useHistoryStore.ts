@@ -76,6 +76,8 @@ export const useHistoryStore = defineStore("player-history", () => {
 
   //保存数据
   const saveHistory = () => {
+    history.value.time = Date.now();
+
     ipcRenderer.invoke("db:update", toRaw(history.value));
   };
 

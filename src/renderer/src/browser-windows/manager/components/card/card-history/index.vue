@@ -21,10 +21,7 @@
 import Card from "../base.vue";
 import { HistoryInfo } from "@type";
 import eventEmitter from "@/hooks/eventEmitter";
-import { useHistoryStore } from "@manager/stores/useHistoryStore";
 import Hover from "./history-hover.vue";
-
-const { updateTime } = useHistoryStore();
 
 const { data } = defineProps<{
   data: HistoryInfo;
@@ -54,8 +51,6 @@ const historyLabel = computed(() => {
 
 //点击
 const handleClick = () => {
-  updateTime(data.id);
-
   ipcRenderer.invoke("openPlayer", toRaw(data));
 };
 

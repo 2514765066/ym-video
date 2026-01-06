@@ -47,11 +47,6 @@ export const useHistoryStore = defineStore("history", () => {
     ipcRenderer.invoke("db:reset");
   };
 
-  //更新时间
-  const updateTime = (id: string) => {
-    historys.value.get(id)!.time = Date.now();
-  };
-
   //更新集数
   const updateHistorys = async (historys: Map<string, HistoryInfo>) => {
     const group: Record<string, string[]> = {};
@@ -110,7 +105,6 @@ export const useHistoryStore = defineStore("history", () => {
     historys,
     addHistory,
     removeHistory,
-    updateTime,
     resetHistory,
   };
 });

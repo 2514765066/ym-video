@@ -57,8 +57,6 @@ const historyMenu: MenuGroup[] = [
         sub: (data: HistoryInfo) =>
           formatSeconde(data.progress[data.history]?.currentTime || 0),
         onSelect(data: HistoryInfo) {
-          historyStore.updateTime(data.id);
-
           ipcRenderer.invoke("openPlayer", toRaw(data));
         },
       },
@@ -66,8 +64,6 @@ const historyMenu: MenuGroup[] = [
         label: "从头播放",
         icon: "play",
         onSelect(data: HistoryInfo) {
-          historyStore.updateTime(data.id);
-
           ipcRenderer.invoke("openPlayer", toRaw(data), true);
         },
       },
