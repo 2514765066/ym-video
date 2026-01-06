@@ -44,10 +44,6 @@ export const useSearchMovieStore = defineStore("manager-search-movie", () => {
 
   //搜索
   const searchData = async (kw: string) => {
-    if (keyword.value == kw) {
-      return;
-    }
-
     searchMovies.value = [];
 
     keyword.value = kw;
