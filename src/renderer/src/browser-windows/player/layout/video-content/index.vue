@@ -1,6 +1,7 @@
 <template>
   <main
     class="content wh-full flex-center relative overflow-hidden bg-black"
+    :class="{ 'cursor-none': !controlVisible }"
     ref="playerRef"
     @mousemove="showAndHideControl"
   >
@@ -28,6 +29,7 @@ import { useVideoStore } from "@player/stores/useVideoStore";
 
 const { openRate, resetRate, setPlay, setVolume } = useVideoStore();
 const { saveHistory } = useHistoryStore();
+const { controlVisible } = storeToRefs(useControlStore());
 const { showAndHideControl } = useControlStore();
 
 useInit();
